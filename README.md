@@ -37,8 +37,7 @@
 ---
 
 📧 联系方式
-客服邮箱：kjsofficial@foxmail.com （链接被和谐、补档、问题反馈）
-商务合作：kjsofficial@foxmail.com
+客服邮箱/商务合作：kjsofficial@foxmail.com （链接被和谐、补档、问题反馈）
 📜 使用许可
 科技城存档 非商用永久免费。您拥有以下权利：
 
