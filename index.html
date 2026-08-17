@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="科技城存档 - 为地图作者和服务器服主打造的Minecraft基础底图，包含完整城市框架、路网系统和功能分区">
+    <meta name="keywords" content="Minecraft,我的世界,科技城,存档下载,服务器主城,地图底图,建筑地图">
+    <meta name="author" content="MC存档站">
+    <meta property="og:title" content="科技城存档 - 地图作者与服主的理想底图">
+    <meta property="og:description" content="专为地图作者和服务器服主设计的Minecraft科技城基础地图，拥有完整的城市框架、路网和功能分区。">
+    <meta property="og:type" content="website">
+    <title>科技城存档 - 地图作者与服主的理想底图 | MC存档站</title>
+
+    <!-- Google Fonts - Press Start 2P 用于像素风格装饰 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --mc-grass: #5B8C3E;
+            --mc-grass-light: #7CB342;
+            --mc-dirt: #79553A;
+            --mc-dirt-light: #9B6B4A;
+            --mc-stone: #7D7D7D;
+            --mc-cyan: #00E5FF;
+            --mc-gold: #FFD54F;
+            --mc-redstone: #FF5252;
+            --mc-emerald: #66BB6A;
+            --mc-obsidian: #0D0D1A;
+            --mc-neon: #00E5FF;
+            --mc-neon-dim: rgba(0, 229, 255, 0.25);
+            /* 科技城主题色 */
+            --tech-primary: #00BCD4;
+            --tech-secondary: #26C6DA;
+            --tech-accent: #FFD740;
+            --tech-glow: rgba(0, 188, 212, 0.5);
+            --tech-dark: #0A0F1A;
+            --tech-card: #111827;
+            --tech-card-hover: #1A2436;
+            --tech-border: #1E3A5F;
+            --tech-border-hover: #00BCD4;
+            /* 背景 */
+            --bg-primary: #0D0D1A;
+            --bg-secondary: #111827;
+            --bg-card: #151E2E;
+            --bg-card-hover: #1A2838;
+            --bg-nav: rgba(10, 15, 26, 0.95);
+            /* 文字 */
+            --text-primary: #F0F4F8;
+            --text-secondary: #B8C4D0;
+            --text-muted: #708090;
+            --text-on-tech: #FFFFFF;
+            /* 边框与阴影 */
+            --border-pixel: 3px solid #000000;
+            --border-card: 2px solid #1E3A5F;
+            --border-card-hover: 2px solid var(--tech-primary);
+            --shadow-pixel: 4px 4px 0px rgba(0, 0, 0, 0.6);
+            --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.5);
+            --shadow-card-hover: 0 12px 40px rgba(0, 188, 212, 0.15);
+            --shadow-glow: 0 0 30px rgba(0, 188, 212, 0.3);
+            --shadow-glow-strong: 0 0 50px rgba(0, 188, 212, 0.5);
+            /* 圆角 */
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 20px;
+            /* 间距 */
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+            --spacing-xl: 32px;
+            --spacing-2xl: 48px;
+            --spacing-3xl: 64px;
+            --spacing-4xl: 80px;
+            /* 字体 */
+            --font-pixel: 'Press Start 2P', 'Courier New', monospace;
+            --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+            --font-mono: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+            /* 过渡 */
+            --transition-fast: 0.15s ease;
+            --transition-base: 0.3s ease;
+            --transition-slow: 0.5s ease;
+            /* 容器 */
+            --container-max: 1100px;
+            --container-padding: 24px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(0, 188, 212, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 188, 212, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(0, 188, 212, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 60%, rgba(255, 215, 64, 0.04) 0%, transparent 40%),
+                radial-gradient(ellipse at 50% 90%, rgba(0, 188, 212, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        main,
+        header,
+        footer {
+            position: relative;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding: 0 var(--container-padding);
+        }
+
+        /* 导航栏 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: var(--bg-nav);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 2px solid var(--tech-border);
+            transition: var(--transition-base);
+        }
+        .navbar.scrolled {
+            border-bottom-color: var(--tech-primary);
+            box-shadow: 0 4px 30px rgba(0, 188, 212, 0.15);
+        }
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 70px;
+        }
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 1.25rem;
+            transition: var(--transition-base);
+        }
+        .navbar-brand:hover {
+            color: var(--tech-primary);
+        }
+        .navbar-brand .brand-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--tech-primary), var(--tech-secondary));
+            border: 3px solid #000;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            box-shadow: 3px 3px 0px rgba(0, 188, 212, 0.3);
+            flex-shrink: 0;
+            transition: var(--transition-base);
+        }
+        .navbar-brand:hover .brand-icon {
+            transform: translate(-2px, -2px);
+            box-shadow: 5px 5px 0px rgba(0, 188, 212, 0.4);
+        }
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+        .brand-text .brand-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .brand-text .brand-sub {
+            font-size: 0.6rem;
+            font-family: var(--font-pixel);
+            color: var(--tech-primary);
+            letter-spacing: 1px;
+        }
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            list-style: none;
+        }
+        .nav-menu li a {
+            display: block;
+            padding: 8px 16px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: var(--radius-sm);
+            border: 2px solid transparent;
+            transition: var(--transition-base);
+        }
+        .nav-menu li a:hover,
+        .nav-menu li a.active {
+            color: var(--text-primary);
+            background: var(--tech-neon-dim);
+            border-color: var(--tech-primary);
+        }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            z-index: 1001;
+        }
+        .hamburger span {
+            display: block;
+            width: 28px;
+            height: 3px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: var(--transition-base);
+        }
+        .hamburger.active span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 140px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(180deg,
+                    rgba(10, 15, 26, 0.95) 0%,
+                    rgba(13, 18, 32, 0.98) 40%,
+                    rgba(10, 15, 26, 0.95) 100%);
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200%;
+            height: 100%;
+            background:
+                radial-gradient(ellipse at 50% 30%, rgba(0, 188, 212, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 30% 70%, rgba(255, 215, 64, 0.05) 0%, transparent 40%);
+            pointer-events: none;
+            animation: techPulse 6s ease-in-out infinite alternate;
+        }
+        @keyframes techPulse {
+            0% { opacity: 0.7; transform: translateX(-50%) scale(1); }
+            100% { opacity: 1; transform: translateX(-50%) scale(1.08); }
+        }
+        .hero .container {
+            position: relative;
+            z-index: 1;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: var(--tech-neon-dim);
+            border: 2px solid var(--tech-primary);
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: var(--tech-secondary);
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: var(--spacing-lg);
+            animation: fadeInDown 0.6s ease-out;
+            font-family: var(--font-mono);
+        }
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            line-height: 1.2;
+            animation: fadeInUp 0.6s ease-out 0.15s both;
+        }
+        .hero h1 .tech-highlight {
+            background: linear-gradient(135deg, var(--tech-primary), var(--tech-secondary), var(--tech-accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 40px rgba(0, 188, 212, 0.3);
+        }
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 680px;
+            margin: 0 auto var(--spacing-md);
+            animation: fadeInUp 0.6s ease-out 0.3s both;
+            line-height: 1.8;
+        }
+        .hero-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            justify-content: center;
+            margin-bottom: var(--spacing-xl);
+            animation: fadeInUp 0.6s ease-out 0.4s both;
+        }
+        .hero-tags .tag {
+            padding: 6px 16px;
+            background: rgba(0, 188, 212, 0.1);
+            border: 1px solid var(--tech-border);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-family: var(--font-mono);
+            letter-spacing: 0.5px;
+            transition: var(--transition-base);
+        }
+        .hero-tags .tag:hover {
+            border-color: var(--tech-primary);
+            color: var(--tech-secondary);
+            background: var(--tech-neon-dim);
+        }
+        .hero-buttons {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.6s ease-out 0.5s both;
+        }
+
+        /* 按钮基础 */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: 16px 32px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: var(--font-body);
+            text-decoration: none;
+            border: 3px solid #000;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            letter-spacing: 0.3px;
+        }
+        .btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.6);
+        }
+        .btn:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5);
+        }
+        .btn-tech {
+            background: linear-gradient(135deg, var(--tech-primary), var(--tech-secondary));
+            color: var(--text-on-tech);
+            box-shadow: 4px 4px 0px rgba(0, 188, 212, 0.3);
+        }
+        .btn-tech:hover {
+            box-shadow: 6px 6px 0px rgba(0, 188, 212, 0.4), var(--shadow-glow);
+            background: linear-gradient(135deg, var(--tech-secondary), #4DD0E1);
+        }
+        .btn-outline-tech {
+            background: transparent;
+            color: var(--tech-secondary);
+            border-color: var(--tech-primary);
+            box-shadow: 4px 4px 0px rgba(0, 188, 212, 0.25);
+        }
+        .btn-outline-tech:hover {
+            background: var(--tech-neon-dim);
+            box-shadow: 6px 6px 0px rgba(0, 188, 212, 0.3);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 区块标题 */
+        .section {
+            padding: var(--spacing-3xl) 0;
+        }
+        .section-alt {
+            background: var(--bg-secondary);
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: var(--spacing-2xl);
+        }
+        .section-header .section-tag {
+            display: inline-block;
+            padding: 4px 14px;
+            background: var(--tech-neon-dim);
+            border: 2px solid var(--tech-primary);
+            border-radius: var(--radius-sm);
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--tech-secondary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: var(--spacing-sm);
+            font-family: var(--font-pixel);
+        }
+        .section-header h2 {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+        }
+        .section-header p {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1rem;
+        }
+
+        /* ========== 存档展示区域（原样式） ========== */
+        .archive-showcase {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-xl);
+            align-items: stretch;
+        }
+        .showcase-preview {
+            position: relative;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 3px solid var(--tech-border);
+            min-height: 420px;
+            background: linear-gradient(135deg, #0A0F1A 0%, #111827 30%, #1A2436 50%, #0D1A2D 70%, #0A0F1A 100%);
+            box-shadow: var(--shadow-card), var(--shadow-glow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-base);
+        }
+        .showcase-preview:hover {
+            border-color: var(--tech-primary);
+            box-shadow: var(--shadow-card-hover), var(--shadow-glow-strong);
+        }
+        .showcase-preview .preview-content {
+            text-align: center;
+            z-index: 1;
+            padding: var(--spacing-lg);
+        }
+        .showcase-preview .preview-icon {
+            font-size: 5rem;
+            display: block;
+            margin-bottom: var(--spacing-md);
+            animation: floatIcon 4s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(0, 188, 212, 0.5));
+        }
+        .showcase-preview .preview-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 1px;
+            font-family: var(--font-pixel);
+            margin-bottom: var(--spacing-xs);
+            text-shadow: 0 0 20px rgba(0, 188, 212, 0.3);
+        }
+        .showcase-preview .preview-sub {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            letter-spacing: 2px;
+        }
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+        .showcase-details {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+            padding: var(--spacing-xl);
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 2px solid var(--tech-border);
+            box-shadow: var(--shadow-card);
+        }
+        .showcase-details:hover {
+            border-color: var(--tech-primary);
+        }
+        .detail-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-xs);
+        }
+        .detail-meta .meta-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: var(--bg-primary);
+            border: 1px solid var(--tech-border);
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-family: var(--font-mono);
+        }
+        .detail-meta .meta-item strong {
+            color: var(--tech-secondary);
+            font-weight: 600;
+        }
+        .detail-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.3;
+            margin-bottom: var(--spacing-xs);
+        }
+        .detail-description {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.8;
+            flex: 1;
+        }
+        .detail-description strong {
+            color: var(--tech-secondary);
+        }
+        .feature-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-sm);
+            margin: var(--spacing-sm) 0;
+        }
+        .feature-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-sm);
+            padding: 10px 14px;
+            background: var(--bg-primary);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--tech-border);
+            transition: var(--transition-base);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .feature-item:hover {
+            border-color: var(--tech-primary);
+            background: var(--tech-neon-dim);
+        }
+        .feature-item .feature-icon {
+            flex-shrink: 0;
+            font-size: 1.2rem;
+        }
+
+        /* ========== 网盘下载列表 ========== */
+        .pan-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-sm);
+        }
+        .pan-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--spacing-sm);
+            padding: 14px 16px;
+            background: var(--bg-primary);
+            border: 1px solid var(--tech-border);
+            border-radius: var(--radius-sm);
+            transition: var(--transition-base);
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .pan-card:hover {
+            border-color: var(--tech-primary);
+            background: var(--tech-neon-dim);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+        .pan-card .pan-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        .pan-card .pan-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .pan-card .pan-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .pan-card .pan-status {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        .pan-card .pan-action {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--tech-secondary);
+            white-space: nowrap;
+        }
+        .pan-card.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+            filter: grayscale(0.6);
+        }
+        .pan-card.disabled .pan-action {
+            color: var(--text-muted);
+        }
+
+        /* 场景 */
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: var(--spacing-lg);
+        }
+        .scenario-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-xl);
+            text-align: center;
+            border: 2px solid var(--tech-border);
+            transition: var(--transition-base);
+            box-shadow: var(--shadow-card);
+        }
+        .scenario-card:hover {
+            border-color: var(--tech-primary);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-card-hover);
+        }
+        .scenario-card .scenario-icon {
+            font-size: 2.8rem;
+            margin-bottom: var(--spacing-md);
+            display: block;
+        }
+        .scenario-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+        }
+        .scenario-card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* 教程 */
+        .tutorial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: var(--spacing-md);
+        }
+        .tutorial-step {
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            text-align: center;
+            border: 2px solid var(--tech-border);
+            transition: var(--transition-base);
+        }
+        .tutorial-step:hover {
+            border-color: var(--tech-primary);
+            box-shadow: var(--shadow-glow);
+        }
+        .tutorial-step .step-num {
+            display: inline-block;
+            width: 46px;
+            height: 46px;
+            line-height: 46px;
+            text-align: center;
+            background: linear-gradient(135deg, var(--tech-primary), var(--tech-secondary));
+            color: var(--text-on-tech);
+            border: 3px solid #000;
+            border-radius: 50%;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: var(--spacing-sm);
+            font-family: var(--font-pixel);
+            box-shadow: 3px 3px 0px rgba(0, 188, 212, 0.3);
+        }
+        .tutorial-step h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-xs);
+        }
+        .tutorial-step p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        .tutorial-step code {
+            background: var(--bg-primary);
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            color: var(--tech-secondary);
+            font-family: var(--font-mono);
+            border: 1px solid var(--tech-border);
+        }
+
+        /* 关于 */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-xl);
+            align-items: center;
+        }
+        .about-text h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+        }
+        .about-text p {
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-md);
+            line-height: 1.8;
+        }
+        .about-text strong {
+            color: var(--tech-secondary);
+        }
+        .about-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-md);
+        }
+        .about-badges .badge {
+            padding: 8px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--tech-border);
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-family: var(--font-mono);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .license-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-xl);
+            border: 2px solid var(--tech-border);
+            transition: var(--transition-base);
+        }
+        .license-card:hover {
+            border-color: var(--tech-primary);
+        }
+        .license-card h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-sm);
+        }
+        .license-card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* 页脚 */
+        .footer {
+            background: var(--tech-dark);
+            border-top: 2px solid var(--tech-border);
+            padding: var(--spacing-2xl) 0 var(--spacing-md);
+            color: var(--text-secondary);
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+        }
+        .footer-col h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            letter-spacing: 0.5px;
+        }
+        .footer-col ul {
+            list-style: none;
+        }
+        .footer-col ul li {
+            margin-bottom: var(--spacing-sm);
+        }
+        .footer-col ul li a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: var(--transition-base);
+        }
+        .footer-col ul li a:hover {
+            color: var(--tech-secondary);
+            padding-left: 4px;
+        }
+        .footer-bottom {
+            border-top: 1px solid var(--tech-border);
+            padding-top: var(--spacing-md);
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        .footer-bottom a {
+            color: var(--tech-secondary);
+            text-decoration: none;
+        }
+
+        /* 回到顶部 */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--tech-primary), var(--tech-secondary));
+            color: var(--text-on-tech);
+            border: 3px solid #000;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 4px 4px 0px rgba(0, 188, 212, 0.3);
+            transition: var(--transition-base);
+            opacity: 0;
+            visibility: hidden;
+            z-index: 999;
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .back-to-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 6px 6px 0px rgba(0, 188, 212, 0.4), var(--shadow-glow);
+        }
+
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .navbar .container { height: 60px; }
+            .hamburger { display: flex; }
+            .nav-menu {
+                position: fixed;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background: var(--bg-nav);
+                backdrop-filter: blur(16px);
+                flex-direction: column;
+                padding: var(--spacing-md);
+                gap: var(--spacing-xs);
+                border-bottom: 2px solid var(--tech-border);
+                transform: translateY(-120%);
+                transition: transform 0.35s ease;
+                visibility: hidden;
+            }
+            .nav-menu.open {
+                transform: translateY(0);
+                visibility: visible;
+            }
+            .nav-menu li a {
+                padding: 12px 16px;
+                text-align: center;
+                font-size: 0.95rem;
+            }
+            .hero { padding: 100px 0 60px; }
+            .hero h1 { font-size: 1.7rem; }
+            .hero-subtitle { font-size: 0.95rem; }
+            .archive-showcase {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-md);
+            }
+            .showcase-preview { min-height: 260px; }
+            .showcase-preview .preview-icon { font-size: 3.5rem; }
+            .showcase-preview .preview-title { font-size: 1.2rem; }
+            .feature-list { grid-template-columns: 1fr; }
+            .pan-list { grid-template-columns: 1fr; }
+            .about-content { grid-template-columns: 1fr; gap: var(--spacing-md); }
+            .scenario-grid { grid-template-columns: 1fr; gap: var(--spacing-md); }
+            .tutorial-grid { grid-template-columns: 1fr; gap: var(--spacing-sm); }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: var(--spacing-md); }
+            .back-to-top { bottom: 20px; right: 20px; width: 42px; height: 42px; font-size: 1.1rem; }
+        }
+        @media (max-width: 480px) {
+            .container { padding: 0 14px; }
+            .hero-buttons { flex-direction: column; gap: var(--spacing-sm); }
+            .btn { padding: 14px 22px; font-size: 0.9rem; }
+            .footer-grid { grid-template-columns: 1fr; gap: var(--spacing-sm); }
+            .detail-title { font-size: 1.3rem; }
+            .showcase-details { padding: var(--spacing-md); }
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--tech-border); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--tech-primary); }
+    </style>
+</head>
+
+<body>
+
+    <!-- 导航栏 -->
+    <header class="navbar" id="navbar" role="banner">
+        <div class="container">
+            <a href="#home" class="navbar-brand" aria-label="科技城存档首页">
+                <div class="brand-icon">🏙️</div>
+                <div class="brand-text">
+                    <span class="brand-title">科技城存档</span>
+                    <span class="brand-sub">TECH CITY</span>
+                </div>
+            </a>
+            <button class="hamburger" id="hamburger" aria-label="切换菜单" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <nav aria-label="主导航">
+                <ul class="nav-menu" id="nav-menu" role="menubar">
+                    <li role="none"><a href="#home" role="menuitem" class="active">首页</a></li>
+                    <li role="none"><a href="#archive" role="menuitem">存档详情</a></li>
+                    <li role="none"><a href="#client" role="menuitem">专用客户端</a></li>
+                    <li role="none"><a href="#scenarios" role="menuitem">适用场景</a></li>
+                    <li role="none"><a href="#tutorial" role="menuitem">安装教程</a></li>
+                    <li role="none"><a href="#about" role="menuitem">使用说明</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- Hero -->
+        <section class="hero" id="home" role="banner">
+            <div class="container">
+                <div class="hero-badge">⚡ 专为地图作者 & 服主打造</div>
+                <h1>科技城<span class="tech-highlight">基础底图</span><br>你的下一个项目起点</h1>
+                <p class="hero-subtitle">
+                    一套结构完整、功能分区清晰的现代科技城市框架。
+                    拥有完善的道路系统、功能建筑群和基础设施预留，
+                    可作为服务器主城、RPG地图底图或建筑展示的完美基础。
+                </p>
+                <div class="hero-tags">
+                    <span class="tag">📐 城市规划</span>
+                    <span class="tag">🛣️ 完整路网</span>
+                    <span class="tag">🏗️ 功能分区</span>
+                    <span class="tag">⚡ 红石预留</span>
+                    <span class="tag">🎨 现代风格</span>
+                </div>
+                <div class="hero-buttons">
+                    <a href="#archive" class="btn btn-tech">🏙️ 查看存档详情</a>
+                    <a href="#client" class="btn btn-outline-tech">📦 专用客户端</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 存档详情 + 网盘列表 -->
+        <section class="section" id="archive" aria-label="科技城存档详情">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Archive</span>
+                    <h2>🏙️ 科技城存档</h2>
+                    <p>一个为地图作者和服务器服主准备的专业级基础底图。</p>
+                </div>
+
+                <div class="archive-showcase">
+                    <div class="showcase-preview">
+                        <div class="preview-content">
+                            <span class="preview-icon">🏙️</span>
+                            <div class="preview-title">TECH CITY</div>
+                            <div class="preview-sub">科技城 · 基础底图 v1.0</div>
+                        </div>
+                    </div>
+
+                    <div class="showcase-details">
+                        <div class="detail-meta">
+                            <span class="meta-item">📦 版本：<strong>1.20.4</strong></span>
+                            <span class="meta-item">💾 大小：<strong>186 MB</strong></span>
+                            <span class="meta-item">⬇️ 下载：<strong id="download-count">3,847</strong></span>
+                        </div>
+                        <h3 class="detail-title">科技城基础底图</h3>
+                        <p class="detail-description">
+                            这是一张<strong>半成品城市框架地图</strong>，为地图作者和服务器服主提供专业级的基础建设。
+                            地图包含完整的<strong>城市道路网络</strong>、<strong>功能分区规划</strong>以及
+                            <strong>红石基础设施预留</strong>。你可以在此基础上快速搭建服务器主城、
+                            制作RPG冒险地图或进行建筑扩展。
+                        </p>
+
+                        <div class="feature-list">
+                            <div class="feature-item">
+                                <span class="feature-icon">🛣️</span>
+                                <span>完整城市路网与街区划分</span>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-icon">🏗️</span>
+                                <span>多个功能建筑框架（市政厅/车站/商场）</span>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-icon">⚡</span>
+                                <span>红石管线与照明系统预留接口</span>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-icon">🎨</span>
+                                <span>现代科技风格统一材质建议</span>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-icon">📐</span>
+                                <span>坐标标注与分区规划说明</span>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-icon">🌐</span>
+                                <span>适配Java版1.20.x</span>
+                            </div>
+                        </div>
+
+                        <!-- ★★★ 存档网盘下载列表：4个位置，其中两个已填链接，两个预留 ★★★ -->
+                        <div style="margin-top: 8px;">
+                            <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:8px;">📥 选择网盘下载</p>
+                            <div class="pan-list" id="archive-pan-list">
+                                <!-- 百度网盘（已填） -->
+                                <a href="https://pan.baidu.com/s/你的百度网盘链接" 
+                                   class="pan-card" 
+                                   target="_blank" 
+                                   rel="noopener"
+                                   data-pan-name="百度网盘"
+                                   data-type="archive">
+                                    <span class="pan-icon">💾</span>
+                                    <span class="pan-info">
+                                        <span class="pan-name">百度网盘</span>
+                                        <span class="pan-status">提取码：1234</span>
+                                    </span>
+                                    <span class="pan-action">点击下载 →</span>
+                                </a>
+                                <!-- 阿里云盘（已填） -->
+                                <a href="https://www.aliyundrive.com/s/你的阿里云盘链接" 
+                                   class="pan-card" 
+                                   target="_blank" 
+                                   rel="noopener"
+                                   data-pan-name="阿里云盘"
+                                   data-type="archive">
+                                    <span class="pan-icon">☁️</span>
+                                    <span class="pan-info">
+                                        <span class="pan-name">阿里云盘</span>
+                                        <span class="pan-status">不限速下载</span>
+                                    </span>
+                                    <span class="pan-action">点击下载 →</span>
+                                </a>
+                                <!-- 夸克网盘（预留） -->
+                                <a href="#" class="pan-card disabled" data-pan-name="夸克网盘" data-type="archive">
+                                    <span class="pan-icon">🔗</span>
+                                    <span class="pan-info">
+                                        <span class="pan-name">夸克网盘</span>
+                                        <span class="pan-status">待添加</span>
+                                    </span>
+                                    <span class="pan-action">敬请期待</span>
+                                </a>
+                                <!-- 123云盘（预留） -->
+                                <a href="#" class="pan-card disabled" data-pan-name="123云盘" data-type="archive">
+                                    <span class="pan-icon">📦</span>
+                                    <span class="pan-info">
+                                        <span class="pan-name">123云盘</span>
+                                        <span class="pan-status">待添加</span>
+                                    </span>
+                                    <span class="pan-action">敬请期待</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 专用客户端下载区域（新增） ========== -->
+        <section class="section section-alt" id="client" aria-label="专用客户端下载">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Client</span>
+                    <h2>📦 专用客户端下载</h2>
+                    <p>为科技城存档定制的Minecraft客户端，集成所需模组与配置，即开即用。</p>
+                </div>
+                <div style="max-width: 800px; margin: 0 auto;">
+                    <div style="background: var(--bg-card); border-radius: var(--radius-lg); padding: var(--spacing-xl); border: 2px solid var(--tech-border); box-shadow: var(--shadow-card);">
+                        <div style="display: flex; flex-wrap: wrap; gap: var(--spacing-sm); margin-bottom: var(--spacing-md);">
+                            <span class="meta-item" style="display:inline-flex; align-items:center; gap:6px; padding:6px 14px; background:var(--bg-primary); border:1px solid var(--tech-border); border-radius:var(--radius-sm); font-size:0.8rem; color:var(--text-secondary); font-family:var(--font-mono);">
+                                📦 版本：<strong style="color:var(--tech-secondary);">1.20.4</strong>
+                            </span>
+                            <span class="meta-item" style="display:inline-flex; align-items:center; gap:6px; padding:6px 14px; background:var(--bg-primary); border:1px solid var(--tech-border); border-radius:var(--radius-sm); font-size:0.8rem; color:var(--text-secondary); font-family:var(--font-mono);">
+                                💾 大小：<strong style="color:var(--tech-secondary);">420 MB</strong>
+                            </span>
+                            <span class="meta-item" style="display:inline-flex; align-items:center; gap:6px; padding:6px 14px; background:var(--bg-primary); border:1px solid var(--tech-border); border-radius:var(--radius-sm); font-size:0.8rem; color:var(--text-secondary); font-family:var(--font-mono);">
+                                ⚙️ 集成：<strong style="color:var(--tech-secondary);">优化模组 / 小地图 / 建筑辅助</strong>
+                            </span>
+                        </div>
+                        <p style="color:var(--text-secondary); font-size:0.95rem; margin-bottom: var(--spacing-md);">
+                            专用客户端包含科技城地图所需的全部模组和配置，下载后解压即可直接游玩，无需手动安装任何额外内容。
+                            推荐使用专用客户端获得最佳体验。
+                        </p>
+                        <!-- ★★★ 客户端网盘下载列表：4个预留位置 ★★★ -->
+                        <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:8px;">📥 选择网盘下载（客户端）</p>
+                        <div class="pan-list" id="client-pan-list">
+                            <!-- 客户端四个网盘位置全部预留，可自行填写链接 -->
+                            <a href="#" class="pan-card disabled" data-pan-name="百度网盘" data-type="client">
+                                <span class="pan-icon">💾</span>
+                                <span class="pan-info">
+                                    <span class="pan-name">百度网盘</span>
+                                    <span class="pan-status">待添加</span>
+                                </span>
+                                <span class="pan-action">敬请期待</span>
+                            </a>
+                            <a href="#" class="pan-card disabled" data-pan-name="阿里云盘" data-type="client">
+                                <span class="pan-icon">☁️</span>
+                                <span class="pan-info">
+                                    <span class="pan-name">阿里云盘</span>
+                                    <span class="pan-status">待添加</span>
+                                </span>
+                                <span class="pan-action">敬请期待</span>
+                            </a>
+                            <a href="#" class="pan-card disabled" data-pan-name="夸克网盘" data-type="client">
+                                <span class="pan-icon">🔗</span>
+                                <span class="pan-info">
+                                    <span class="pan-name">夸克网盘</span>
+                                    <span class="pan-status">待添加</span>
+                                </span>
+                                <span class="pan-action">敬请期待</span>
+                            </a>
+                            <a href="#" class="pan-card disabled" data-pan-name="123云盘" data-type="client">
+                                <span class="pan-icon">📦</span>
+                                <span class="pan-info">
+                                    <span class="pan-name">123云盘</span>
+                                    <span class="pan-status">待添加</span>
+                                </span>
+                                <span class="pan-action">敬请期待</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 适用场景 -->
+        <section class="section" id="scenarios" aria-label="适用场景">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Scenarios</span>
+                    <h2>🎯 适用场景</h2>
+                    <p>这张底图可以灵活用于多种Minecraft项目。</p>
+                </div>
+                <div class="scenario-grid">
+                    <div class="scenario-card">
+                        <span class="scenario-icon">🏰</span>
+                        <h3>服务器主城</h3>
+                        <p>作为生存服务器或小游戏服务器的中心主城，拥有现成的道路系统和建筑框架，只需添加NPC、商店和传送点即可投入使用。</p>
+                    </div>
+                    <div class="scenario-card">
+                        <span class="scenario-icon">🗺️</span>
+                        <h3>RPG冒险地图底图</h3>
+                        <p>城市框架可作为RPG地图中的主要城镇区域，你可以在此基础上添加剧情NPC、任务链和地下城入口，快速搭建完整的冒险世界。</p>
+                    </div>
+                    <div class="scenario-card">
+                        <span class="scenario-icon">🎨</span>
+                        <h3>建筑展示与教学</h3>
+                        <p>用于展示现代科技风格的建筑范例，适合建筑教学、风格参考或作为建筑比赛的基础场地。</p>
+                    </div>
+                    <div class="scenario-card">
+                        <span class="scenario-icon">🔬</span>
+                        <h3>模组测试环境</h3>
+                        <p>为科技类模组（如工业、应用能源等）提供合理的城市布局和空间预留，方便测试自动化生产线与城市基础设施的整合。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 安装教程 -->
+        <section class="section section-alt" id="tutorial" aria-label="安装教程">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">Tutorial</span>
+                    <h2>📖 安装教程</h2>
+                    <p>四步将科技城存档导入你的Minecraft。</p>
+                </div>
+                <div class="tutorial-grid">
+                    <div class="tutorial-step">
+                        <span class="step-num">1</span>
+                        <h3>网盘下载存档</h3>
+                        <p>从上方网盘列表下载 <code>tech-city-v1.0.zip</code> 压缩包。</p>
+                    </div>
+                    <div class="tutorial-step">
+                        <span class="step-num">2</span>
+                        <h3>解压文件</h3>
+                        <p>使用WinRAR、7-Zip等工具解压，得到 <code>TechCity</code> 文件夹。</p>
+                    </div>
+                    <div class="tutorial-step">
+                        <span class="step-num">3</span>
+                        <h3>找到存档目录</h3>
+                        <p>Windows：<code>%appdata%\.minecraft\saves</code><br>macOS/Linux：<code>~/.minecraft/saves</code></p>
+                    </div>
+                    <div class="tutorial-step">
+                        <span class="step-num">4</span>
+                        <h3>放入并启动游戏</h3>
+                        <p>将 <code>TechCity</code> 文件夹放入saves目录，启动Minecraft即可在单人游戏中看到。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 使用说明 -->
+        <section class="section" id="about" aria-label="使用说明">
+            <div class="container">
+                <div class="about-content">
+                    <div class="about-text">
+                        <h3>📋 使用说明与许可</h3>
+                        <p>
+                            科技城存档是我们<strong>独立制作并免费分发</strong>的基础底图。
+                            你可以自由地在本地或服务器上使用它，也允许在<strong>保留来源署名</strong>的前提下，
+                            基于此地图进行二次创作和分发。
+                        </p>
+                        <p>
+                            地图中包含一些<strong>预留的建筑框架和红石线路</strong>，
+                            方便你快速扩展。所有功能分区均经过规划，
+                            你可以参考附带的<strong>坐标说明文件</strong>来了解每个区域的设计意图。
+                        </p>
+                        <div class="about-badges">
+                            <span class="badge">✅ 允许二次创作</span>
+                            <span class="badge">✅ 允许服务器使用</span>
+                            <span class="badge">⚠️ 请保留署名</span>
+                            <span class="badge">❌ 禁止商业转售</span>
+                        </div>
+                    </div>
+                    <div class="license-card">
+                        <h4>📜 使用许可</h4>
+                        <p>
+                            <strong>允许：</strong><br>
+                            · 个人游玩和服务器使用<br>
+                            · 基于此地图进行建筑扩展<br>
+                            · 用于制作RPG、冒险等衍生地图<br>
+                            · 在注明来源的情况下分享二次创作<br><br>
+                            <strong>不允许：</strong><br>
+                            · 将原始存档直接用于商业销售<br>
+                            · 移除或篡改地图内的署名信息<br>
+                            · 声称此地图为你原创
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>🏙️ 科技城存档</h4>
+                    <ul>
+                        <li><a href="#home">首页</a></li>
+                        <li><a href="#archive">存档详情</a></li>
+                        <li><a href="#client">专用客户端</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>📚 资源</h4>
+                    <ul>
+                        <li><a href="#scenarios">适用场景</a></li>
+                        <li><a href="#tutorial">安装教程</a></li>
+                        <li><a href="#about">使用说明</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>🔗 相关链接</h4>
+                    <ul>
+                        <li><a href="https://www.minecraft.net" target="_blank" rel="noopener">Minecraft官网</a></li>
+                        <li><a href="https://pages.github.com" target="_blank" rel="noopener">GitHub Pages</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>📧 联系我们</h4>
+                    <ul>
+                        <li><a href="mailto:techcity@mcarchive.com">邮箱联系</a></li>
+                        <li><a href="https://github.com" target="_blank" rel="noopener">提交反馈</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 <a href="#home">科技城存档</a> · 基于 <a href="https://pages.github.com" target="_blank" rel="noopener">GitHub Pages</a> 分发 · 用 🏙️ 制作</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 回到顶部 -->
+    <button class="back-to-top" id="back-to-top" aria-label="回到顶部">↑</button>
+
+    <script>
+        (function() {
+            'use strict';
+
+            const navbar = document.getElementById('navbar');
+            const hamburger = document.getElementById('hamburger');
+            const navMenu = document.getElementById('nav-menu');
+            const backToTop = document.getElementById('back-to-top');
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            const downloadCountEl = document.getElementById('download-count');
+
+            function handleScroll() {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+                if (window.scrollY > 400) {
+                    backToTop.classList.add('visible');
+                } else {
+                    backToTop.classList.remove('visible');
+                }
+
+                const sections = document.querySelectorAll('section[id]');
+                let currentSection = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 120;
+                    if (window.scrollY >= sectionTop) {
+                        currentSection = section.id;
+                    }
+                });
+                navLinks.forEach(link => {
+                    link.classList.toggle('active', link.getAttribute('href') === '#' + currentSection);
+                });
+            }
+
+            function toggleMenu() {
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('open');
+                hamburger.setAttribute('aria-expanded', navMenu.classList.contains('open'));
+            }
+            function closeMenu() {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('open');
+                hamburger.setAttribute('aria-expanded', 'false');
+            }
+
+            hamburger.addEventListener('click', toggleMenu);
+            navLinks.forEach(link => link.addEventListener('click', closeMenu));
+            document.addEventListener('click', function(e) {
+                if (!navbar.contains(e.target) && navMenu.classList.contains('open')) {
+                    closeMenu();
+                }
+            });
+
+            backToTop.addEventListener('click', function() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
+            // 下载计数模拟（存档下载点击）
+            function getDownloadCount() {
+                try {
+                    return parseInt(localStorage.getItem('tech_city_downloads') || '3847', 10);
+                } catch {
+                    return 3847;
+                }
+            }
+            function incrementDownloadCount() {
+                const count = getDownloadCount() + 1;
+                try {
+                    localStorage.setItem('tech_city_downloads', count.toString());
+                } catch {}
+                return count;
+            }
+            function updateDownloadDisplay() {
+                if (downloadCountEl) {
+                    downloadCountEl.textContent = getDownloadCount().toLocaleString();
+                }
+            }
+
+            // 为所有存档网盘链接绑定点击事件（已启用链接）
+            const archivePanList = document.getElementById('archive-pan-list');
+            if (archivePanList) {
+                archivePanList.addEventListener('click', function(e) {
+                    const panCard = e.target.closest('.pan-card');
+                    if (panCard && !panCard.classList.contains('disabled')) {
+                        const newCount = incrementDownloadCount();
+                        updateDownloadDisplay();
+                        console.log(`📥 存档网盘下载点击 (${panCard.dataset.panName})，总计：${newCount}`);
+                    }
+                });
+            }
+
+            // 初始化
+            function init() {
+                handleScroll();
+                updateDownloadDisplay();
+                window.addEventListener('scroll', handleScroll, { passive: true });
+
+                console.log('%c🏙️ 科技城存档 - 地图作者与服主的理想底图',
+                    'color: #00BCD4; font-size: 16px; font-weight: bold;');
+                console.log('%c💡 请替换存档网盘列表中两个已填链接为你自己的分享链接',
+                    'color: #FFD740; font-size: 12px;');
+                console.log('%c🔗 专用客户端网盘列表已预留4个位置，请自行添加链接',
+                    'color: #00BCD4; font-size: 12px;');
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+        })();
+    </script>
+</body>
+</html>
