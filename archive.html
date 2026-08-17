@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- 导航栏（与首页相同） -->
     <header class="navbar" id="navbar">
         <div class="container">
             <a href="index.html" class="navbar-brand">
@@ -46,9 +45,7 @@
                     <p>一个为地图作者和服务器服主准备的专业级基础底图。</p>
                 </div>
 
-                <!-- 展示区 -->
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:32px; align-items:stretch;">
-                    <!-- 预览图 -->
                     <div class="card" style="min-height:420px; display:flex; align-items:center; justify-content:center; border-radius:12px; background:linear-gradient(135deg,#0A0F1A,#111827 30%,#1A2436 50%,#0D1A2D 70%,#0A0F1A);">
                         <div style="text-align:center;">
                             <span style="font-size:5rem; display:block; margin-bottom:16px;">🏙️</span>
@@ -57,16 +54,14 @@
                         </div>
                     </div>
 
-                    <!-- 详情 -->
                     <div class="card" style="padding:32px; display:flex; flex-direction:column; gap:16px;">
                         <div style="display:flex; flex-wrap:wrap; gap:8px;">
-                            <span class="meta-item" style="padding:6px 14px; background:var(--bg-primary); border:1px solid var(--tech-border); border-radius:4px; font-size:0.8rem; color:var(--text-secondary);">📦 版本：<strong style="color:var(--tech-secondary);">1.20.4</strong></span>
-                            <span class="meta-item" style="padding:6px 14px; background:var(--bg-primary); border:1px solid var(--tech-border); border-radius:4px; font-size:0.8rem; color:var(--text-secondary);">💾 大小：<strong style="color:var(--tech-secondary);">186 MB</strong></span>
-                            <span class="meta-item" style="padding:6px 14px; background:var(--bg-primary); border:1px solid var(--tech-border); border-radius:4px; font-size:0.8rem; color:var(--text-secondary);">⬇️ 下载：<strong style="color:var(--tech-secondary);">3,847</strong></span>
+                            <span style="padding:6px 14px; background:var(--bg-primary); border:1px solid var(--tech-border); border-radius:4px; font-size:0.8rem; color:var(--text-secondary);">📦 版本：<strong style="color:var(--tech-secondary);">1.20.4</strong></span>
+                            <span style="padding:6px 14px; background:var(--bg-primary); border:1px solid var(--tech-border); border-radius:4px; font-size:0.8rem; color:var(--text-secondary);">💾 大小：<strong style="color:var(--tech-secondary);">186 MB</strong></span>
+                            <span style="padding:6px 14px; background:var(--bg-primary); border:1px solid var(--tech-border); border-radius:4px; font-size:0.8rem; color:var(--text-secondary);">⬇️ 下载：<strong style="color:var(--tech-secondary);">3,847</strong></span>
                         </div>
                         <h3 style="font-size:1.6rem; font-weight:700;">科技城基础底图</h3>
                         <p style="color:var(--text-secondary);">这是一张<strong>半成品城市框架地图</strong>，包含完整城市道路网络、功能分区规划和红石基础设施预留。</p>
-                        <!-- 特性列表 -->
                         <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
                             <div style="padding:10px 14px; background:var(--bg-primary); border:1px solid var(--tech-border); border-radius:4px;">🛣️ 完整城市路网与街区划分</div>
                             <div style="padding:10px 14px; background:var(--bg-primary); border:1px solid var(--tech-border); border-radius:4px;">🏗️ 多个功能建筑框架</div>
@@ -75,7 +70,6 @@
                             <div style="padding:10px 14px; background:var(--bg-primary); border:1px solid var(--tech-border); border-radius:4px;">📐 坐标标注与分区规划</div>
                             <div style="padding:10px 14px; background:var(--bg-primary); border:1px solid var(--tech-border); border-radius:4px;">🌐 适配Java版1.20.x</div>
                         </div>
-                        <!-- 网盘列表 -->
                         <div>
                             <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:8px;">📥 选择网盘下载</p>
                             <div class="pan-list">
@@ -99,7 +93,6 @@
         </section>
     </main>
 
-    <!-- 页脚与脚本（与首页相同，可复制） -->
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
@@ -117,13 +110,15 @@
                 </div>
                 <div class="footer-col">
                     <h4>📧 联系我们</h4>
-                    <ul><li><a href="mailto:kjsofficial@foxmail.com">补档邮箱</a></li><li><a href="mailto:techcity@mcarchive.com">商务合作</a></li></ul>
+                    <ul><li><a href="mailto:kjsofficial@foxmail.com">客服邮箱</a></li><li><a href="mailto:techcity@mcarchive.com">商务合作</a></li></ul>
                 </div>
             </div>
             <div class="footer-bottom"><p>© 2026 <a href="index.html">科技城存档</a> · 基于 <a href="https://pages.github.com" target="_blank" rel="noopener">GitHub Pages</a> 分发</p></div>
         </div>
     </footer>
+
     <button class="back-to-top" id="back-to-top" aria-label="回到顶部">↑</button>
+
     <script>
         const navbar = document.getElementById('navbar');
         const hamburger = document.getElementById('hamburger');
