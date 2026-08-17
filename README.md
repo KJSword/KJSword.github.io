@@ -22,20 +22,6 @@
 - **公告发布区**：方便发布更新动态。
 - **响应式设计**：适配桌面端和移动端。
 
----
-
-## 📁 文件结构
-├── index.html # 首页（含公告区、快速导航）
-├── archive.html # 存档详情与下载
-├── client.html # 专用客户端下载
-├── scenarios.html # 适用场景介绍
-├── tutorial.html # 详细安装教程
-├── about.html # 使用说明与许可
-├── style.css # 全站公共样式（所有页面引用）
-└── README.md # 项目说明（本文件）
-
----
-
 📧 联系方式
 客服邮箱/商务合作：kjsofficial@foxmail.com （链接被和谐、补档、问题反馈）
 📜 使用许可
