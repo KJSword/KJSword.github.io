@@ -1,7 +1,7 @@
 # 🏙️ 科技城存档 - 地图作者与服主的理想底图
 
 ![License](https://img.shields.io/badge/License-Free%20for%20non--commercial%20use-brightgreen)
-![Minecraft](https://img.shields.io/badge/Minecraft-1.20.4-blue)
+![Minecraft](https://img.shields.io/badge/Minecraft-Java-blue)
 ![GitHub Pages](https://img.shields.io/badge/Deploy-GitHub%20Pages-00BCD4)
 
 **科技城存档** 是一个为 Minecraft 地图作者和服务器服主打造的基础底图。它提供了完整的现代科技城市框架，包括道路网络、功能分区、建筑预留和红石接口，极大加速服务器主城、RPG 地图、建筑展示等项目的搭建。
