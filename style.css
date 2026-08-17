@@ -116,7 +116,7 @@ main, header, footer { position: relative; z-index: 1; }
 .hamburger.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
 .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
-/* Hero（仅首页使用，但保留通用类） */
+/* Hero */
 .hero { padding: 140px 0 60px; text-align: center; position: relative; overflow: hidden;
     background: linear-gradient(180deg, rgba(10,15,26,0.95) 0%, rgba(13,18,32,0.98) 40%, rgba(10,15,26,0.95) 100%); }
 .hero::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 200%; height: 100%;
