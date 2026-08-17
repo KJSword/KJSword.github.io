@@ -474,7 +474,7 @@
             font-size: 1rem;
         }
 
-        /* ========== 存档展示区域（原样式） ========== */
+        /* ========== 存档展示区域 ========== */
         .archive-showcase {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -667,6 +667,106 @@
             color: var(--text-muted);
         }
 
+        /* ========== 安装教程新样式 ========== */
+        .install-container {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xl);
+        }
+        .install-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            border: 2px solid var(--tech-border);
+            box-shadow: var(--shadow-card);
+            transition: var(--transition-base);
+        }
+        .install-card:hover {
+            border-color: var(--tech-primary);
+            box-shadow: var(--shadow-card-hover);
+        }
+        .install-card h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: var(--spacing-md);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+        .install-steps {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+        .install-step {
+            display: flex;
+            gap: var(--spacing-md);
+            align-items: flex-start;
+            padding: var(--spacing-sm) 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .install-step:last-child {
+            border-bottom: none;
+        }
+        .install-step .step-num {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            background: linear-gradient(135deg, var(--tech-primary), var(--tech-secondary));
+            color: var(--text-on-tech);
+            border: 3px solid #000;
+            border-radius: 50%;
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: var(--font-pixel);
+            box-shadow: 3px 3px 0px rgba(0, 188, 212, 0.3);
+        }
+        .install-step .step-content {
+            flex: 1;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        .install-step .step-content strong {
+            color: var(--text-primary);
+        }
+        .install-step .step-content code {
+            background: var(--bg-primary);
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 0.85rem;
+            color: var(--tech-secondary);
+            font-family: var(--font-mono);
+            border: 1px solid var(--tech-border);
+        }
+        .install-note {
+            margin-top: var(--spacing-md);
+            padding: var(--spacing-md);
+            background: rgba(255, 215, 64, 0.05);
+            border-left: 4px solid var(--tech-accent);
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .install-note strong {
+            color: var(--tech-accent);
+        }
+        .important-tip {
+            background: rgba(255, 82, 82, 0.08);
+            border-left: 4px solid var(--mc-redstone);
+            padding: var(--spacing-md);
+            border-radius: var(--radius-sm);
+            margin-bottom: var(--spacing-lg);
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+        .important-tip strong {
+            color: var(--mc-redstone);
+        }
+
         /* 场景 */
         .scenario-grid {
             display: grid;
@@ -702,61 +802,6 @@
             font-size: 0.9rem;
             color: var(--text-secondary);
             line-height: 1.7;
-        }
-
-        /* 教程 */
-        .tutorial-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: var(--spacing-md);
-        }
-        .tutorial-step {
-            background: var(--bg-card);
-            border-radius: var(--radius-md);
-            padding: var(--spacing-lg);
-            text-align: center;
-            border: 2px solid var(--tech-border);
-            transition: var(--transition-base);
-        }
-        .tutorial-step:hover {
-            border-color: var(--tech-primary);
-            box-shadow: var(--shadow-glow);
-        }
-        .tutorial-step .step-num {
-            display: inline-block;
-            width: 46px;
-            height: 46px;
-            line-height: 46px;
-            text-align: center;
-            background: linear-gradient(135deg, var(--tech-primary), var(--tech-secondary));
-            color: var(--text-on-tech);
-            border: 3px solid #000;
-            border-radius: 50%;
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: var(--spacing-sm);
-            font-family: var(--font-pixel);
-            box-shadow: 3px 3px 0px rgba(0, 188, 212, 0.3);
-        }
-        .tutorial-step h3 {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: var(--spacing-xs);
-        }
-        .tutorial-step p {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-        .tutorial-step code {
-            background: var(--bg-primary);
-            padding: 2px 8px;
-            border-radius: 3px;
-            font-size: 0.8rem;
-            color: var(--tech-secondary);
-            font-family: var(--font-mono);
-            border: 1px solid var(--tech-border);
         }
 
         /* 关于 */
@@ -941,7 +986,6 @@
             .pan-list { grid-template-columns: 1fr; }
             .about-content { grid-template-columns: 1fr; gap: var(--spacing-md); }
             .scenario-grid { grid-template-columns: 1fr; gap: var(--spacing-md); }
-            .tutorial-grid { grid-template-columns: 1fr; gap: var(--spacing-sm); }
             .footer-grid { grid-template-columns: 1fr 1fr; gap: var(--spacing-md); }
             .back-to-top { bottom: 20px; right: 20px; width: 42px; height: 42px; font-size: 1.1rem; }
         }
@@ -1012,7 +1056,7 @@
                 </div>
                 <div class="hero-buttons">
                     <a href="#archive" class="btn btn-tech">🏙️ 查看存档详情</a>
-                    <a href="#client" class="btn btn-outline-tech">📦 专用客户端</a>
+                    <a href="#tutorial" class="btn btn-outline-tech">📖 安装教程</a>
                 </div>
             </div>
         </section>
@@ -1076,7 +1120,7 @@
                             </div>
                         </div>
 
-                        <!-- ★★★ 存档网盘下载列表：4个位置，其中两个已填链接，两个预留 ★★★ -->
+                        <!-- 存档网盘下载列表：4个位置，其中两个已填链接，两个预留 -->
                         <div style="margin-top: 8px;">
                             <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:8px;">📥 选择网盘下载</p>
                             <div class="pan-list" id="archive-pan-list">
@@ -1133,7 +1177,7 @@
             </div>
         </section>
 
-        <!-- ========== 专用客户端下载区域（新增） ========== -->
+        <!-- 专用客户端下载区域 -->
         <section class="section section-alt" id="client" aria-label="专用客户端下载">
             <div class="container">
                 <div class="section-header">
@@ -1158,7 +1202,7 @@
                             专用客户端包含科技城地图所需的全部模组和配置，下载后解压即可直接游玩，无需手动安装任何额外内容。
                             推荐使用专用客户端获得最佳体验。
                         </p>
-                        <!-- ★★★ 客户端网盘下载列表：4个预留位置 ★★★ -->
+                        <!-- 客户端网盘下载列表：4个预留位置 -->
                         <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:8px;">📥 选择网盘下载（客户端）</p>
                         <div class="pan-list" id="client-pan-list">
                             <!-- 客户端四个网盘位置全部预留，可自行填写链接 -->
@@ -1233,34 +1277,138 @@
             </div>
         </section>
 
-        <!-- 安装教程 -->
+        <!-- 安装教程（详细版） -->
         <section class="section section-alt" id="tutorial" aria-label="安装教程">
             <div class="container">
                 <div class="section-header">
                     <span class="section-tag">Tutorial</span>
-                    <h2>📖 安装教程</h2>
-                    <p>四步将科技城存档导入你的Minecraft。</p>
+                    <h2>📖 详细安装教程</h2>
+                    <p>请仔细阅读安装方法与注意事项，确保正确安装客户端与存档。</p>
                 </div>
-                <div class="tutorial-grid">
-                    <div class="tutorial-step">
-                        <span class="step-num">1</span>
-                        <h3>网盘下载存档</h3>
-                        <p>从上方网盘列表下载 <code>tech-city-v1.0.zip</code> 压缩包。</p>
+
+                <!-- 重要提示 -->
+                <div class="important-tip">
+                    <strong>⚠️ 重要声明：</strong> 整合包和存档正式版<strong>非商用永久免费</strong>，付费购买均为倒卖。请及时退款止损。
+                </div>
+
+                <div class="install-container">
+                    <!-- 安装整合包客户端 -->
+                    <div class="install-card">
+                        <h3>💻 安装整合包客户端</h3>
+                        <div class="install-steps">
+                            <div class="install-step">
+                                <span class="step-num">1</span>
+                                <div class="step-content">
+                                    获得下载链接后，打开浏览器。在地址框中粘贴之前获得的链接。<br>
+                                    <span style="color:var(--text-muted);">若发现链接被和谐，请发邮件至 <strong>kjsofficial@foxmail.com</strong>，标题注明【客户端/存档被和谐】请求补档。也可在QQ群内反馈。</span>
+                                </div>
+                            </div>
+                            <div class="install-step">
+                                <span class="step-num">2</span>
+                                <div class="step-content">
+                                    打开网盘文件夹后，选择最新的客户端<strong>在线版/离线版</strong>即可。<br>
+                                    在线版内无mod文件，解压后自动下载；离线版整合所有文件，解压后自动启用。推荐有网络时使用在线版，若在线版下载失败可安装离线版。
+                                </div>
+                            </div>
+                            <div class="install-step">
+                                <span class="step-num">3</span>
+                                <div class="step-content">
+                                    下载完成后，找到下载好的文件进行解压。若解压出错，请下载 <a href="https://www.bandisoft.com/bandizip/" target="_blank" rel="noopener" style="color:var(--tech-secondary);">BandiZIP</a> 解压软件（也可使用WinRAR、7-Zip）。
+                                </div>
+                            </div>
+                            <div class="install-step">
+                                <span class="step-num">4</span>
+                                <div class="step-content">
+                                    解压客户端文件（以WinRAR操作为例），在需要安装的硬盘<strong>根目录</strong>创建一个<strong>全英文文件夹</strong>，把客户端压缩包内文件拖进刚刚创建的文件夹内。
+                                </div>
+                            </div>
+                            <div class="install-step">
+                                <span class="step-num">5</span>
+                                <div class="step-content">
+                                    把解压出来的压缩包打开，按照上面的方法，把里面的东西全部拖放到创建的英文文件夹中。
+                                </div>
+                            </div>
+                            <div class="install-step">
+                                <span class="step-num">6</span>
+                                <div class="step-content">
+                                    解压完成后打开 <code>Plain Craft Launcher.exe</code>，点击同意。若弹出更新弹窗点击取消。
+                                </div>
+                            </div>
+                            <div class="install-step">
+                                <span class="step-num">7</span>
+                                <div class="step-content">
+                                    等待下载完成，下载完成后整合包客户端安装成功。
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="tutorial-step">
-                        <span class="step-num">2</span>
-                        <h3>解压文件</h3>
-                        <p>使用WinRAR、7-Zip等工具解压，得到 <code>TechCity</code> 文件夹。</p>
-                    </div>
-                    <div class="tutorial-step">
-                        <span class="step-num">3</span>
-                        <h3>找到存档目录</h3>
-                        <p>Windows：<code>%appdata%\.minecraft\saves</code><br>macOS/Linux：<code>~/.minecraft/saves</code></p>
-                    </div>
-                    <div class="tutorial-step">
-                        <span class="step-num">4</span>
-                        <h3>放入并启动游戏</h3>
-                        <p>将 <code>TechCity</code> 文件夹放入saves目录，启动Minecraft即可在单人游戏中看到。</p>
+
+                    <!-- 安装存档 -->
+                    <div class="install-card">
+                        <h3>🗺️ 安装存档</h3>
+                        <div class="install-steps">
+                            <div class="install-step">
+                                <span class="step-num">1</span>
+                                <div class="step-content">
+                                    获得下载链接后，打开浏览器。在地址框中粘贴之前获得的链接。<br>
+                                    <span style="color:var(--text-muted);">若发现链接被和谐，请发邮件至 <strong>kjsofficial@foxmail.com</strong>，标题注明【客户端/存档被和谐】请求补档。</span>
+                                </div>
+                            </div>
+                            <div class="install-step">
+                                <span class="step-num">2</span>
+                                <div class="step-content">
+                                    打开网盘文件夹后，选择最新的存档版本即可（若需要指定，可自行寻找其他版本）。
+                                </div>
+                            </div>
+                            <div class="install-step">
+                                <span class="step-num">3</span>
+                                <div class="step-content">
+                                    回到刚才下载好的启动器页面，输入用户名（离线游戏）或登录（正版）<strong>先运行一次游戏</strong>。
+                                </div>
+                            </div>
+                            <div class="install-step">
+                                <span class="step-num">4</span>
+                                <div class="step-content">
+                                    点击启动游戏，看到主界面后，退出游戏。
+                                </div>
+                            </div>
+                            <div class="install-step">
+                                <span class="step-num">5</span>
+                                <div class="step-content">
+                                    在启动器主界面单击<strong>版本设置</strong>。
+                                </div>
+                            </div>
+                            <div class="install-step">
+                                <span class="step-num">6</span>
+                                <div class="step-content">
+                                    打开<strong>存档文件夹</strong>。
+                                </div>
+                            </div>
+                            <div class="install-step">
+                                <span class="step-num">7</span>
+                                <div class="step-content">
+                                    把刚才下载好的存档压缩包打开，把里面的文件移动到弹出的文件夹中。
+                                </div>
+                            </div>
+                            <div class="install-step">
+                                <span class="step-num">8</span>
+                                <div class="step-content">
+                                    打开游戏，点击“单人游戏”。
+                                </div>
+                            </div>
+                            <div class="install-step">
+                                <span class="step-num">9</span>
+                                <div class="step-content">
+                                    看到存档就说明安装成功了。
+                                </div>
+                            </div>
+                            <div class="install-step">
+                                <span class="step-num">10</span>
+                                <div class="step-content">
+                                    进入游戏，就可以玩了。
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1339,8 +1487,8 @@
                 <div class="footer-col">
                     <h4>📧 联系我们</h4>
                     <ul>
-                        <li><a href="mailto:techcity@mcarchive.com">邮箱联系</a></li>
-                        <li><a href="https://github.com" target="_blank" rel="noopener">提交反馈</a></li>
+                        <li><a href="mailto:kjsofficial@foxmail.com">补档邮箱</a></li>
+                        <li><a href="mailto:techcity@mcarchive.com">商务合作</a></li>
                     </ul>
                 </div>
             </div>
