@@ -3,12 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="科技城存档使用说明与许可">
+    <meta name="description" content="科技城存档使用说明与许可 - 关于螺旋游戏">
     <title>使用说明 - 科技城存档</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* 关于板块样式 */
+        .about-section {
+            margin-top: 48px;
+            padding-top: 40px;
+            border-top: 2px solid var(--tech-border);
+        }
+        .about-section .section-tag {
+            display: inline-block;
+            padding: 4px 14px;
+            background: rgba(0, 188, 212, 0.15);
+            border: 2px solid var(--tech-primary);
+            border-radius: var(--radius-sm);
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--tech-secondary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+            font-family: var(--font-pixel);
+        }
+        .about-section h2 {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        .about-section .subtitle {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 24px;
+        }
+        .about-content {
+            color: var(--text-secondary);
+            line-height: 2;
+            font-size: 1rem;
+        }
+        .about-content p {
+            margin-bottom: 18px;
+        }
+        .about-content .highlight-name {
+            color: var(--tech-primary);
+            font-weight: 600;
+        }
+        .about-content .highlight-strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        .about-content .quote {
+            border-left: 3px solid var(--tech-primary);
+            padding-left: 20px;
+            margin: 24px 0;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+        .about-content .closing {
+            font-size: 1.05rem;
+            color: var(--text-primary);
+            font-weight: 500;
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid var(--tech-border);
+        }
+        @media (max-width: 768px) {
+            .about-section {
+                margin-top: 32px;
+                padding-top: 28px;
+            }
+            .about-content {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <header class="navbar" id="navbar">
@@ -19,17 +92,17 @@
             </a>
             <button class="hamburger" id="hamburger" aria-label="切换菜单" aria-expanded="false"><span></span><span></span><span></span></button>
             <nav aria-label="主导航">
-              <ul class="nav-menu" id="nav-menu">
-    <li><a href="index.html">首页</a></li>
-    <li><a href="announcements.html">公告</a></li>
-    <li><a href="archive.html">存档详情</a></li>
-    <li><a href="client.html">专用客户端</a></li>
-    <li><a href="scenarios.html">适用场景</a></li>
-    <li><a href="tutorial.html">安装教程</a></li>
-    <li><a href="about.html" class="active">使用说明</a></li>
-    <li><a href="gallery.html">图片鉴赏</a></li>
-    <li><a href="sponsor.html">赞助</a></li>
-</ul>
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="announcements.html">公告</a></li>
+                    <li><a href="archive.html">存档详情</a></li>
+                    <li><a href="client.html">专用客户端</a></li>
+                    <li><a href="scenarios.html">适用场景</a></li>
+                    <li><a href="tutorial.html">安装教程</a></li>
+                    <li><a href="about.html" class="active">使用说明</a></li>
+                    <li><a href="gallery.html">图片鉴赏</a></li>
+                    <li><a href="sponsor.html">赞助</a></li>
+                </ul>
             </nav>
         </div>
     </header>
@@ -37,6 +110,8 @@
     <main>
         <section class="section" style="padding-top:120px;">
             <div class="container">
+
+                <!-- ====== 原有：使用说明与许可 ====== -->
                 <div class="section-header">
                     <span class="section-tag">About</span>
                     <h2>📋 使用说明与许可</h2>
@@ -58,6 +133,44 @@
                         <p style="color:var(--text-secondary);"><strong>允许：</strong><br>· 个人游玩和服务器使用<br>· 基于此地图进行建筑扩展<br>· 用于制作RPG、冒险等衍生地图<br>· 在注明来源的情况下分享二次创作<br><br><strong>不允许：</strong><br>· 将原始存档直接用于商业销售<br>· 移除或篡改地图内的署名信息<br>· 声称此地图为你原创</p>
                     </div>
                 </div>
+
+                <!-- ====== 新增：关于螺旋游戏 ====== -->
+                <div class="about-section">
+                    <span class="section-tag">🌀 About</span>
+                    <h2>关于螺旋游戏</h2>
+                    <p class="subtitle">生于方块，长于想象的独立创作团体</p>
+
+                    <div class="about-content">
+                        <p>
+                            <span class="highlight-name">螺旋游戏（Spiral Game）</span>，一个生于方块，长于想象的独立创作团体。我们的名字寓意着对创造与进化的无尽追求——如同螺旋，每一次延伸都基于原有的基石，却始终望向更高的维度。
+                        </p>
+
+                        <p>
+                            我们的灵魂之作，是历时五年以纯粹手工雕琢而成的《我的世界》综合存档——<span class="highlight-strong">「科城」</span>。它不仅仅是一座城市，更是一场偏执的实践。每一处细节都承载着时间与热诚的重量。
+                        </p>
+
+                        <p>
+                            <span class="highlight-strong">「科城」</span>是我们理念的结晶：它既是拥有沉浸式叙事与精妙谜题的解密地图模版，也是功能完备、足以成为任何多人服务器璀璨核心的主城模板。我们深信，最好的创作源于对手工艺的敬畏、对玩法的深思，以及对一个世界该有灵魂的笃信。
+                        </p>
+
+                        <div class="quote">
+                            “最好的创作源于对手工艺的敬畏、对玩法的深思，以及对一个世界该有灵魂的笃信。”
+                        </div>
+
+                        <p>
+                            我们是一群相信<span class="highlight-strong">“长期主义”</span>的造梦者。螺旋游戏并非庞大的商业工厂，而是一间专注的手工作坊。我们珍视与每一位玩家、地图创作者和服务器服主的连接，你们的每一次探索、每一份演绎，都是这个螺旋向上生长的新动力。
+                        </p>
+
+                        <p>
+                            未来，我们将继续深耕于《我的世界》的无限可能，创造更多拥有独特灵魂与扎实品质的世界。
+                        </p>
+
+                        <p class="closing">
+                            🚀 欢迎你，加入这场永不停歇的螺旋之旅。
+                        </p>
+                    </div>
+                </div>
+
             </div>
         </section>
     </main>
