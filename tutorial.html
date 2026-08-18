@@ -3,118 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="科技城存档安装教程 - PDF 版">
+    <meta name="description" content="科技城存档安装教程 - PDF 下载">
     <title>安装教程 - 科技城存档</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <!-- PDF.js CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <style>
-        /* 针对 PDF 容器的微调 */
-        .pdf-wrapper {
-            background: var(--bg-primary);
-            border-radius: var(--radius-md);
-            border: 1px solid var(--tech-border);
-            padding: 8px;
-            transition: var(--transition-base);
-            min-height: 600px;
-            position: relative;
+        .download-card {
+            max-width: 640px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 48px 40px;
         }
-        .pdf-wrapper:hover {
-            border-color: var(--tech-primary);
-            box-shadow: var(--shadow-glow);
-        }
-        #pdf-container {
-            width: 100%;
-            min-height: 700px;
-            background: #1a1a2e;
-            border-radius: calc(var(--radius-sm) - 2px);
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 16px 0;
-        }
-        #pdf-container canvas {
-            width: 90% !important;
-            height: auto !important;
-            margin: 8px auto;
-            border-radius: 4px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-            background: white;
+        .download-card .icon {
+            font-size: 5rem;
             display: block;
+            margin-bottom: 20px;
         }
-        .pdf-loading {
-            text-align: center;
-            padding: 60px 20px;
+        .download-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 12px;
+        }
+        .download-card p {
             color: var(--text-secondary);
-            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 8px;
         }
-        .pdf-loading .spinner {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            border: 4px solid var(--tech-border);
-            border-top-color: var(--tech-primary);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin-bottom: 16px;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        .pdf-error {
-            text-align: center;
-            padding: 60px 20px;
-            color: #FF6B6B;
-        }
-        .pdf-error a {
-            color: var(--tech-secondary);
-        }
-        .pdf-controls {
-            text-align: center;
-            margin-top: 16px;
+        .download-card .file-info {
             display: flex;
             justify-content: center;
-            gap: 12px;
+            gap: 24px;
             flex-wrap: wrap;
-        }
-        .pdf-controls .btn-sm {
-            padding: 8px 20px;
-            font-size: 0.85rem;
-            border: 2px solid var(--tech-border);
-            border-radius: var(--radius-sm);
-            background: transparent;
-            color: var(--text-secondary);
-            cursor: pointer;
-            transition: var(--transition-base);
-            font-weight: 500;
-        }
-        .pdf-controls .btn-sm:hover {
-            border-color: var(--tech-primary);
-            color: var(--text-primary);
-            background: rgba(0,188,212,0.1);
-        }
-        .pdf-controls .page-info {
-            color: var(--text-secondary);
+            margin: 20px 0 28px;
             font-size: 0.9rem;
-            padding: 8px 16px;
-            display: flex;
-            align-items: center;
+            color: var(--text-muted);
         }
-        @media (max-width: 768px) {
-            #pdf-container {
-                min-height: 400px;
-            }
-            #pdf-container canvas {
-                width: 98% !important;
-            }
+        .download-card .file-info span {
+            background: var(--bg-primary);
+            padding: 6px 16px;
+            border-radius: 4px;
+            border: 1px solid var(--tech-border);
+        }
+        .download-card .btn-download {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 48px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-decoration: none;
+            border: 3px solid #000;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(135deg, var(--tech-primary), var(--tech-secondary));
+            color: #fff;
+            box-shadow: 4px 4px 0px rgba(0, 188, 212, 0.3);
+            transition: all 0.3s ease;
+        }
+        .download-card .btn-download:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px rgba(0, 188, 212, 0.4), var(--shadow-glow);
+            background: linear-gradient(135deg, var(--tech-secondary), #4DD0E1);
+        }
+        .download-card .btn-download:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px rgba(0, 188, 212, 0.3);
+        }
+        .download-card .alt-text {
+            margin-top: 16px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        .download-card .alt-text a {
+            color: var(--tech-secondary);
+            text-decoration: none;
+        }
+        .download-card .alt-text a:hover {
+            text-decoration: underline;
         }
         @media (max-width: 480px) {
-            #pdf-container canvas {
-                width: 100% !important;
+            .download-card {
+                padding: 32px 20px;
+            }
+            .download-card .btn-download {
+                padding: 14px 32px;
+                font-size: 1rem;
+            }
+            .download-card .file-info {
+                gap: 12px;
             }
         }
     </style>
@@ -149,35 +125,29 @@
                 <div class="section-header">
                     <span class="section-tag">Tutorial</span>
                     <h2>📖 安装教程</h2>
-                    <p>详细的图文安装指南，可直接在线预览或下载 PDF 版本</p>
+                    <p>详细的图文安装指南，下载 PDF 后查看</p>
                 </div>
 
-                <div style="background:rgba(255,82,82,0.08); border-left:4px solid #FF5252; padding:16px; border-radius:4px; margin-bottom:24px;">
+                <div style="background:rgba(255,82,82,0.08); border-left:4px solid #FF5252; padding:16px; border-radius:4px; margin-bottom:24px; max-width:640px; margin-left:auto; margin-right:auto;">
                     <strong>⚠️ 重要声明：</strong> 整合包和存档正式版<strong>非商用永久免费</strong>，付费购买均为倒卖。请及时退款止损。
                 </div>
 
-                <!-- PDF 预览区域 -->
-                <div class="pdf-wrapper">
-                    <div id="pdf-container">
-                        <div class="pdf-loading" id="loading-indicator">
-                            <div class="spinner"></div>
-                            <p>正在加载教程 PDF...</p>
-                        </div>
+                <div class="card download-card">
+                    <span class="icon">📄</span>
+                    <h3>科技城安装教程</h3>
+                    <p>包含客户端安装、存档导入、常见问题等完整图文指南。</p>
+                    <div class="file-info">
+                        <span>📦 格式：PDF</span>
+                        <span>📏 大小：约 2.5 MB</span>
+                        <span>📅 更新：2026-08-18</span>
                     </div>
-                </div>
-
-                <!-- 控制栏与下载按钮 -->
-                <div class="pdf-controls">
-                    <button class="btn-sm" id="prev-page">◀ 上一页</button>
-                    <span class="page-info" id="page-info">第 1 / 1 页</span>
-                    <button class="btn-sm" id="next-page">下一页 ▶</button>
-                    <a href="assets/pdf/tutorial.pdf" download class="btn btn-tech" style="font-size:0.9rem; padding:8px 24px;">
-                        📥 下载 PDF
+                    <a href="assets/pdf/tutorial.pdf" download class="btn-download">
+                        ⬇️ 下载 PDF 教程
                     </a>
+                    <p class="alt-text">
+                        如果下载失败，请尝试 <a href="assets/pdf/tutorial.pdf" target="_blank">在新窗口中打开</a> 或右键另存为。
+                    </p>
                 </div>
-                <p style="color:var(--text-muted); font-size:0.8rem; text-align:center; margin-top:12px;">
-                    如果无法在线预览，请点击“下载 PDF”按钮保存到本地查看。
-                </p>
             </div>
         </section>
     </main>
@@ -203,7 +173,6 @@
     <button class="back-to-top" id="back-to-top" aria-label="回到顶部">↑</button>
 
     <script>
-        // ===== 导航栏交互 =====
         const navbar = document.getElementById('navbar');
         const hamburger = document.getElementById('hamburger');
         const navMenu = document.getElementById('nav-menu');
@@ -224,126 +193,6 @@
         backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
         window.addEventListener('scroll', handleScroll, { passive: true });
         handleScroll();
-
-        // ===== PDF.js 渲染 =====
-        (function() {
-            const pdfUrl = 'assets/pdf/tutorial.pdf';
-            const container = document.getElementById('pdf-container');
-            const loadingEl = document.getElementById('loading-indicator');
-            const pageInfoEl = document.getElementById('page-info');
-            const prevBtn = document.getElementById('prev-page');
-            const nextBtn = document.getElementById('next-page');
-
-            let pdfDoc = null;
-            let currentPage = 1;
-            let totalPages = 0;
-            let scale = 1.5; // 缩放比例，可以根据需要调整
-
-            // 设置 PDF.js worker（必须）
-            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-
-            function renderPage(pageNum) {
-                if (!pdfDoc) return;
-
-                // 移除旧的 canvas（除了 loading 指示器）
-                const canvases = container.querySelectorAll('canvas');
-                canvases.forEach(c => c.remove());
-
-                pdfDoc.getPage(pageNum).then(function(page) {
-                    const viewport = page.getViewport({ scale: scale });
-                    // 根据容器宽度自适应
-                    const containerWidth = container.clientWidth - 32;
-                    const widthScale = containerWidth / viewport.width;
-                    const finalScale = Math.min(scale, widthScale);
-                    const finalViewport = page.getViewport({ scale: finalScale });
-
-                    const canvas = document.createElement('canvas');
-                    const context = canvas.getContext('2d');
-                    canvas.width = finalViewport.width;
-                    canvas.height = finalViewport.height;
-                    canvas.style.width = finalViewport.width + 'px';
-                    canvas.style.height = finalViewport.height + 'px';
-
-                    container.appendChild(canvas);
-
-                    const renderContext = {
-                        canvasContext: context,
-                        viewport: finalViewport
-                    };
-                    page.render(renderContext);
-                });
-
-                pageInfoEl.textContent = `第 ${pageNum} / ${totalPages} 页`;
-            }
-
-            function loadPDF() {
-                // 先清空容器
-                container.innerHTML = '<div class="pdf-loading" id="loading-indicator"><div class="spinner"></div><p>正在加载教程 PDF...</p></div>';
-
-                pdfjsLib.getDocument(pdfUrl).promise.then(function(pdf) {
-                    pdfDoc = pdf;
-                    totalPages = pdf.numPages;
-                    currentPage = 1;
-
-                    // 移除加载提示
-                    const loading = document.getElementById('loading-indicator');
-                    if (loading) loading.remove();
-
-                    renderPage(currentPage);
-
-                    // 启用按钮
-                    prevBtn.disabled = false;
-                    nextBtn.disabled = false;
-                    prevBtn.style.opacity = '1';
-                    nextBtn.style.opacity = '1';
-
-                }).catch(function(err) {
-                    console.error('PDF 加载失败:', err);
-                    container.innerHTML = `
-                        <div class="pdf-error">
-                            <p style="font-size:2rem; margin-bottom:12px;">📄</p>
-                            <p><strong>PDF 加载失败</strong></p>
-                            <p style="color:var(--text-muted); margin-top:8px;">无法在线预览，请点击下方按钮下载 PDF 后查看。</p>
-                            <p style="color:var(--text-muted); font-size:0.85rem; margin-top:8px;">错误信息：${err.message}</p>
-                        </div>
-                    `;
-                    pageInfoEl.textContent = '加载失败';
-                    prevBtn.disabled = true;
-                    nextBtn.disabled = true;
-                    prevBtn.style.opacity = '0.5';
-                    nextBtn.style.opacity = '0.5';
-                });
-            }
-
-            // 页面切换事件
-            prevBtn.addEventListener('click', function() {
-                if (currentPage > 1) {
-                    currentPage--;
-                    renderPage(currentPage);
-                }
-            });
-
-            nextBtn.addEventListener('click', function() {
-                if (currentPage < totalPages) {
-                    currentPage++;
-                    renderPage(currentPage);
-                }
-            });
-
-            // 窗口变化时重绘当前页（适应宽度）
-            let resizeTimer;
-            window.addEventListener('resize', function() {
-                clearTimeout(resizeTimer);
-                resizeTimer = setTimeout(function() {
-                    if (pdfDoc) {
-                        renderPage(currentPage);
-                    }
-                }, 300);
-            });
-
-            // 开始加载
-            loadPDF();
-        })();
     </script>
 </body>
 </html>
