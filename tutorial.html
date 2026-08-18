@@ -9,6 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <!-- PDF.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <style>
         /* 针对 PDF 容器的微调 */
         .pdf-wrapper {
@@ -17,26 +19,102 @@
             border: 1px solid var(--tech-border);
             padding: 8px;
             transition: var(--transition-base);
+            min-height: 600px;
+            position: relative;
         }
         .pdf-wrapper:hover {
             border-color: var(--tech-primary);
             box-shadow: var(--shadow-glow);
         }
-        .pdf-iframe {
+        #pdf-container {
             width: 100%;
-            height: 800px;
-            border: none;
+            min-height: 700px;
+            background: #1a1a2e;
             border-radius: calc(var(--radius-sm) - 2px);
-            background: #f0f2f5; /* 浅色背景，让 PDF 更清晰 */
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px 0;
+        }
+        #pdf-container canvas {
+            width: 90% !important;
+            height: auto !important;
+            margin: 8px auto;
+            border-radius: 4px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            background: white;
+            display: block;
+        }
+        .pdf-loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+        .pdf-loading .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--tech-border);
+            border-top-color: var(--tech-primary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 16px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .pdf-error {
+            text-align: center;
+            padding: 60px 20px;
+            color: #FF6B6B;
+        }
+        .pdf-error a {
+            color: var(--tech-secondary);
+        }
+        .pdf-controls {
+            text-align: center;
+            margin-top: 16px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .pdf-controls .btn-sm {
+            padding: 8px 20px;
+            font-size: 0.85rem;
+            border: 2px solid var(--tech-border);
+            border-radius: var(--radius-sm);
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition-base);
+            font-weight: 500;
+        }
+        .pdf-controls .btn-sm:hover {
+            border-color: var(--tech-primary);
+            color: var(--text-primary);
+            background: rgba(0,188,212,0.1);
+        }
+        .pdf-controls .page-info {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
         }
         @media (max-width: 768px) {
-            .pdf-iframe {
-                height: 600px;
+            #pdf-container {
+                min-height: 400px;
+            }
+            #pdf-container canvas {
+                width: 98% !important;
             }
         }
         @media (max-width: 480px) {
-            .pdf-iframe {
-                height: 450px;
+            #pdf-container canvas {
+                width: 100% !important;
             }
         }
     </style>
@@ -68,39 +146,38 @@
     <main>
         <section class="section" style="padding-top:120px;">
             <div class="container">
-                <!-- 头部标题 -->
                 <div class="section-header">
                     <span class="section-tag">Tutorial</span>
                     <h2>📖 安装教程</h2>
-                    <p>详细的图文安装指南，请直接在下方预览或下载 PDF 版本</p>
+                    <p>详细的图文安装指南，可直接在线预览或下载 PDF 版本</p>
                 </div>
 
-                <!-- 重要声明（保留，以示提醒） -->
                 <div style="background:rgba(255,82,82,0.08); border-left:4px solid #FF5252; padding:16px; border-radius:4px; margin-bottom:24px;">
                     <strong>⚠️ 重要声明：</strong> 整合包和存档正式版<strong>非商用永久免费</strong>，付费购买均为倒卖。请及时退款止损。
                 </div>
 
                 <!-- PDF 预览区域 -->
                 <div class="pdf-wrapper">
-                    <iframe 
-                        src="assets/pdf/tutorial.pdf" 
-                        class="pdf-iframe" 
-                        title="科技城安装教程 PDF"
-                        loading="lazy"
-                    >
-                        您的浏览器不支持 PDF 内联预览，请点击下方的“下载 PDF 教程”按钮查看。
-                    </iframe>
+                    <div id="pdf-container">
+                        <div class="pdf-loading" id="loading-indicator">
+                            <div class="spinner"></div>
+                            <p>正在加载教程 PDF...</p>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- 下载按钮 -->
-                <div style="text-align:center; margin-top:28px;">
-                    <a href="assets/pdf/tutorial.pdf" download class="btn btn-tech" style="font-size:1.05rem; padding:14px 40px;">
-                        📥 下载 PDF 教程
+                <!-- 控制栏与下载按钮 -->
+                <div class="pdf-controls">
+                    <button class="btn-sm" id="prev-page">◀ 上一页</button>
+                    <span class="page-info" id="page-info">第 1 / 1 页</span>
+                    <button class="btn-sm" id="next-page">下一页 ▶</button>
+                    <a href="assets/pdf/tutorial.pdf" download class="btn btn-tech" style="font-size:0.9rem; padding:8px 24px;">
+                        📥 下载 PDF
                     </a>
-                    <p style="color:var(--text-muted); font-size:0.85rem; margin-top:12px;">
-                        如果无法在线预览，请直接点击下载按钮，使用本地 PDF 阅读器打开。
-                    </p>
                 </div>
+                <p style="color:var(--text-muted); font-size:0.8rem; text-align:center; margin-top:12px;">
+                    如果无法在线预览，请点击“下载 PDF”按钮保存到本地查看。
+                </p>
             </div>
         </section>
     </main>
@@ -126,7 +203,7 @@
     <button class="back-to-top" id="back-to-top" aria-label="回到顶部">↑</button>
 
     <script>
-        // 导航栏和通用交互（与原版保持一致）
+        // ===== 导航栏交互 =====
         const navbar = document.getElementById('navbar');
         const hamburger = document.getElementById('hamburger');
         const navMenu = document.getElementById('nav-menu');
@@ -147,6 +224,126 @@
         backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
         window.addEventListener('scroll', handleScroll, { passive: true });
         handleScroll();
+
+        // ===== PDF.js 渲染 =====
+        (function() {
+            const pdfUrl = 'assets/pdf/tutorial.pdf';
+            const container = document.getElementById('pdf-container');
+            const loadingEl = document.getElementById('loading-indicator');
+            const pageInfoEl = document.getElementById('page-info');
+            const prevBtn = document.getElementById('prev-page');
+            const nextBtn = document.getElementById('next-page');
+
+            let pdfDoc = null;
+            let currentPage = 1;
+            let totalPages = 0;
+            let scale = 1.5; // 缩放比例，可以根据需要调整
+
+            // 设置 PDF.js worker（必须）
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+            function renderPage(pageNum) {
+                if (!pdfDoc) return;
+
+                // 移除旧的 canvas（除了 loading 指示器）
+                const canvases = container.querySelectorAll('canvas');
+                canvases.forEach(c => c.remove());
+
+                pdfDoc.getPage(pageNum).then(function(page) {
+                    const viewport = page.getViewport({ scale: scale });
+                    // 根据容器宽度自适应
+                    const containerWidth = container.clientWidth - 32;
+                    const widthScale = containerWidth / viewport.width;
+                    const finalScale = Math.min(scale, widthScale);
+                    const finalViewport = page.getViewport({ scale: finalScale });
+
+                    const canvas = document.createElement('canvas');
+                    const context = canvas.getContext('2d');
+                    canvas.width = finalViewport.width;
+                    canvas.height = finalViewport.height;
+                    canvas.style.width = finalViewport.width + 'px';
+                    canvas.style.height = finalViewport.height + 'px';
+
+                    container.appendChild(canvas);
+
+                    const renderContext = {
+                        canvasContext: context,
+                        viewport: finalViewport
+                    };
+                    page.render(renderContext);
+                });
+
+                pageInfoEl.textContent = `第 ${pageNum} / ${totalPages} 页`;
+            }
+
+            function loadPDF() {
+                // 先清空容器
+                container.innerHTML = '<div class="pdf-loading" id="loading-indicator"><div class="spinner"></div><p>正在加载教程 PDF...</p></div>';
+
+                pdfjsLib.getDocument(pdfUrl).promise.then(function(pdf) {
+                    pdfDoc = pdf;
+                    totalPages = pdf.numPages;
+                    currentPage = 1;
+
+                    // 移除加载提示
+                    const loading = document.getElementById('loading-indicator');
+                    if (loading) loading.remove();
+
+                    renderPage(currentPage);
+
+                    // 启用按钮
+                    prevBtn.disabled = false;
+                    nextBtn.disabled = false;
+                    prevBtn.style.opacity = '1';
+                    nextBtn.style.opacity = '1';
+
+                }).catch(function(err) {
+                    console.error('PDF 加载失败:', err);
+                    container.innerHTML = `
+                        <div class="pdf-error">
+                            <p style="font-size:2rem; margin-bottom:12px;">📄</p>
+                            <p><strong>PDF 加载失败</strong></p>
+                            <p style="color:var(--text-muted); margin-top:8px;">无法在线预览，请点击下方按钮下载 PDF 后查看。</p>
+                            <p style="color:var(--text-muted); font-size:0.85rem; margin-top:8px;">错误信息：${err.message}</p>
+                        </div>
+                    `;
+                    pageInfoEl.textContent = '加载失败';
+                    prevBtn.disabled = true;
+                    nextBtn.disabled = true;
+                    prevBtn.style.opacity = '0.5';
+                    nextBtn.style.opacity = '0.5';
+                });
+            }
+
+            // 页面切换事件
+            prevBtn.addEventListener('click', function() {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderPage(currentPage);
+                }
+            });
+
+            nextBtn.addEventListener('click', function() {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderPage(currentPage);
+                }
+            });
+
+            // 窗口变化时重绘当前页（适应宽度）
+            let resizeTimer;
+            window.addEventListener('resize', function() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(function() {
+                    if (pdfDoc) {
+                        renderPage(currentPage);
+                    }
+                }, 300);
+            });
+
+            // 开始加载
+            loadPDF();
+        })();
     </script>
 </body>
 </html>
