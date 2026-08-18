@@ -9,6 +9,40 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <style>
+        .announcement-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: var(--transition-base);
+        }
+        .announcement-link .card {
+            transition: var(--transition-base);
+            cursor: pointer;
+        }
+        .announcement-link:hover .card {
+            border-color: var(--tech-primary);
+            box-shadow: var(--shadow-card-hover);
+            transform: translateY(-2px);
+        }
+        .announcement-link .card h3 {
+            transition: var(--transition-base);
+        }
+        .announcement-link:hover .card h3 {
+            color: var(--tech-secondary);
+        }
+        .announcement-link .read-more {
+            display: inline-block;
+            margin-top: 12px;
+            color: var(--tech-secondary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: var(--transition-base);
+        }
+        .announcement-link:hover .read-more {
+            padding-left: 6px;
+        }
+    </style>
 </head>
 <body>
     <header class="navbar" id="navbar">
@@ -48,21 +82,35 @@
                 </div>
 
                 <div style="display:grid; grid-template-columns:1fr; gap:20px; max-width:800px; margin:0 auto;">
-                    <article class="card" style="padding:24px;">
-                        <div style="font-size:0.8rem; color:var(--text-muted); font-family:var(--font-mono);">2026-08-17</div>
-                        <h3 style="font-size:1.3rem; font-weight:600; margin:8px 0;">🎉 科技城网站 v1.0 正式发布！</h3>
-                        <p style="color:var(--text-secondary);">感谢各位的等待，科技城新网站现已开放访问。全新的页面结构、更清晰的导航，带你更好地了解科技城存档项目。</p>
-                    </article>
-                    <article class="card" style="padding:24px;">
-                        <div style="font-size:0.8rem; color:var(--text-muted); font-family:var(--font-mono);">2026-08-10</div>
-                        <h3 style="font-size:1.3rem; font-weight:600; margin:8px 0;">🔧 网站功能更新通知</h3>
-                        <p style="color:var(--text-secondary);">多页面结构正式上线，存档详情、客户端下载、安装教程等内容已独立成页，浏览更清晰。同时增加了公告专区，方便你追踪项目动态。</p>
-                    </article>
-                    <article class="card" style="padding:24px;">
-                        <div style="font-size:0.8rem; color:var(--text-muted); font-family:var(--font-mono);">2026-08-01</div>
-                        <h3 style="font-size:1.3rem; font-weight:600; margin:8px 0;">📦 专用客户端和地图下载即将上线</h3>
-                        <p style="color:var(--text-secondary);">集成优化模组、小地图和建筑辅助的专用客户端和存档下载功能正在测试中，敬请期待。我们会尽快完成最后的调试工作。</p>
-                    </article>
+                    <!-- 公告 1 -->
+                    <a href="announcement-detail.html?id=1" class="announcement-link">
+                        <article class="card" style="padding:24px;">
+                            <div style="font-size:0.8rem; color:var(--text-muted); font-family:var(--font-mono);">2026-08-17</div>
+                            <h3 style="font-size:1.3rem; font-weight:600; margin:8px 0;">🎉 科技城网站 v1.0 正式发布！</h3>
+                            <p style="color:var(--text-secondary);">感谢各位的等待，科技城新网站现已开放访问。全新的页面结构、更清晰的导航，带你更好地了解科技城存档项目。</p>
+                            <span class="read-more">阅读全文 →</span>
+                        </article>
+                    </a>
+
+                    <!-- 公告 2 -->
+                    <a href="announcement-detail.html?id=2" class="announcement-link">
+                        <article class="card" style="padding:24px;">
+                            <div style="font-size:0.8rem; color:var(--text-muted); font-family:var(--font-mono);">2026-08-10</div>
+                            <h3 style="font-size:1.3rem; font-weight:600; margin:8px 0;">🔧 网站功能更新通知</h3>
+                            <p style="color:var(--text-secondary);">多页面结构正式上线，存档详情、客户端下载、安装教程等内容已独立成页，浏览更清晰。同时增加了公告专区，方便你追踪项目动态。</p>
+                            <span class="read-more">阅读全文 →</span>
+                        </article>
+                    </a>
+
+                    <!-- 公告 3 -->
+                    <a href="announcement-detail.html?id=3" class="announcement-link">
+                        <article class="card" style="padding:24px;">
+                            <div style="font-size:0.8rem; color:var(--text-muted); font-family:var(--font-mono);">2026-08-01</div>
+                            <h3 style="font-size:1.3rem; font-weight:600; margin:8px 0;">📦 专用客户端和地图下载即将上线</h3>
+                            <p style="color:var(--text-secondary);">集成优化模组、小地图和建筑辅助的专用客户端和存档下载功能正在测试中，敬请期待。我们会尽快完成最后的调试工作。</p>
+                            <span class="read-more">阅读全文 →</span>
+                        </article>
+                    </a>
                 </div>
             </div>
         </section>
