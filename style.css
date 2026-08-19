@@ -183,22 +183,420 @@ main, header, footer { position: relative; z-index: 1; }
 .back-to-top.visible { opacity: 1; visibility: visible; }
 .back-to-top:hover { transform: translateY(-3px); box-shadow: 6px 6px 0px rgba(0,188,212,0.4), var(--shadow-glow); }
 
-/* 响应式 */
+/* ============================================================
+   响应式优化（移动端适配）
+   ============================================================ */
+
+/* 平板及以下 */
 @media (max-width: 768px) {
+    /* 导航栏 - 高度略减，汉堡菜单优化 */
     .navbar .container { height: 60px; }
     .hamburger { display: flex; }
-    .nav-menu { position: fixed; top: 60px; left: 0; width: 100%; background: var(--bg-nav); backdrop-filter: blur(16px); flex-direction: column; padding: 16px; gap: 4px; border-bottom: 2px solid var(--tech-border); transform: translateY(-120%); transition: transform 0.35s ease; visibility: hidden; }
-    .nav-menu.open { transform: translateY(0); visibility: visible; }
-    .nav-menu li a { padding: 12px 16px; text-align: center; font-size: 0.95rem; }
-    .hero { padding: 100px 0 40px; }
-    .hero h1 { font-size: 1.7rem; }
-    .hero-subtitle { font-size: 0.95rem; }
-    .pan-list { grid-template-columns: 1fr; }
-    .footer-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
+    .hamburger span {
+        width: 26px;
+        height: 3px;
+        background: var(--text-primary);
+        border-radius: 2px;
+        transition: var(--transition-base);
+    }
+    /* 移动端菜单 - 全屏下拉，触控优化 */
+    .nav-menu {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background: var(--bg-nav);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        flex-direction: column;
+        padding: 12px 16px 20px;
+        gap: 2px;
+        border-bottom: 2px solid var(--tech-border);
+        transform: translateY(-120%);
+        transition: transform 0.35s ease;
+        visibility: hidden;
+        max-height: calc(100vh - 60px);
+        overflow-y: auto;
+    }
+    .nav-menu.open {
+        transform: translateY(0);
+        visibility: visible;
+    }
+    .nav-menu li a {
+        padding: 14px 16px;
+        text-align: center;
+        font-size: 1rem;
+        border-radius: var(--radius-sm);
+        /* 增大触控区域 */
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    /* Hero 区域 */
+    .hero {
+        padding: 100px 0 32px;
+    }
+    .hero h1 {
+        font-size: 1.8rem;
+        line-height: 1.3;
+    }
+    .hero-subtitle {
+        font-size: 0.95rem;
+        line-height: 1.7;
+        padding: 0 4px;
+    }
+    .hero-badge {
+        font-size: 0.7rem;
+        padding: 6px 16px;
+    }
+    .hero-tags .tag {
+        font-size: 0.7rem;
+        padding: 4px 12px;
+    }
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+    .hero-buttons .btn {
+        width: 100%;
+        max-width: 280px;
+        justify-content: center;
+        padding: 14px 20px;
+        font-size: 0.95rem;
+    }
+    /* 区块 */
+    .section {
+        padding: var(--spacing-2xl) 0;
+    }
+    .section-header h2 {
+        font-size: 1.5rem;
+    }
+    .section-header p {
+        font-size: 0.9rem;
+        padding: 0 8px;
+    }
+    .section-header .section-tag {
+        font-size: 0.6rem;
+        padding: 3px 12px;
+    }
+    /* 卡片 */
+    .card {
+        padding: 20px !important;
+    }
+    .card h3 {
+        font-size: 1.1rem !important;
+    }
+    /* 网盘列表 - 单列 */
+    .pan-list {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    .pan-card {
+        padding: 12px 14px;
+        font-size: 0.85rem;
+        min-height: 52px;
+    }
+    .pan-card .pan-icon {
+        font-size: 1.3rem;
+    }
+    .pan-card .pan-action {
+        font-size: 0.75rem;
+    }
+    /* 页脚 */
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+    .footer-col h4 {
+        font-size: 0.85rem;
+    }
+    .footer-col ul li a {
+        font-size: 0.8rem;
+    }
+    /* 回到顶部 - 更适合手指点击 */
+    .back-to-top {
+        width: 56px;
+        height: 56px;
+        bottom: 20px;
+        right: 20px;
+        font-size: 1.4rem;
+        border-radius: 50%;
+    }
+    /* 公告卡片 */
+    .announcement-link .card {
+        padding: 18px !important;
+    }
+    .announcement-link .card h3 {
+        font-size: 1.1rem !important;
+    }
+    .announcement-link .read-more {
+        font-size: 0.85rem;
+    }
+    /* 公告详情 */
+    .detail-content {
+        font-size: 0.92rem !important;
+    }
+    .detail-content p {
+        margin-bottom: 12px;
+    }
+    /* 关于板块（首页 & 使用说明） */
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+    }
+    .about-text {
+        font-size: 0.92rem;
+    }
+    .about-stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+    .stat-card {
+        padding: 16px 12px;
+    }
+    .stat-card .number {
+        font-size: 1.6rem;
+    }
+    /* 使用说明 - 双栏变单栏 */
+    .about-section .section-header h2 {
+        font-size: 1.5rem;
+    }
+    .about-content {
+        font-size: 0.92rem;
+    }
+    /* 首页 about-home 板块 */
+    .about-home {
+        padding: var(--spacing-2xl) 0;
+    }
+    .about-home .section-header h2 {
+        font-size: 1.5rem;
+    }
+    /* 下载教程页 */
+    .download-card {
+        padding: 28px 20px !important;
+    }
+    .download-card .icon {
+        font-size: 4rem;
+    }
+    .download-card h3 {
+        font-size: 1.3rem;
+    }
+    .download-card .btn-download {
+        padding: 14px 28px;
+        font-size: 1rem;
+        width: 100%;
+        justify-content: center;
+    }
+    .download-card .file-info {
+        gap: 10px;
+    }
+    .download-card .file-info span {
+        font-size: 0.8rem;
+        padding: 4px 12px;
+    }
+    /* 存档详情 - 双栏变单栏 */
+    .archive-detail-grid {
+        grid-template-columns: 1fr !important;
+    }
 }
+
+/* 手机（小屏） */
 @media (max-width: 480px) {
-    .container { padding: 0 14px; }
-    .hero-buttons { flex-direction: column; gap: 8px; }
-    .btn { padding: 12px 20px; font-size: 0.9rem; }
-    .footer-grid { grid-template-columns: 1fr; }
+    .container {
+        padding: 0 14px;
+    }
+    .navbar .container {
+        height: 56px;
+    }
+    .navbar-brand .brand-title {
+        font-size: 1rem;
+    }
+    .navbar-brand .brand-sub {
+        font-size: 0.5rem;
+    }
+    .navbar-brand .brand-icon {
+        width: 34px;
+        height: 34px;
+        font-size: 1.1rem;
+    }
+    .nav-menu {
+        top: 56px;
+    }
+    .nav-menu li a {
+        padding: 12px 14px;
+        font-size: 0.9rem;
+        min-height: 44px;
+    }
+    .hero {
+        padding: 84px 0 28px;
+    }
+    .hero h1 {
+        font-size: 1.5rem;
+    }
+    .hero-subtitle {
+        font-size: 0.85rem;
+    }
+    .hero-badge {
+        font-size: 0.6rem;
+        padding: 4px 12px;
+    }
+    .hero-tags .tag {
+        font-size: 0.65rem;
+        padding: 3px 10px;
+    }
+    .hero-buttons .btn {
+        padding: 12px 16px;
+        font-size: 0.85rem;
+        max-width: 240px;
+    }
+    .btn {
+        padding: 12px 18px;
+        font-size: 0.85rem;
+    }
+    .section {
+        padding: var(--spacing-xl) 0;
+    }
+    .section-header h2 {
+        font-size: 1.3rem;
+    }
+    .section-header p {
+        font-size: 0.85rem;
+    }
+    .card {
+        padding: 16px !important;
+        border-radius: var(--radius-sm);
+    }
+    .card h3 {
+        font-size: 1rem !important;
+    }
+    .pan-card {
+        padding: 10px 12px;
+        font-size: 0.8rem;
+        min-height: 46px;
+    }
+    .pan-card .pan-icon {
+        font-size: 1.1rem;
+    }
+    .pan-card .pan-name {
+        font-size: 0.8rem;
+    }
+    .pan-card .pan-status {
+        font-size: 0.65rem;
+    }
+    .pan-card .pan-action {
+        font-size: 0.7rem;
+    }
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+    .footer-col h4 {
+        font-size: 0.8rem;
+        margin-bottom: 10px;
+    }
+    .footer-col ul li a {
+        font-size: 0.75rem;
+    }
+    .footer-bottom {
+        font-size: 0.7rem;
+    }
+    .back-to-top {
+        width: 48px;
+        height: 48px;
+        bottom: 16px;
+        right: 16px;
+        font-size: 1.2rem;
+    }
+    .announcement-link .card {
+        padding: 14px !important;
+    }
+    .announcement-link .card h3 {
+        font-size: 1rem !important;
+    }
+    .announcement-link .read-more {
+        font-size: 0.8rem;
+    }
+    .detail-content {
+        font-size: 0.85rem !important;
+    }
+    .about-text {
+        font-size: 0.85rem;
+    }
+    .about-stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+    .stat-card {
+        padding: 12px 8px;
+    }
+    .stat-card .number {
+        font-size: 1.4rem;
+    }
+    .stat-card .label {
+        font-size: 0.7rem;
+    }
+    .about-home .section-header h2 {
+        font-size: 1.3rem;
+    }
+    .download-card {
+        padding: 20px 16px !important;
+    }
+    .download-card .icon {
+        font-size: 3rem;
+    }
+    .download-card h3 {
+        font-size: 1.1rem;
+    }
+    .download-card .btn-download {
+        padding: 12px 20px;
+        font-size: 0.9rem;
+    }
+    .download-card .file-info span {
+        font-size: 0.7rem;
+        padding: 3px 10px;
+    }
+    .about-section .section-header h2 {
+        font-size: 1.3rem;
+    }
+    .about-content {
+        font-size: 0.85rem;
+    }
+    /* 模态框移动端适配 */
+    .modal-box {
+        max-width: 100% !important;
+        margin: 10px;
+        border-radius: var(--radius-md);
+        max-height: 95vh;
+    }
+    .modal-header {
+        padding: 14px 16px !important;
+    }
+    .modal-header h3 {
+        font-size: 1rem !important;
+    }
+    .modal-body {
+        padding: 14px 16px !important;
+        font-size: 0.8rem !important;
+    }
+    .modal-footer {
+        padding: 12px 16px !important;
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .agreement-check {
+        font-size: 0.8rem;
+    }
+    .btn-confirm, .btn-cancel {
+        padding: 10px 16px !important;
+        font-size: 0.85rem !important;
+        width: 100%;
+        justify-content: center;
+    }
+    .modal-actions {
+        flex-direction: column;
+        gap: 8px;
+    }
 }
+</style>
