@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="科技城专用客户端下载">
+    <title>专用客户端 - 科技城存档</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* 复用 archive 中的模态框样式，稍作调整 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal-box {
+            background: var(--bg-card);
+            border: 2px solid var(--tech-primary);
+            border-radius: var(--radius-lg);
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 40px rgba(0, 188, 212, 0.5);
+            overflow: hidden;
+        }
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--tech-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-secondary);
+        }
+        .modal-header h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition-base);
+            padding: 0 4px;
+        }
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+        .modal-body {
+            padding: 20px 24px;
+            overflow-y: auto;
+            flex: 1;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.7;
+        }
+        .modal-body h4 {
+            color: var(--text-primary);
+            margin: 16px 0 8px;
+            font-size: 0.95rem;
+        }
+        .modal-body p {
+            margin-bottom: 8px;
+        }
+        .modal-body ul {
+            padding-left: 20px;
+            margin-bottom: 8px;
+        }
+        .modal-body li {
+            margin-bottom: 4px;
+        }
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--tech-border);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            background: var(--bg-secondary);
+        }
+        .agreement-check {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            user-select: none;
+        }
+        .agreement-check input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--tech-primary);
+            cursor: pointer;
+        }
+        .modal-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .btn-confirm {
+            padding: 10px 24px;
+            background: var(--tech-primary);
+            color: var(--text-on-tech);
+            border: 3px solid #000;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-base);
+            box-shadow: 3px 3px 0px rgba(0, 188, 212, 0.3);
+            font-size: 0.9rem;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        .btn-confirm.enabled {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .btn-confirm.enabled:hover {
+            background: var(--tech-secondary);
+            transform: translate(-1px, -1px);
+            box-shadow: 4px 4px 0px rgba(0, 188, 212, 0.4);
+        }
+        .btn-cancel {
+            padding: 10px 20px;
+            background: transparent;
+            color: var(--text-secondary);
+            border: 2px solid var(--tech-border);
+            border-radius: var(--radius-sm);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-base);
+            font-size: 0.9rem;
+        }
+        .btn-cancel:hover {
+            border-color: var(--text-muted);
+            color: var(--text-primary);
+        }
+        @media (max-width: 600px) {
+            .modal-footer {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .modal-actions {
+                justify-content: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar" id="navbar">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">
+                <div class="brand-icon">🏙️</div>
+                <div class="brand-text"><span class="brand-title">科技城存档</span><span class="brand-sub">TECH CITY</span></div>
+            </a>
+            <button class="hamburger" id="hamburger" aria-label="切换菜单" aria-expanded="false"><span></span><span></span><span></span></button>
+            <nav aria-label="主导航">
+                <ul class="nav-menu" id="nav-menu">
+    <li><a href="index.html">首页</a></li>
+    <li><a href="announcements.html">公告</a></li>
+    <li><a href="archive.html">存档详情</a></li>
+    <li><a href="client.html" class="active">专用客户端</a></li>
+    <li><a href="scenarios.html">适用场景</a></li>
+    <li><a href="tutorial.html">安装教程</a></li>
+    <li><a href="about.html">使用说明</a></li>
+    <li><a href="gallery.html">图片鉴赏</a></li>
+    <li><a href="sponsor.html">赞助</a></li>
+</ul>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="切换主题">☀️</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="section" style="padding-top:120px;">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">客户端</span>
+                    <h2>📦 专用客户端下载</h2>
+                    <p>为科技城存档定制的Minecraft客户端，集成所需模组与配置，即开即用。</p>
+                </div>
+                <div class="card" style="max-width:800px; margin:0 auto; padding:32px;">
+                    <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;">
+                        <span style="padding:6px 14px; background:var(--bg-primary); border:1px solid var(--tech-border); border-radius:4px; font-size:0.8rem; color:var(--text-secondary);">📦 版本：<strong style="color:var(--tech-secondary);">1.20.4</strong></span>
+                        <span style="padding:6px 14px; background:var(--bg-primary); border:1px solid var(--tech-border); border-radius:4px; font-size:0.8rem; color:var(--text-secondary);">💾 大小：<strong style="color:var(--tech-secondary);">420 MB</strong></span>
+                        <span style="padding:6px 14px; background:var(--bg-primary); border:1px solid var(--tech-border); border-radius:4px; font-size:0.8rem; color:var(--text-secondary);">⚙️ 集成：<strong style="color:var(--tech-secondary);">优化模组 / 小地图 / 建筑辅助</strong></span>
+                    </div>
+                    <p style="color:var(--text-secondary); margin-bottom:16px;">专用客户端包含科技城地图所需的全部模组和配置，下载后解压即可直接游玩。</p>
+                    <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:8px;">📥 选择网盘下载（需同意客户端协议）</p>
+                    <div class="pan-list" id="client-pan-list">
+                        <!-- 有效链接，点击将弹出协议模态框 -->
+                        <a href="#" class="pan-card" target="_blank" rel="noopener" data-client-download>
+                            <span class="pan-icon">💾</span>
+                            <span class="pan-info"><span class="pan-name">百度网盘</span><span class="pan-status">提取码：1234</span></span>
+                            <span class="pan-action">点击下载 →</span>
+                        </a>
+                        <a href="#" class="pan-card" target="_blank" rel="noopener" data-client-download>
+                            <span class="pan-icon">☁️</span>
+                            <span class="pan-info"><span class="pan-name">阿里云盘</span><span class="pan-status">不限速下载</span></span>
+                            <span class="pan-action">点击下载 →</span>
+                        </a>
+                        <!-- 以下仍为占位 disabled -->
+                        <a href="#" class="pan-card disabled"><span class="pan-icon">🔗</span><span class="pan-info"><span class="pan-name">夸克网盘</span><span class="pan-status">待添加</span></span><span class="pan-action">敬请期待</span></a>
+                        <a href="#" class="pan-card disabled"><span class="pan-icon">📦</span><span class="pan-info"><span class="pan-name">123云盘</span><span class="pan-status">待添加</span></span><span class="pan-action">敬请期待</span></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 客户端协议模态框 -->
+    <div class="modal-overlay" id="client-agreement-modal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>《科技市》定制客户端用户协议与隐私政策</h3>
+                <button class="modal-close" id="client-modal-close" aria-label="关闭">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>重要提示：</strong> 本客户端为《科技市》存档专用工具，是运行该存档的必备组件。使用本客户端，即表示您同时同意受本协议及《科技市存档用户协议》（完整文本可通过官方页面存档下载页面查阅）的全部条款约束。若您不同意其中任何协议，请勿使用本客户端。</p>
+
+                <h4>一、 许可授权</h4>
+                <p><strong>1.1 有限使用许可</strong></p>
+                <p>授予已获得《科技市》存档使用权限的用户一项不可转让、不可再分发的有限许可：</p>
+                <ul>
+                    <li>唯一用途：仅用于运行、配置、管理《科技市》存档</li>
+                    <li>严格限制：禁止用于任何商业用途</li>
+                    <li>分发禁止：严禁以任何形式对外分发、共享、重新打包本客户端</li>
+                </ul>
+                <p><strong>1.2 离线版本特别条款</strong></p>
+                <ul>
+                    <li>特定场景：离线版本仅为方便网络环境受限时部署存档的备用方案</li>
+                    <li>使用前提：用户应优先使用在线版本获取正版验证与安全更新</li>
+                    <li>责任自担：离线模式下手动导入的模组/资源需用户自行确保安全性</li>
+                </ul>
+
+                <h4>二、 使用限制</h4>
+                <p><strong>2.1 严格禁止</strong></p>
+                <ul>
+                    <li>将本客户端或其修改版本提供给任何第三方</li>
+                    <li>解包、反编译、逆向工程（法律允许的除外）</li>
+                    <li>移除修改签名、冒充官方版本</li>
+                    <li>植入广告、恶意代码或用于任何破坏性目的</li>
+                    <li>利用本客户端规避Minecraft正版验证</li>
+                </ul>
+                <p><strong>2.2 唯一例外</strong></p>
+                <p>仅允许在以下情况分享离线版本：</p>
+                <ul>
+                    <li>向已获得《科技市》存档使用授权的团队成员分享，用于合作开发</li>
+                    <li>分享范围不得超过存档授权明确覆盖的人员数量</li>
+                    <li>必须附带本协议全文，并确保接收方知晓保密义务</li>
+                </ul>
+
+                <h4>三、 开源合规</h4>
+                <p><strong>3.1 基础组件</strong></p>
+                <ul>
+                    <li>本客户端基于开源项目PCL2（遵循GPL-3.0协议）修改</li>
+                    <li>开源代码部分的权利义务遵循原始许可证</li>
+                    <li>项目源码将依据GPL要求进行合规处理</li>
+                </ul>
+                <p><strong>3.2 修改声明</strong></p>
+                <ul>
+                    <li>我们对PCL2进行的定制化修改主要为：</li>
+                    <li>预配置《科技市》存档运行环境</li>
+                    <li>集成必要的兼容性组件</li>
+                    <li>优化资源加载逻辑</li>
+                    <li>添加离线部署模式</li>
+                    <li>完整修改记录可根据开源协议要求提供</li>
+                </ul>
+
+                <h4>四、 责任限制</h4>
+                <p>4.1 除因开发者故意或重大过失直接导致的损失外，开发者不对因以下情况引发的任何损害承担责任：</p>
+                <ul>
+                    <li>使用非官方渠道获取的客户端版本；</li>
+                    <li>在离线模式下自行导入的模组导致的崩溃、存档损坏；</li>
+                    <li>违反《Minecraft》EULA导致的账号封禁；</li>
+                    <li>网络环境问题导致的更新失败；</li>
+                    <li>硬件不兼容或系统配置不当。</li>
+                </ul>
+                <p>4.2 在法律允许的最大范围内，本客户端按"现状"提供，开发者不提供任何明示或默示的担保，包括但不限于：适用于所有操作系统版本、与所有第三方模组完全兼容、完全无错误或未来永久免费更新。</p>
+
+                <h4>五、 终止条款</h4>
+                <p><strong>5.1 协议终止</strong></p>
+                <p>如有以下情况，本协议自动终止：</p>
+                <ul>
+                    <li>用户违反《科技市存档用户协议》</li>
+                    <li>用户对外分发本客户端</li>
+                    <li>用户使用本客户端从事任何违法活动</li>
+                </ul>
+                <p><strong>5.2 终止后果</strong></p>
+                <p>协议终止后，用户必须：</p>
+                <ul>
+                    <li>立即停止使用本客户端</li>
+                    <li>删除所有副本及相关文件</li>
+                    <li>如为团队使用，确保所有成员同步执行</li>
+                </ul>
+
+                <h4>六、 合规义务</h4>
+                <p>6.1 协议体系与遵守：使用本客户端即表示您同意，您的行为将同时受到以下一系列协议（合称"相关协议"）的约束：</p>
+                <ul>
+                    <li>(a) 本协议（即《科技市定制客户端用户协议》）；</li>
+                    <li>(b) 《科技市存档用户协议》（定义及文本获取方式见本协议开头重要提示）；</li>
+                    <li>(c) 《Minecraft最终用户许可协议》（EULA）；</li>
+                    <li>(d) PCL2启动器所适用的开源许可证及相关协议。</li>
+                </ul>
+                <p>6.2 内部协议冲突解决：若(a)项与(b)项协议（即本客户端协议与存档协议）的条款发生直接冲突，应按以下规则确定优先适用顺序：</p>
+                <ul>
+                    <li>涉及客户端的安装、使用、功能限制、技术免责、隐私政策及本协议特有规定的，以本协议(a项)为准；</li>
+                    <li>涉及存档的授权性质（商业/非商业）、知识产权归属、二次创作规则、社区规范及存档特有规定的，以《科技市存档用户协议》(b项)为准。</li>
+                </ul>
+                <p>6.3 外部协议遵守：您有义务自行了解并遵守(c)项与(d)项协议（即Minecraft及PCL2协议）。本客户端的存在与提供不构成对上述任何第三方协议的替代或修改。因您违反(c)项或(d)项协议导致的任何后果（如账号封禁、法律责任），由您自行承担。</p>
+
+                <h4>七、 违约处理</h4>
+                <p>7.1 如有证据表明用户违反本协议，开发者有权采取以下一项或多项措施：</p>
+                <ul>
+                    <li>撤销该用户客户端的全部使用权限；</li>
+                    <li>终止其相关的《科技市》存档使用授权；</li>
+                    <li>将用户列入项目黑名单。</li>
+                </ul>
+                <p>7.2 若用户的违约行为给开发者造成直接经济损失的，开发者有权要求其赔偿该等损失及为维权而支出的合理费用（如律师费、公证费）。</p>
+
+                <h4>八、 联系方式</h4>
+                <p>可处理客户端相关问题：</p>
+                <ul>
+                    <li>邮箱：kjsofficial@foxmail.com【注明问题】</li>
+                </ul>
+
+                <hr style="border-color:var(--tech-border); margin:16px 0;">
+
+                <h3 style="color:var(--text-primary);">《科技市》定制客户端隐私政策</h3>
+                <p><strong>适用客户端：</strong> 《科技市》专用定制启动器（基于开源PCL2修改版）</p>
+
+                <h4>一、 数据收集声明</h4>
+                <p>本客户端不收集、不上传、不存储任何用户个人信息。具体说明如下：</p>
+                <ul>
+                    <li>本地操作原则：所有游戏配置、存档文件、模组加载均发生在用户本地计算机，无任何数据上报、统计或分析功能，无用户行为追踪机制。</li>
+                    <li>离线模式特性：离线版本已预置必要运行环境，可在网络连接不佳情况下部署《科技市》客户端。离线模式下所有操作均为本地处理，无任何外部通信。</li>
+                    <li>网络功能说明（如启用）：仅在用户明确选择"在线更新"时，才会连接至官方指定源检查更新。更新过程仅传输版本元数据及必要文件，不涉及用户个人信息。</li>
+                </ul>
+
+                <h4>二、 第三方服务</h4>
+                <ul>
+                    <li>开源组件：本客户端基于开源项目PCL2启动器修改，遵循其原有开源协议。基础启动器组件的隐私实践遵循原项目规范。</li>
+                    <li>游戏服务：登录、正版验证等操作由Mojang/Microsoft官方服务处理。相关隐私政策请参阅《Microsoft隐私声明》及《Minecraft最终用户许可协议》。</li>
+                </ul>
+
+                <h4>三、 数据安全</h4>
+                <ul>
+                    <li>本地存储：游戏文件、配置信息均存储于用户本地设备。建议用户定期备份重要存档，开发者不对数据丢失负责。</li>
+                    <li>安全提醒：请从唯一官方渠道获取本客户端。警惕任何要求输入账号密码的第三方修改版本。</li>
+                </ul>
+
+                <h4>四、 儿童隐私</h4>
+                <p>本客户端本身不收集任何年龄用户的信息。未成年人使用时应遵守游戏平台的年龄限制规定。</p>
+
+                <h4>五、 政策更新</h4>
+                <p>本政策可能随客户端更新而修订，重大变更将在启动界面提示。</p>
+
+                <p><strong>协议生效：</strong> 启动客户端时点击确认，即视为您同意本隐私政策及《科技市定制客户端用户协议》。如不同意，请立即删除客户端所有文件。</p>
+                <p style="margin-top:8px; color:var(--text-muted); font-size:0.8rem;">· 协议版本：V1.2 · 修改日期：2026-01-04 · 生效日期：2026-01-04</p>
+            </div>
+            <div class="modal-footer">
+                <label class="agreement-check">
+                    <input type="checkbox" id="client-agreement-checkbox">
+                    我已阅读并同意《科技市》定制客户端用户协议与隐私政策
+                </label>
+                <div class="modal-actions">
+                    <button class="btn-cancel" id="client-modal-cancel">取消</button>
+                    <button class="btn-confirm" id="client-modal-confirm" disabled>同意并下载</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col"><h4>🏙️ 科技城存档</h4><ul><li><a href="index.html">首页</a></li><li><a href="archive.html">存档详情</a></li><li><a href="client.html">专用客户端</a></li></ul></div>
+                <div class="footer-col"><h4>📚 资源</h4><ul><li><a href="scenarios.html">适用场景</a></li><li><a href="tutorial.html">安装教程</a></li><li><a href="about.html">使用说明</a></li></ul></div>
+                <div class="footer-col"><h4>🔗 相关链接</h4><ul><li><a href="https://www.minecraft.net" target="_blank" rel="noopener">Minecraft官网</a></li><li><a href="https://pages.github.com" target="_blank" rel="noopener">GitHub Pages</a></li></ul></div>
+                <div class="footer-col"><h4>📧 联系我们</h4><ul><li><a href="mailto:kjsofficial@foxmail.com">客服邮箱</a></li><li><a href="mailto:kjsofficial@foxmail.com">商务合作</a></li></ul></div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 <a href="index.html">科技城存档</a> · 基于 <a href="https://pages.github.com" target="_blank" rel="noopener">GitHub Pages</a> 分发</p>
+                <p style="margin-top:12px; font-size:0.75rem; color:var(--text-muted); line-height:1.6; max-width:800px; margin-left:auto; margin-right:auto;">
+                    © 2026 Spiral Game Studio 保留所有权利。<br>
+                    我的世界（Minecraft）标志和名字属于 Mojang Studios 和母公司 Microsoft 在世界各地注册的商标。其他品牌或产品名称是其各自所有者的商标。我们的网站可能会包含链接至由第三方运营的其他网站与资源。这些链接仅为方便您使用而提供。Spiral Game Studio 对这些网站或资源的内容没有控制权，也不会对因为您使用这些网站和资源而造成的损失或伤害负责。
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="back-to-top" aria-label="回到顶部">↑</button>
+
+    <script>
+        // 导航栏和通用交互
+        // 主题切换
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+
+            function toggleTheme() {
+                const current = document.documentElement.getAttribute('data-theme') || 'dark';
+                const next = current === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', next);
+                localStorage.setItem('theme', next);
+                updateThemeIcon(next);
+            }
+
+            function updateThemeIcon(theme) {
+                const btn = document.getElementById('theme-toggle');
+                if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+            }
+
+            const btn = document.getElementById('theme-toggle');
+            if (btn) {
+                btn.addEventListener('click', toggleTheme);
+                updateThemeIcon(savedTheme);
+            }
+        })();
+
+        const navbar = document.getElementById('navbar');
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        const backToTop = document.getElementById('back-to-top');
+        function handleScroll() {
+            if (window.scrollY > 50) navbar.classList.add('scrolled'); else navbar.classList.remove('scrolled');
+            if (window.scrollY > 400) backToTop.classList.add('visible'); else backToTop.classList.remove('visible');
+        }
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('open');
+            hamburger.setAttribute('aria-expanded', navMenu.classList.contains('open'));
+        });
+        navMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('open');
+        }));
+        backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        handleScroll();
+
+        // ========== 客户端下载协议弹窗 ==========
+        const modalOverlay = document.getElementById('client-agreement-modal');
+        const modalClose = document.getElementById('client-modal-close');
+        const modalCancel = document.getElementById('client-modal-cancel');
+        const modalConfirm = document.getElementById('client-modal-confirm');
+        const agreementCheckbox = document.getElementById('client-agreement-checkbox');
+        const clientPanList = document.getElementById('client-pan-list');
+        let pendingDownloadUrl = '';
+
+        function openModal(url) {
+            pendingDownloadUrl = url;
+            modalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            agreementCheckbox.checked = false;
+            modalConfirm.classList.remove('enabled');
+            modalConfirm.disabled = true;
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+            pendingDownloadUrl = '';
+        }
+
+        // 监听客户端下载列表的点击（仅对有效链接）
+        clientPanList.addEventListener('click', (e) => {
+            const link = e.target.closest('a.pan-card');
+            if (!link) return;
+            if (link.classList.contains('disabled')) return;
+            e.preventDefault();
+            const url = link.getAttribute('href');
+            if (url && url !== '#') {
+                openModal(url);
+            } else {
+                // 演示：若链接为空或 '#'，则打开模态框但不实际跳转，可自定义
+                openModal('https://pan.baidu.com/s/示例链接'); // 这里可替换为真实占位
+            }
+        });
+
+        // 复选框状态控制按钮
+        agreementCheckbox.addEventListener('change', () => {
+            if (agreementCheckbox.checked) {
+                modalConfirm.classList.add('enabled');
+                modalConfirm.disabled = false;
+            } else {
+                modalConfirm.classList.remove('enabled');
+                modalConfirm.disabled = true;
+            }
+        });
+
+        // 确认下载
+        modalConfirm.addEventListener('click', () => {
+            if (pendingDownloadUrl) {
+                window.open(pendingDownloadUrl, '_blank', 'noopener');
+                closeModal();
+            }
+        });
+
+        // 关闭弹窗
+        modalClose.addEventListener('click', closeModal);
+        modalCancel.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) closeModal();
+        });
+
+        // ESC 键关闭
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

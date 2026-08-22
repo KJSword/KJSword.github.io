@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="科技城存档 - 地图作者与服主的理想底图">
+    <title>首页 - 科技城存档</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* 关于我们板块样式 */
+        .about-home {
+            background: var(--bg-secondary);
+            padding: var(--spacing-3xl) 0;
+            border-top: 2px solid var(--tech-border);
+            border-bottom: 2px solid var(--tech-border);
+        }
+        .about-home .section-header {
+            text-align: center;
+            margin-bottom: var(--spacing-2xl);
+        }
+        .about-home .section-header .section-tag {
+            display: inline-block;
+            padding: 4px 14px;
+            background: rgba(0, 188, 212, 0.15);
+            border: 2px solid var(--tech-primary);
+            border-radius: var(--radius-sm);
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--tech-secondary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            font-family: var(--font-pixel);
+        }
+        .about-home .section-header h2 {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        .about-home .section-header p {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1rem;
+        }
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+        .about-text {
+            color: var(--text-secondary);
+            line-height: 2;
+            font-size: 0.98rem;
+        }
+        .about-text p {
+            margin-bottom: 16px;
+        }
+        .about-text .highlight-name {
+            color: var(--tech-primary);
+            font-weight: 600;
+        }
+        .about-text .highlight-strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        .about-text .quote {
+            border-left: 3px solid var(--tech-primary);
+            padding-left: 20px;
+            margin: 20px 0;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+        .about-text .closing {
+            font-size: 1.05rem;
+            color: var(--text-primary);
+            font-weight: 500;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--tech-border);
+        }
+        .about-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--tech-border);
+            border-radius: var(--radius-md);
+            padding: 24px 20px;
+            text-align: center;
+            transition: var(--transition-base);
+        }
+        .stat-card:hover {
+            border-color: var(--tech-primary);
+            box-shadow: var(--shadow-card-hover);
+            transform: translateY(-2px);
+        }
+        .stat-card .number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            font-family: var(--font-pixel);
+            color: var(--tech-primary);
+            display: block;
+            margin-bottom: 4px;
+        }
+        .stat-card .label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        .stat-card.full {
+            grid-column: 1 / -1;
+        }
+        @media (max-width: 768px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 28px;
+            }
+            .about-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+            .stat-card .number {
+                font-size: 1.8rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .about-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar" id="navbar">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">
+                <div class="brand-icon">🏙️</div>
+                <div class="brand-text">
+                    <span class="brand-title">科技城存档</span>
+                    <span class="brand-sub">TECH CITY</span>
+                </div>
+            </a>
+            <button class="hamburger" id="hamburger" aria-label="切换菜单" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+            <nav aria-label="主导航">
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="index.html" class="active">首页</a></li>
+                    <li><a href="announcements.html">公告</a></li>
+                    <li><a href="archive.html">存档详情</a></li>
+                    <li><a href="client.html">专用客户端</a></li>
+                    <li><a href="scenarios.html">适用场景</a></li>
+                    <li><a href="tutorial.html">安装教程</a></li>
+                    <li><a href="about.html">使用说明</a></li>
+                    <li><a href="gallery.html">图片鉴赏</a></li>
+                    <li><a href="sponsor.html">赞助</a></li>
+                </ul>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="切换主题">☀️</button>
+        </div>
+    </header>
+
+    <main>
+        <!-- ====== 英雄区 ====== -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-badge">⚡ 专为地图作者 & 服主打造</div>
+                <h1>科技城<span class="tech-highlight">基础底图</span><br>你的下一个项目起点</h1>
+                <p class="hero-subtitle">一套结构完整、功能分区清晰的现代科技城市框架。拥有完善的道路系统、功能建筑群和基础设施预留，可作为服务器主城、RPG地图底图或建筑展示的完美基础。</p>
+                <div class="hero-tags">
+                    <span class="tag">📐 城市规划</span>
+                    <span class="tag">🛣️ 完整路网</span>
+                    <span class="tag">🏗️ 功能分区</span>
+                    <span class="tag">⚡ 红石预留</span>
+                    <span class="tag">🎨 现代风格</span>
+                </div>
+                <div class="hero-buttons">
+                    <a href="archive.html" class="btn btn-tech">🏙️ 查看存档详情</a>
+                    <a href="tutorial.html" class="btn btn-outline-tech">📖 安装教程</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 新增：关于螺旋游戏（首页） ====== -->
+        <section class="about-home">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">关于我们</span>
+                    <h2>关于螺旋游戏</h2>
+                    <p>生于方块，长于想象的独立创作团体</p>
+                </div>
+
+                <div class="about-grid">
+                    <!-- 左侧：文字内容 -->
+                    <div class="about-text">
+                        <p>
+                            <span class="highlight-name">螺旋游戏（Spiral Game）</span>，一个生于方块，长于想象的独立创作团体。我们的名字寓意着对创造与进化的无尽追求——如同螺旋，每一次延伸都基于原有的基石，却始终望向更高的维度。
+                        </p>
+
+                        <p>
+                            我们的灵魂之作，是历时五年以纯粹手工雕琢而成的《我的世界》综合存档——<span class="highlight-strong">「科城」</span>。它不仅仅是一座城市，更是一场偏执的实践。每一处细节都承载着时间与热诚的重量。
+                        </p>
+
+                        <p>
+                            <span class="highlight-strong">「科城」</span>是我们理念的结晶：它既是拥有沉浸式叙事与精妙谜题的解密地图模版，也是功能完备、足以成为任何多人服务器璀璨核心的主城模板。
+                        </p>
+
+                        <div class="quote">
+                            “最好的创作源于对手工艺的敬畏、对玩法的深思，以及对一个世界该有灵魂的笃信。”
+                        </div>
+
+                        <p>
+                            我们是一群相信<span class="highlight-strong">“长期主义”</span>的造梦者。螺旋游戏并非庞大的商业工厂，而是一间专注的手工作坊。
+                        </p>
+
+                        <p class="closing">
+                            🚀 欢迎你，加入这场永不停歇的螺旋之旅。
+                        </p>
+                    </div>
+
+                    <!-- 右侧：数据卡片 -->
+                    <div class="about-stats">
+                        <div class="stat-card">
+                            <span class="number">5</span>
+                            <span class="label">年匠心打磨</span>
+                        </div>
+                        <div class="stat-card">
+                            <span class="number">∞</span>
+                            <span class="label">无限创造可能</span>
+                        </div>
+                        <div class="stat-card full">
+                            <span class="number">🏙️</span>
+                            <span class="label" style="font-size:1rem; color:var(--text-secondary);">科城 — 解密模版 · 主城框架</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ====== 最新动态横幅 ====== -->
+        <section class="section section-alt" id="latest-news">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">最新动态</span>
+                    <h2>最新动态</h2>
+                    <p>查看项目的最新公告与更新日志。</p>
+                </div>
+                <div style="text-align:center;">
+                    <a href="announcements.html" class="btn btn-tech">📰 查看所有公告</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ====== 页脚 ====== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col"><h4>🏙️ 科技城存档</h4><ul><li><a href="index.html">首页</a></li><li><a href="announcements.html">公告</a></li><li><a href="archive.html">存档详情</a></li><li><a href="client.html">专用客户端</a></li></ul></div>
+                <div class="footer-col"><h4>📚 资源</h4><ul><li><a href="scenarios.html">适用场景</a></li><li><a href="tutorial.html">安装教程</a></li><li><a href="about.html">使用说明</a></li><li><a href="gallery.html">图片鉴赏</a></li></ul></div>
+                <div class="footer-col"><h4>🔗 相关链接</h4><ul><li><a href="https://www.minecraft.net" target="_blank" rel="noopener">Minecraft官网</a></li><li><a href="https://pages.github.com" target="_blank" rel="noopener">GitHub Pages</a></li></ul></div>
+                <div class="footer-col"><h4>📧 联系我们</h4><ul><li><a href="mailto:kjsofficial@foxmail.com">客服邮箱</a></li><li><a href="mailto:kjsofficial@foxmail.com">商务合作</a></li></ul></div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 <a href="index.html">科技城存档</a> · 基于 <a href="https://pages.github.com" target="_blank" rel="noopener">GitHub Pages</a> 分发</p>
+                <p style="margin-top:12px; font-size:0.75rem; color:var(--text-muted); line-height:1.6; max-width:800px; margin-left:auto; margin-right:auto;">
+                    © 2026 Spiral Game Studio 保留所有权利。<br>
+                    我的世界（Minecraft）标志和名字属于 Mojang Studios 和母公司 Microsoft 在世界各地注册的商标。其他品牌或产品名称是其各自所有者的商标。我们的网站可能会包含链接至由第三方运营的其他网站与资源。这些链接仅为方便您使用而提供。Spiral Game Studio 对这些网站或资源的内容没有控制权，也不会对因为您使用这些网站和资源而造成的损失或伤害负责。
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="back-to-top" aria-label="回到顶部">↑</button>
+
+    <script>
+
+        // 主题切换
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+
+            function toggleTheme() {
+                const current = document.documentElement.getAttribute('data-theme') || 'dark';
+                const next = current === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', next);
+                localStorage.setItem('theme', next);
+                updateThemeIcon(next);
+            }
+
+            function updateThemeIcon(theme) {
+                const btn = document.getElementById('theme-toggle');
+                if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+            }
+
+            const btn = document.getElementById('theme-toggle');
+            if (btn) {
+                btn.addEventListener('click', toggleTheme);
+                updateThemeIcon(savedTheme);
+            }
+        })();
+
+        const navbar = document.getElementById('navbar');
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        const backToTop = document.getElementById('back-to-top');
+        function handleScroll() {
+            if (window.scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+            if (window.scrollY > 400) backToTop.classList.add('visible');
+            else backToTop.classList.remove('visible');
+        }
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('open');
+            hamburger.setAttribute('aria-expanded', navMenu.classList.contains('open'));
+        });
+        navMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('open');
+        }));
+        backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        handleScroll();
+    </script>
+</body>
+</html>

@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="科技城存档详情 - 基础底图特性与下载">
+    <title>存档详情 - 科技城存档</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* 协议模态框样式（保持不变） */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal-box {
+            background: var(--bg-card);
+            border: 2px solid var(--tech-primary);
+            border-radius: var(--radius-lg);
+            max-width: 700px;
+            width: 100%;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 0 40px rgba(0, 188, 212, 0.5);
+            overflow: hidden;
+        }
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--tech-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-secondary);
+        }
+        .modal-header h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition-base);
+            padding: 0 4px;
+        }
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+        .modal-body {
+            padding: 20px 24px;
+            overflow-y: auto;
+            flex: 1;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.7;
+        }
+        .modal-body h4 {
+            color: var(--text-primary);
+            margin: 16px 0 8px;
+            font-size: 0.95rem;
+        }
+        .modal-body p {
+            margin-bottom: 8px;
+        }
+        .modal-body ul {
+            padding-left: 20px;
+            margin-bottom: 8px;
+        }
+        .modal-body li {
+            margin-bottom: 4px;
+        }
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--tech-border);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            background: var(--bg-secondary);
+        }
+        .agreement-check {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            user-select: none;
+        }
+        .agreement-check input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--tech-primary);
+            cursor: pointer;
+        }
+        .modal-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .btn-confirm {
+            padding: 10px 24px;
+            background: var(--tech-primary);
+            color: var(--text-on-tech);
+            border: 3px solid #000;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-base);
+            box-shadow: 3px 3px 0px rgba(0, 188, 212, 0.3);
+            font-size: 0.9rem;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        .btn-confirm.enabled {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .btn-confirm.enabled:hover {
+            background: var(--tech-secondary);
+            transform: translate(-1px, -1px);
+            box-shadow: 4px 4px 0px rgba(0, 188, 212, 0.4);
+        }
+        .btn-cancel {
+            padding: 10px 20px;
+            background: transparent;
+            color: var(--text-secondary);
+            border: 2px solid var(--tech-border);
+            border-radius: var(--radius-sm);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-base);
+            font-size: 0.9rem;
+        }
+        .btn-cancel:hover {
+            border-color: var(--text-muted);
+            color: var(--text-primary);
+        }
+        @media (max-width: 600px) {
+            .modal-footer {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .modal-actions {
+                justify-content: flex-end;
+            }
+        }
+
+        /* ===== 存档详情页面专用响应式 ===== */
+        .archive-detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            align-items: stretch;
+        }
+
+        .archive-preview-card {
+            min-height: 420px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #0A0F1A, #111827 30%, #1A2436 50%, #0D1A2D 70%, #0A0F1A);
+            text-align: center;
+            padding: 20px;
+        }
+
+        .archive-preview-card .preview-content {
+            text-align: center;
+        }
+        .archive-preview-card .preview-icon {
+            font-size: 5rem;
+            display: block;
+            margin-bottom: 16px;
+        }
+        .archive-preview-card .preview-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            font-family: var(--font-pixel);
+            color: var(--text-primary);
+        }
+        .archive-preview-card .preview-sub {
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+        }
+
+        /* 手机及平板 */
+        @media (max-width: 768px) {
+            .archive-detail-grid {
+                grid-template-columns: 1fr !important;
+                gap: 20px;
+            }
+            .archive-preview-card {
+                min-height: auto !important;
+                padding: 24px 20px !important;
+                border-radius: var(--radius-md);
+            }
+            .archive-preview-card .preview-icon {
+                font-size: 3.5rem;
+            }
+            .archive-preview-card .preview-title {
+                font-size: 1.3rem;
+            }
+            .archive-preview-card .preview-sub {
+                font-size: 0.8rem;
+            }
+            /* 右侧卡片的内边距调小 */
+            .archive-detail-grid .card:last-child {
+                padding: 24px 16px !important;
+            }
+            /* 功能标签网格改为单列 */
+            .archive-detail-grid .feature-grid {
+                grid-template-columns: 1fr !important;
+                gap: 6px !important;
+            }
+            /* 网盘列表已经由全局样式处理为单列 */
+        }
+
+        @media (max-width: 480px) {
+            .archive-preview-card .preview-icon {
+                font-size: 2.8rem;
+            }
+            .archive-preview-card .preview-title {
+                font-size: 1.1rem;
+            }
+            .archive-detail-grid .card:last-child {
+                padding: 20px 12px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar" id="navbar">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">
+                <div class="brand-icon">🏙️</div>
+                <div class="brand-text">
+                    <span class="brand-title">科技城存档</span>
+                    <span class="brand-sub">TECH CITY</span>
+                </div>
+            </a>
+            <button class="hamburger" id="hamburger" aria-label="切换菜单" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+            <nav aria-label="主导航">
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="announcements.html">公告</a></li>
+                    <li><a href="archive.html" class="active">存档详情</a></li>
+                    <li><a href="client.html">专用客户端</a></li>
+                    <li><a href="scenarios.html">适用场景</a></li>
+                    <li><a href="tutorial.html">安装教程</a></li>
+                    <li><a href="about.html">使用说明</a></li>
+                    <li><a href="gallery.html">图片鉴赏</a></li>
+                    <li><a href="sponsor.html">赞助</a></li>
+                </ul>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="切换主题">☀️</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="section" style="padding-top:120px;">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">存档信息</span>
+                    <h2>🏙️ 科技城存档</h2>
+                    <p>一个为地图作者和服务器服主准备的专业级基础底图。</p>
+                </div>
+
+                <!-- 双栏布局，使用类名控制响应式 -->
+                <div class="archive-detail-grid">
+                    <!-- 左侧：预览图占位 -->
+                    <div class="archive-preview-card">
+                        <div class="preview-content">
+                            <span class="preview-icon">🏙️</span>
+                            <div class="preview-title">TECH CITY</div>
+                            <div class="preview-sub">科技城 · 基础底图 v1.0</div>
+                            <div style="color:var(--text-muted); font-size:0.8rem; margin-top:12px; opacity:0.6;">预览图即将上线</div>
+                        </div>
+                    </div>
+
+                    <!-- 右侧：详细信息 -->
+                    <div class="card" style="padding:32px; display:flex; flex-direction:column; gap:16px;">
+                        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+                            <span style="padding:6px 14px; background:var(--bg-primary); border:1px solid var(--tech-border); border-radius:4px; font-size:0.8rem; color:var(--text-secondary);">📦 版本：<strong style="color:var(--tech-secondary);">1.20.4</strong></span>
+                            <span style="padding:6px 14px; background:var(--bg-primary); border:1px solid var(--tech-border); border-radius:4px; font-size:0.8rem; color:var(--text-secondary);">💾 大小：<strong style="color:var(--tech-secondary);">186 MB</strong></span>
+                            <span style="padding:6px 14px; background:var(--bg-primary); border:1px solid var(--tech-border); border-radius:4px; font-size:0.8rem; color:var(--text-secondary);">⬇️ 下载：<strong style="color:var(--tech-secondary);">3,847</strong></span>
+                        </div>
+                        <h3 style="font-size:1.6rem; font-weight:700;">科技城基础底图</h3>
+                        <p style="color:var(--text-secondary);">这是一张<strong>半成品城市框架地图</strong>，包含完整城市道路网络、功能分区规划和红石基础设施预留。</p>
+                        <!-- 功能标签网格 -->
+                        <div class="feature-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                            <div style="padding:10px 14px; background:var(--bg-primary); border:1px solid var(--tech-border); border-radius:4px;">🛣️ 完整城市路网与街区划分</div>
+                            <div style="padding:10px 14px; background:var(--bg-primary); border:1px solid var(--tech-border); border-radius:4px;">🏗️ 多个功能建筑框架</div>
+                            <div style="padding:10px 14px; background:var(--bg-primary); border:1px solid var(--tech-border); border-radius:4px;">⚡ 红石管线预留接口</div>
+                            <div style="padding:10px 14px; background:var(--bg-primary); border:1px solid var(--tech-border); border-radius:4px;">🎨 现代科技风格</div>
+                            <div style="padding:10px 14px; background:var(--bg-primary); border:1px solid var(--tech-border); border-radius:4px;">📐 坐标标注与分区规划</div>
+                            <div style="padding:10px 14px; background:var(--bg-primary); border:1px solid var(--tech-border); border-radius:4px;">🌐 适配Java版</div>
+                        </div>
+                        <div>
+                            <p style="font-size:0.9rem; color:var(--text-secondary); margin-bottom:8px;">📥 选择网盘下载（需同意协议）</p>
+                            <div class="pan-list" id="archive-pan-list">
+                                <a href="https://pan.baidu.com/s/你的百度网盘链接" class="pan-card" target="_blank" rel="noopener" data-archive-download>
+                                    <span class="pan-icon">💾</span>
+                                    <span class="pan-info"><span class="pan-name">百度网盘</span><span class="pan-status">提取码：1234</span></span>
+                                    <span class="pan-action">点击下载 →</span>
+                                </a>
+                                <a href="https://www.aliyundrive.com/s/你的阿里云盘链接" class="pan-card" target="_blank" rel="noopener" data-archive-download>
+                                    <span class="pan-icon">☁️</span>
+                                    <span class="pan-info"><span class="pan-name">阿里云盘</span><span class="pan-status">不限速下载</span></span>
+                                    <span class="pan-action">点击下载 →</span>
+                                </a>
+                                <a href="#" class="pan-card disabled"><span class="pan-icon">🔗</span><span class="pan-info"><span class="pan-name">夸克网盘</span><span class="pan-status">待添加</span></span><span class="pan-action">敬请期待</span></a>
+                                <a href="#" class="pan-card disabled"><span class="pan-icon">📦</span><span class="pan-info"><span class="pan-name">123云盘</span><span class="pan-status">待添加</span></span><span class="pan-action">敬请期待</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 协议模态框（保持不变） -->
+    <div class="modal-overlay" id="agreement-modal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>《科技市》存档用户协议</h3>
+                <button class="modal-close" id="modal-close" aria-label="关闭">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- 协议内容（与之前完全相同，省略以节省篇幅，实际使用时保留完整） -->
+                <p><strong>前言</strong><br>本协议由《科技市》Minecraft存档（以下简称"本存档"）的开发者螺旋游戏（以下简称"创作者"）与您（以下简称"用户"）之间就本存档的使用、传播、二次创作及相关社区行为所订立。下载、安装或使用本存档即表示您同意接受本协议的全部约束。请在使用前仔细阅读。</p>
+                <h4>一、 知识产权与关联声明</h4>
+                <p><strong>1.1</strong> 游戏权利声明：《我的世界》游戏本体、商标及相关内容的完整知识产权归属于 Mojang Studios、Microsoft 及/或其授权方（中国区为网易游戏）。本协议不影响上述主体的任何权利。</p>
+                <p><strong>1.2</strong> 存档权利归属：本存档为独立创作内容，包含所有原创建筑、红石装置及衍生作品，其知识产权归创作者所有。</p>
+                <p><strong>1.3</strong> 重要独立性声明：本存档及创作者与 Mojang Studios、Microsoft 及网易游戏无任何隶属、授权、赞助或代言关系，仅为基于《我的世界》平台的用户生成内容。</p>
+                <!-- 后续条款请自行补全，此处仅作示意 -->
+                <h4>十二、 联系方式</h4>
+                <ul>
+                    <li>授权申请、合作联系、问题反馈：kjsofficial@foxmail.com</li>
+                    <li>协议版本：v1.2</li>
+                    <li>最后更新：2026年1月4日</li>
+                    <li>生效日期：2026年1月4日</li>
+                </ul>
+                <p><strong>协议确认</strong><br>下载、安装或使用本存档，即视为您已完整阅读、理解并同意本协议全部内容，包括未来修订版本。如不同意，请立即停止使用并删除本存档所有文件。</p>
+            </div>
+            <div class="modal-footer">
+                <label class="agreement-check">
+                    <input type="checkbox" id="agreement-checkbox">
+                    我已阅读并同意《科技市》存档用户协议
+                </label>
+                <div class="modal-actions">
+                    <button class="btn-cancel" id="modal-cancel">取消</button>
+                    <button class="btn-confirm" id="modal-confirm" disabled>同意并下载</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col"><h4>🏙️ 科技城存档</h4><ul><li><a href="index.html">首页</a></li><li><a href="archive.html">存档详情</a></li><li><a href="client.html">专用客户端</a></li></ul></div>
+                <div class="footer-col"><h4>📚 资源</h4><ul><li><a href="scenarios.html">适用场景</a></li><li><a href="tutorial.html">安装教程</a></li><li><a href="about.html">使用说明</a></li></ul></div>
+                <div class="footer-col"><h4>🔗 相关链接</h4><ul><li><a href="https://www.minecraft.net" target="_blank" rel="noopener">Minecraft官网</a></li><li><a href="https://pages.github.com" target="_blank" rel="noopener">GitHub Pages</a></li></ul></div>
+                <div class="footer-col"><h4>📧 联系我们</h4><ul><li><a href="mailto:kjsofficial@foxmail.com">客服邮箱</a></li><li><a href="mailto:techcity@mcarchive.com">商务合作</a></li></ul></div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 <a href="index.html">科技城存档</a> · 基于 <a href="https://pages.github.com" target="_blank" rel="noopener">GitHub Pages</a> 分发</p>
+                <p style="margin-top:12px; font-size:0.75rem; color:var(--text-muted); line-height:1.6; max-width:800px; margin-left:auto; margin-right:auto;">
+                    © 2026 Spiral Game Studio 保留所有权利。<br>
+                    我的世界（Minecraft）标志和名字属于 Mojang Studios 和母公司 Microsoft 在世界各地注册的商标。其他品牌或产品名称是其各自所有者的商标。我们的网站可能会包含链接至由第三方运营的其他网站与资源。这些链接仅为方便您使用而提供。Spiral Game Studio 对这些网站或资源的内容没有控制权，也不会对因为您使用这些网站和资源而造成的损失或伤害负责。
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-to-top" id="back-to-top" aria-label="回到顶部">↑</button>
+
+    <script>
+        // 导航栏交互
+        // 主题切换
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+
+            function toggleTheme() {
+                const current = document.documentElement.getAttribute('data-theme') || 'dark';
+                const next = current === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', next);
+                localStorage.setItem('theme', next);
+                updateThemeIcon(next);
+            }
+
+            function updateThemeIcon(theme) {
+                const btn = document.getElementById('theme-toggle');
+                if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+            }
+
+            const btn = document.getElementById('theme-toggle');
+            if (btn) {
+                btn.addEventListener('click', toggleTheme);
+                updateThemeIcon(savedTheme);
+            }
+        })();
+
+        const navbar = document.getElementById('navbar');
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        const backToTop = document.getElementById('back-to-top');
+        function handleScroll() {
+            if (window.scrollY > 50) navbar.classList.add('scrolled'); else navbar.classList.remove('scrolled');
+            if (window.scrollY > 400) backToTop.classList.add('visible'); else backToTop.classList.remove('visible');
+        }
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navMenu.classList.toggle('open');
+            hamburger.setAttribute('aria-expanded', navMenu.classList.contains('open'));
+        });
+        navMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+            hamburger.classList.remove('active');
+            navMenu.classList.remove('open');
+        }));
+        backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        handleScroll();
+
+        // 协议弹窗逻辑
+        const modalOverlay = document.getElementById('agreement-modal');
+        const modalClose = document.getElementById('modal-close');
+        const modalCancel = document.getElementById('modal-cancel');
+        const modalConfirm = document.getElementById('modal-confirm');
+        const agreementCheckbox = document.getElementById('agreement-checkbox');
+        const archivePanList = document.getElementById('archive-pan-list');
+        let pendingDownloadUrl = '';
+
+        function openModal(url) {
+            pendingDownloadUrl = url;
+            modalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            agreementCheckbox.checked = false;
+            modalConfirm.classList.remove('enabled');
+            modalConfirm.disabled = true;
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+            pendingDownloadUrl = '';
+        }
+
+        archivePanList.addEventListener('click', (e) => {
+            const link = e.target.closest('a.pan-card');
+            if (!link) return;
+            if (link.classList.contains('disabled')) return;
+            e.preventDefault();
+            const url = link.getAttribute('href');
+            if (url && url !== '#') {
+                openModal(url);
+            }
+        });
+
+        agreementCheckbox.addEventListener('change', () => {
+            if (agreementCheckbox.checked) {
+                modalConfirm.classList.add('enabled');
+                modalConfirm.disabled = false;
+            } else {
+                modalConfirm.classList.remove('enabled');
+                modalConfirm.disabled = true;
+            }
+        });
+
+        modalConfirm.addEventListener('click', () => {
+            if (pendingDownloadUrl) {
+                window.open(pendingDownloadUrl, '_blank', 'noopener');
+                closeModal();
+            }
+        });
+
+        modalClose.addEventListener('click', closeModal);
+        modalCancel.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) closeModal();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
