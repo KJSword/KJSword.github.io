@@ -21,6 +21,9 @@
     --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.08);
     --shadow-card-hover: 0 12px 40px rgba(0, 131, 143, 0.12);
     --shadow-glow: 0 0 30px rgba(0, 131, 143, 0.2);
+    /* 渐变背景色 — 亮色版本 */
+    --gradient-hero: linear-gradient(180deg, rgba(240,242,245,0.98) 0%, rgba(232,236,240,0.99) 40%, rgba(240,242,245,0.98) 100%);
+    --gradient-preview: linear-gradient(135deg, #E8ECF0, #D5DCE4 30%, #C8D0D8 50%, #D5DCE4 70%, #E8ECF0);
 }
 
 :root {
@@ -59,6 +62,9 @@
     --spacing-xl: 32px;
     --spacing-2xl: 48px;
     --spacing-3xl: 64px;
+    /* 渐变背景色 — 暗色版本 */
+    --gradient-hero: linear-gradient(180deg, rgba(10,15,26,0.95) 0%, rgba(13,18,32,0.98) 40%, rgba(10,15,26,0.95) 100%);
+    --gradient-preview: linear-gradient(135deg, #0A0F1A, #111827 30%, #1A2436 50%, #0D1A2D 70%, #0A0F1A);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -122,7 +128,7 @@ main, header, footer { position: relative; z-index: 1; }
 [data-theme="light"] .navbar.scrolled { box-shadow: 0 4px 30px rgba(0, 131, 143, 0.1); }
 .navbar .container { display: flex; align-items: center; justify-content: space-between; height: 70px; }
 
-/* 主题切换按钮 — 圆形、简洁 */
+/* 主题切换按钮 */
 .theme-toggle {
     display: flex;
     align-items: center;
@@ -189,15 +195,25 @@ main, header, footer { position: relative; z-index: 1; }
 .hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
 /* ===== Hero ===== */
-.hero { padding: 140px 0 60px; text-align: center; position: relative; overflow: hidden;
-    background: linear-gradient(180deg, rgba(10,15,26,0.95) 0%, rgba(13,18,32,0.98) 40%, rgba(10,15,26,0.95) 100%); }
-[data-theme="light"] .hero {
-    background: linear-gradient(180deg, rgba(240,242,245,0.98) 0%, rgba(232,236,240,0.99) 40%, rgba(240,242,245,0.98) 100%);
+.hero {
+    padding: 140px 0 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    background: var(--gradient-hero);
+    transition: background 0.4s ease;
 }
-.hero::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 200%; height: 100%;
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%; transform: translateX(-50%);
+    width: 200%; height: 100%;
     background: radial-gradient(ellipse at 50% 30%, rgba(0,188,212,0.1) 0%, transparent 50%),
                 radial-gradient(ellipse at 30% 70%, rgba(255,215,64,0.05) 0%, transparent 40%);
-    pointer-events: none; animation: techPulse 6s ease-in-out infinite alternate; }
+    pointer-events: none;
+    animation: techPulse 6s ease-in-out infinite alternate;
+    transition: opacity 0.4s ease;
+}
 [data-theme="light"] .hero::before {
     background: radial-gradient(ellipse at 50% 30%, rgba(0,131,143,0.08) 0%, transparent 50%),
                 radial-gradient(ellipse at 30% 70%, rgba(249,168,37,0.04) 0%, transparent 40%);
@@ -300,12 +316,12 @@ main, header, footer { position: relative; z-index: 1; }
     box-shadow: 6px 6px 0px rgba(0, 188, 212, 0.25);
 }
 
-/* ===== 区块标题 — 重构为现代微标签 ===== */
+/* ===== 区块标题 ===== */
 .section { padding: var(--spacing-3xl) 0; }
 .section-alt { background: var(--bg-secondary); }
 .section-header { text-align: center; margin-bottom: var(--spacing-2xl); }
 
-/* ✨ 新版 section-tag — 干净、现代、轻量 */
+/* 新版 section-tag — 干净、现代 */
 .section-header .section-tag {
     display: inline-flex;
     align-items: center;
@@ -322,10 +338,7 @@ main, header, footer { position: relative; z-index: 1; }
     opacity: 0.8;
     transition: opacity 0.3s ease;
 }
-.section-header .section-tag:hover {
-    opacity: 1;
-}
-/* 小圆点装饰 */
+.section-header .section-tag:hover { opacity: 1; }
 .section-header .section-tag::before {
     content: '';
     display: inline-block;
@@ -336,14 +349,11 @@ main, header, footer { position: relative; z-index: 1; }
     margin-right: 6px;
     flex-shrink: 0;
 }
-/* 可选：下划线强调（仅对文字部分） */
 .section-header .section-tag span {
     border-bottom: 2px solid transparent;
     transition: border-color 0.3s ease;
 }
-.section-header .section-tag:hover span {
-    border-bottom-color: var(--tech-primary);
-}
+.section-header .section-tag:hover span { border-bottom-color: var(--tech-primary); }
 
 .section-header h2 {
     font-size: clamp(1.5rem, 3vw, 2.2rem);
@@ -397,6 +407,38 @@ main, header, footer { position: relative; z-index: 1; }
 .pan-card .pan-action { font-size: 0.8rem; font-weight: 600; color: var(--tech-secondary); white-space: nowrap; }
 .pan-card.disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; filter: grayscale(0.6); }
 .pan-card.disabled .pan-action { color: var(--text-muted); }
+
+/* ===== 存档预览卡片（archive.html 专用）===== */
+.archive-preview-card {
+    min-height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-lg);
+    background: var(--gradient-preview);
+    text-align: center;
+    padding: 20px;
+    transition: background 0.4s ease;
+}
+.archive-preview-card .preview-content { text-align: center; }
+.archive-preview-card .preview-icon { font-size: 5rem; display: block; margin-bottom: 16px; }
+.archive-preview-card .preview-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    font-family: var(--font-pixel);
+    color: var(--text-primary);
+}
+.archive-preview-card .preview-sub {
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+}
+.archive-preview-card .preview-hint {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    margin-top: 12px;
+    opacity: 0.6;
+}
 
 /* ===== 页脚 ===== */
 .footer { background: var(--tech-dark); border-top: 2px solid var(--tech-border); padding: 40px 0 20px; color: var(--text-secondary); }
@@ -518,6 +560,8 @@ main, header, footer { position: relative; z-index: 1; }
     .about-stats { grid-template-columns: 1fr 1fr; gap: 8px; }
     .stat-card { padding: 12px 8px; }
     .stat-card .number { font-size: 1.4rem; }
+    .archive-preview-card .preview-icon { font-size: 2.8rem; }
+    .archive-preview-card .preview-title { font-size: 1.1rem; }
     .modal-box { max-width: 100% !important; margin: 10px; border-radius: var(--radius-md); max-height: 95vh; }
     .modal-header { padding: 14px 16px !important; }
     .modal-header h3 { font-size: 1rem !important; }
