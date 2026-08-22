@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="科技城存档使用说明与许可 - 关于螺旋游戏">
+    <title>使用说明 - 科技城存档</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+        .about-grid .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .about-grid .tag-list .tag {
+            padding: 6px 14px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .spiral-section {
+            margin-top: 48px;
+            padding-top: 40px;
+            border-top: 1px solid var(--border);
+        }
+        .spiral-section .content {
+            color: var(--text-secondary);
+            line-height: 2;
+            font-size: 0.93rem;
+            max-width: 720px;
+        }
+        .spiral-section .content p { margin-bottom: 14px; }
+        .spiral-section .content .highlight { color: var(--primary); font-weight: 600; }
+        .spiral-section .content .strong { color: var(--text-primary); font-weight: 600; }
+        .spiral-section .content .quote {
+            border-left: 3px solid var(--primary);
+            padding-left: 18px;
+            margin: 18px 0;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+        .spiral-section .content .closing {
+            font-size: 0.98rem;
+            color: var(--text-primary);
+            font-weight: 500;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border);
+        }
+
+        @media (max-width: 768px) {
+            .about-grid { grid-template-columns: 1fr; gap: 20px; }
+            .spiral-section { margin-top: 32px; padding-top: 28px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar" id="navbar">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">
+                <span class="icon">🏙️</span>
+                <span class="text">
+                    <span class="title">科技城存档</span>
+                    <span class="sub">TECH CITY</span>
+                </span>
+            </a>
+            <button class="hamburger" id="hamburger" aria-label="切换菜单">
+                <span></span><span></span><span></span>
+            </button>
+            <nav aria-label="主导航">
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="announcements.html">公告</a></li>
+                    <li><a href="archive.html">存档详情</a></li>
+                    <li><a href="client.html">专用客户端</a></li>
+                    <li><a href="scenarios.html">适用场景</a></li>
+                    <li><a href="tutorial.html">安装教程</a></li>
+                    <li><a href="about.html" class="active">使用说明</a></li>
+                    <li><a href="gallery.html">图片鉴赏</a></li>
+                    <li><a href="sponsor.html">赞助</a></li>
+                </ul>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="切换主题">☀️</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="section" style="padding-top:100px;">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">许可协议</span>
+                    <h2>📋 使用说明与许可</h2>
+                    <p>请遵守以下规则，共同维护良好的创作环境</p>
+                </div>
+
+                <div class="about-grid">
+                    <div>
+                        <p style="color:var(--text-secondary); margin-bottom:14px;">科技城存档是我们<strong style="color:var(--text-primary);">独立制作并免费分发</strong>的基础底图。你可以自由地在本地或服务器上使用它，也允许在<strong style="color:var(--text-primary);">保留来源署名</strong>的前提下，基于此地图进行二次创作和分发。</p>
+                        <p style="color:var(--text-secondary); margin-bottom:14px;">地图中包含预留的建筑框架和红石线路，方便你快速扩展。</p>
+                        <div class="tag-list">
+                            <span class="tag">✅ 允许二次创作</span>
+                            <span class="tag">✅ 允许服务器使用</span>
+                            <span class="tag">⚠️ 请保留署名</span>
+                            <span class="tag">❌ 禁止商业转售</span>
+                        </div>
+                    </div>
+                    <div class="card" style="padding:24px 20px;">
+                        <h4 style="font-size:1.05rem; font-weight:600; color:var(--text-primary); margin-bottom:12px;">📜 使用许可</h4>
+                        <p style="color:var(--text-secondary); font-size:0.9rem; line-height:1.9;"><strong style="color:var(--text-primary);">允许：</strong><br>· 个人游玩和服务器使用<br>· 基于此地图进行建筑扩展<br>· 用于制作RPG、冒险等衍生地图<br>· 在注明来源的情况下分享二次创作<br><br><strong style="color:var(--text-primary);">不允许：</strong><br>· 将原始存档直接用于商业销售<br>· 移除或篡改地图内的署名信息<br>· 声称此地图为你原创</p>
+                    </div>
+                </div>
+
+                <div class="spiral-section">
+                    <span class="section-tag">关于团队</span>
+                    <h2 style="font-size:clamp(1.3rem, 2.5vw, 1.8rem); font-weight:700; color:var(--text-primary); margin-top:4px; margin-bottom:4px;">关于螺旋游戏</h2>
+                    <p style="color:var(--text-secondary); font-size:0.92rem; margin-bottom:20px;">生于方块，长于想象的独立创作团体</p>
+
+                    <div class="content">
+                        <p><span class="highlight">螺旋游戏（Spiral Game）</span>，一个生于方块，长于想象的独立创作团体。我们的名字寓意着对创造与进化的无尽追求——如同螺旋，每一次延伸都基于原有的基石，却始终望向更高的维度。</p>
+                        <p>我们的灵魂之作，是历时五年以纯粹手工雕琢而成的《我的世界》综合存档——<span class="strong">「科城」</span>。它不仅仅是一座城市，更是一场偏执的实践。每一处细节都承载着时间与热诚的重量。</p>
+                        <p><span class="strong">「科城」</span>是我们理念的结晶：它既是拥有沉浸式叙事与精妙谜题的解密地图模版，也是功能完备、足以成为任何多人服务器璀璨核心的主城模板。我们深信，最好的创作源于对手工艺的敬畏、对玩法的深思，以及对一个世界该有灵魂的笃信。</p>
+                        <div class="quote">“最好的创作源于对手工艺的敬畏、对玩法的深思，以及对一个世界该有灵魂的笃信。”</div>
+                        <p>我们是一群相信<span class="strong">“长期主义”</span>的造梦者。螺旋游戏并非庞大的商业工厂，而是一间专注的手工作坊。我们珍视与每一位玩家、地图创作者和服务器服主的连接，你们的每一次探索、每一份演绎，都是这个螺旋向上生长的新动力。</p>
+                        <p>未来，我们将继续深耕于《我的世界》的无限可能，创造更多拥有独特灵魂与扎实品质的世界。</p>
+                        <p class="closing">🚀 欢迎你，加入这场永不停歇的螺旋之旅。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col"><h4>🏙️ 科技城存档</h4><ul><li><a href="index.html">首页</a></li><li><a href="announcements.html">公告</a></li><li><a href="archive.html">存档详情</a></li><li><a href="client.html">专用客户端</a></li></ul></div>
+                <div class="footer-col"><h4>📚 资源</h4><ul><li><a href="scenarios.html">适用场景</a></li><li><a href="tutorial.html">安装教程</a></li><li><a href="about.html">使用说明</a></li><li><a href="gallery.html">图片鉴赏</a></li></ul></div>
+                <div class="footer-col"><h4>🔗 相关链接</h4><ul><li><a href="https://www.minecraft.net" target="_blank">Minecraft官网</a></li><li><a href="https://pages.github.com" target="_blank">GitHub Pages</a></li></ul></div>
+                <div class="footer-col"><h4>📧 联系我们</h4><ul><li><a href="mailto:kjsofficial@foxmail.com">客服邮箱</a></li><li><a href="mailto:kjsofficial@foxmail.com">商务合作</a></li></ul></div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 <a href="index.html">科技城存档</a> · 基于 GitHub Pages 分发</p>
+                <p style="margin-top:6px; font-size:0.6rem; opacity:0.5;">© 2026 Spiral Game Studio · Minecraft 标志属于 Mojang Studios</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-top" id="back-top" aria-label="回到顶部">↑</button>
+
+    <script>
+        (function() {
+            const saved = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', saved);
+            const btn = document.getElementById('theme-toggle');
+            if (btn) {
+                btn.textContent = saved === 'dark' ? '☀️' : '🌙';
+                btn.addEventListener('click', function() {
+                    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+                    const next = current === 'dark' ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', next);
+                    localStorage.setItem('theme', next);
+                    this.textContent = next === 'dark' ? '☀️' : '🌙';
+                });
+            }
+        })();
+
+        const navbar = document.getElementById('navbar');
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        const backTop = document.getElementById('back-top');
+
+        window.addEventListener('scroll', function() {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+            backTop.classList.toggle('visible', window.scrollY > 400);
+        }, { passive: true });
+
+        hamburger.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navMenu.classList.toggle('open');
+        });
+
+        navMenu.querySelectorAll('a').forEach(function(link) {
+            link.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('open');
+            });
+        });
+
+        backTop.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>

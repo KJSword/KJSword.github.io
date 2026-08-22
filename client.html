@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="科技城专用客户端下载">
+    <title>专用客户端 - 科技城存档</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .client-card {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 32px;
+        }
+        .client-card .info-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+        .client-card .info-tags .tag {
+            padding: 4px 12px;
+            background: var(--bg-body);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+        .client-card .info-tags .tag strong { color: var(--primary); }
+    </style>
+</head>
+<body>
+    <header class="navbar" id="navbar">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">
+                <span class="icon">🏙️</span>
+                <span class="text">
+                    <span class="title">科技城存档</span>
+                    <span class="sub">TECH CITY</span>
+                </span>
+            </a>
+            <button class="hamburger" id="hamburger" aria-label="切换菜单">
+                <span></span><span></span><span></span>
+            </button>
+            <nav aria-label="主导航">
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="announcements.html">公告</a></li>
+                    <li><a href="archive.html">存档详情</a></li>
+                    <li><a href="client.html" class="active">专用客户端</a></li>
+                    <li><a href="scenarios.html">适用场景</a></li>
+                    <li><a href="tutorial.html">安装教程</a></li>
+                    <li><a href="about.html">使用说明</a></li>
+                    <li><a href="gallery.html">图片鉴赏</a></li>
+                    <li><a href="sponsor.html">赞助</a></li>
+                </ul>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="切换主题">☀️</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="section" style="padding-top:100px;">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">客户端</span>
+                    <h2>📦 专用客户端下载</h2>
+                    <p>为科技城存档定制的 Minecraft 客户端，集成所需模组与配置，即开即用</p>
+                </div>
+
+                <div class="card client-card">
+                    <div class="info-tags">
+                        <span class="tag">📦 版本：<strong>1.20.4</strong></span>
+                        <span class="tag">💾 大小：<strong>420 MB</strong></span>
+                        <span class="tag">⚙️ 集成：<strong>优化模组 / 小地图 / 建筑辅助</strong></span>
+                    </div>
+                    <p style="color:var(--text-secondary); font-size:0.92rem; margin-bottom:16px;">专用客户端包含科技城地图所需的全部模组和配置，下载后解压即可直接游玩。</p>
+                    <p style="font-size:0.85rem; color:var(--text-secondary); margin-bottom:8px;">📥 选择网盘下载（需同意客户端协议）</p>
+                    <div class="pan-list" id="client-pan-list">
+                        <a href="#" class="pan-card" data-client-download>
+                            <span class="icon">💾</span>
+                            <span class="info"><span class="name">百度网盘</span><span class="status">提取码：1234</span></span>
+                            <span class="action">点击下载 →</span>
+                        </a>
+                        <a href="#" class="pan-card" data-client-download>
+                            <span class="icon">☁️</span>
+                            <span class="info"><span class="name">阿里云盘</span><span class="status">不限速下载</span></span>
+                            <span class="action">点击下载 →</span>
+                        </a>
+                        <a href="#" class="pan-card disabled">
+                            <span class="icon">🔗</span>
+                            <span class="info"><span class="name">夸克网盘</span><span class="status">待添加</span></span>
+                            <span class="action">敬请期待</span>
+                        </a>
+                        <a href="#" class="pan-card disabled">
+                            <span class="icon">📦</span>
+                            <span class="info"><span class="name">123云盘</span><span class="status">待添加</span></span>
+                            <span class="action">敬请期待</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 客户端协议模态框 -->
+    <div class="modal-overlay" id="client-agreement-modal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>《科技市》定制客户端用户协议与隐私政策</h3>
+                <button class="modal-close" id="client-modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>重要提示：</strong> 本客户端为《科技市》存档专用工具，是运行该存档的必备组件。使用本客户端，即表示您同时同意受本协议及《科技市存档用户协议》的全部条款约束。</p>
+                <h4>一、 许可授权</h4>
+                <p><strong>1.1 有限使用许可</strong></p>
+                <ul><li>唯一用途：仅用于运行、配置、管理《科技市》存档</li><li>严格限制：禁止用于任何商业用途</li><li>分发禁止：严禁以任何形式对外分发、共享、重新打包本客户端</li></ul>
+                <h4>八、 联系方式</h4>
+                <ul><li>邮箱：kjsofficial@foxmail.com【注明问题】</li></ul>
+                <hr style="border-color:var(--border); margin:14px 0;">
+                <h3 style="color:var(--text-primary); font-size:0.95rem;">《科技市》定制客户端隐私政策</h3>
+                <p><strong>适用客户端：</strong> 《科技市》专用定制启动器（基于开源PCL2修改版）</p>
+                <h4>一、 数据收集声明</h4>
+                <p>本客户端不收集、不上传、不存储任何用户个人信息。所有游戏配置、存档文件、模组加载均发生在用户本地计算机。</p>
+                <p><strong>协议生效：</strong> 启动客户端时点击确认，即视为您同意本隐私政策及《科技市定制客户端用户协议》。</p>
+                <p style="margin-top:6px; color:var(--text-muted); font-size:0.75rem;">协议版本 V1.2 · 生效日期 2026-01-04</p>
+            </div>
+            <div class="modal-footer">
+                <label class="agreement-check">
+                    <input type="checkbox" id="client-agreement-checkbox"> 我已阅读并同意《科技市》定制客户端用户协议与隐私政策
+                </label>
+                <div class="modal-actions">
+                    <button class="btn-cancel" id="client-modal-cancel">取消</button>
+                    <button class="btn-confirm" id="client-modal-confirm" disabled>同意并下载</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col"><h4>🏙️ 科技城存档</h4><ul><li><a href="index.html">首页</a></li><li><a href="announcements.html">公告</a></li><li><a href="archive.html">存档详情</a></li><li><a href="client.html">专用客户端</a></li></ul></div>
+                <div class="footer-col"><h4>📚 资源</h4><ul><li><a href="scenarios.html">适用场景</a></li><li><a href="tutorial.html">安装教程</a></li><li><a href="about.html">使用说明</a></li><li><a href="gallery.html">图片鉴赏</a></li></ul></div>
+                <div class="footer-col"><h4>🔗 相关链接</h4><ul><li><a href="https://www.minecraft.net" target="_blank">Minecraft官网</a></li><li><a href="https://pages.github.com" target="_blank">GitHub Pages</a></li></ul></div>
+                <div class="footer-col"><h4>📧 联系我们</h4><ul><li><a href="mailto:kjsofficial@foxmail.com">客服邮箱</a></li><li><a href="mailto:kjsofficial@foxmail.com">商务合作</a></li></ul></div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 <a href="index.html">科技城存档</a> · 基于 GitHub Pages 分发</p>
+                <p style="margin-top:6px; font-size:0.6rem; opacity:0.5;">© 2026 Spiral Game Studio · Minecraft 标志属于 Mojang Studios</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-top" id="back-top" aria-label="回到顶部">↑</button>
+
+    <script>
+        (function() {
+            const saved = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', saved);
+            const btn = document.getElementById('theme-toggle');
+            if (btn) {
+                btn.textContent = saved === 'dark' ? '☀️' : '🌙';
+                btn.addEventListener('click', function() {
+                    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+                    const next = current === 'dark' ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', next);
+                    localStorage.setItem('theme', next);
+                    this.textContent = next === 'dark' ? '☀️' : '🌙';
+                });
+            }
+        })();
+
+        const navbar = document.getElementById('navbar');
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        const backTop = document.getElementById('back-top');
+
+        window.addEventListener('scroll', function() {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+            backTop.classList.toggle('visible', window.scrollY > 400);
+        }, { passive: true });
+
+        hamburger.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navMenu.classList.toggle('open');
+        });
+
+        navMenu.querySelectorAll('a').forEach(function(link) {
+            link.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('open');
+            });
+        });
+
+        backTop.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // 客户端协议弹窗
+        const modal = document.getElementById('client-agreement-modal');
+        const modalClose = document.getElementById('client-modal-close');
+        const modalCancel = document.getElementById('client-modal-cancel');
+        const modalConfirm = document.getElementById('client-modal-confirm');
+        const checkbox = document.getElementById('client-agreement-checkbox');
+        const panList2 = document.getElementById('client-pan-list');
+        let pendingUrl2 = '';
+
+        function openModal2(url) {
+            pendingUrl2 = url;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            checkbox.checked = false;
+            modalConfirm.classList.remove('enabled');
+            modalConfirm.disabled = true;
+        }
+        function closeModal2() {
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+            pendingUrl2 = '';
+        }
+
+        panList2.addEventListener('click', function(e) {
+            const link = e.target.closest('a.pan-card');
+            if (!link || link.classList.contains('disabled')) return;
+            e.preventDefault();
+            const url = link.getAttribute('href');
+            openModal2(url || 'https://pan.baidu.com/s/示例链接');
+        });
+
+        checkbox.addEventListener('change', function() {
+            if (this.checked) {
+                modalConfirm.classList.add('enabled');
+                modalConfirm.disabled = false;
+            } else {
+                modalConfirm.classList.remove('enabled');
+                modalConfirm.disabled = true;
+            }
+        });
+
+        modalConfirm.addEventListener('click', function() {
+            if (pendingUrl2) { window.open(pendingUrl2, '_blank'); closeModal2(); }
+        });
+        modalClose.addEventListener('click', closeModal2);
+        modalCancel.addEventListener('click', closeModal2);
+        modal.addEventListener('click', function(e) { if (e.target === this) closeModal2(); });
+        document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && modal.classList.contains('active')) closeModal2(); });
+    </script>
+</body>
+</html>
