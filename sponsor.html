@@ -6,11 +6,18 @@
     <meta name="description" content="赞助科技城存档 - 支持我们的创作">
     <title>赞助我们 - 科技城存档</title>
 
-    <!-- 防闪黑：在渲染前设置主题 -->
+    <!-- ===== 防闪黑：在渲染前设置主题（立即执行） ===== -->
     <script>
         (function() {
-            const saved = localStorage.getItem('theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', saved);
+            try {
+                const saved = localStorage.getItem('theme');
+                const theme = (saved === 'light' || saved === 'dark') ? saved : 'dark';
+                document.documentElement.setAttribute('data-theme', theme);
+                document.documentElement.style.backgroundColor = theme === 'dark' ? '#080C14' : '#F1F4F8';
+            } catch(e) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.documentElement.style.backgroundColor = '#080C14';
+            }
         })();
     </script>
 
@@ -106,6 +113,7 @@
                     document.documentElement.setAttribute('data-theme', next);
                     localStorage.setItem('theme', next);
                     this.textContent = next === 'dark' ? '☀️' : '🌙';
+                    document.documentElement.style.backgroundColor = next === 'dark' ? '#080C14' : '#F1F4F8';
                 });
             }
         })();
