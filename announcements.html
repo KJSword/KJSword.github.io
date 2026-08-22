@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="科技城存档 - 官方公告与动态">
     <title>公告 - 科技城存档</title>
+
+    <!-- 防闪黑：在渲染前设置主题 -->
+    <script>
+        (function() {
+            const saved = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', saved);
+        })();
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -93,17 +102,19 @@
                 <div class="section-header">
                     <span class="section-tag">全部公告</span>
                     <h2>所有公告</h2>
-                     <p>科技城项目的最新动态与重要通知</p>
+                    <p>科技城项目的最新动态与重要通知</p>
                 </div>
                 <div style="display:grid; grid-template-columns:1fr; gap:16px; max-width:720px; margin:0 auto;">
-<a href="announcement-detail.html?id=8" class="announcement-link">
-    <article class="card">
-        <div class="meta">2026-08-22</div>
-        <h3>🚀 网站 2.0 全面重构上线</h3>
-        <p class="excerpt">科技城存档网站迎来史上最大规模视觉升级！极简设计、全新排版、统一体验，所有功能完整保留。</p>
-        <span class="read-more">阅读全文 →</span>
-    </article>
-</a>
+
+                    <a href="announcement-detail.html?id=8" class="announcement-link">
+                        <article class="card">
+                            <div class="meta">2026-08-22</div>
+                            <h3>🚀 网站 2.0 全面重构上线</h3>
+                            <p class="excerpt">科技城存档网站迎来史上最大规模视觉升级！极简设计、全新排版、统一体验，所有功能完整保留。</p>
+                            <span class="read-more">阅读全文 →</span>
+                        </article>
+                    </a>
+
                     <a href="announcement-detail.html?id=7" class="announcement-link">
                         <article class="card">
                             <div class="meta">2026-08-20</div>
@@ -191,10 +202,9 @@
 
     <script>
         (function() {
-            const saved = localStorage.getItem('theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', saved);
             const btn = document.getElementById('theme-toggle');
             if (btn) {
+                const saved = localStorage.getItem('theme') || 'dark';
                 btn.textContent = saved === 'dark' ? '☀️' : '🌙';
                 btn.addEventListener('click', function() {
                     const current = document.documentElement.getAttribute('data-theme') || 'dark';
