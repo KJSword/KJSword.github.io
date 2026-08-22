@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="科技城存档 - 地图作者与服主的理想底图">
     <title>首页 - 科技城存档</title>
+
+    <!-- 防闪黑：在渲染前设置主题 -->
+    <script>
+        (function() {
+            const saved = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', saved);
+        })();
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -196,10 +205,9 @@
     <script>
         // 主题切换
         (function() {
-            const saved = localStorage.getItem('theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', saved);
             const btn = document.getElementById('theme-toggle');
             if (btn) {
+                const saved = localStorage.getItem('theme') || 'dark';
                 btn.textContent = saved === 'dark' ? '☀️' : '🌙';
                 btn.addEventListener('click', function() {
                     const current = document.documentElement.getAttribute('data-theme') || 'dark';
@@ -211,22 +219,19 @@
             }
         })();
 
-        // 导航栏
         const navbar = document.getElementById('navbar');
         const hamburger = document.getElementById('hamburger');
         const navMenu = document.getElementById('nav-menu');
         const backTop = document.getElementById('back-top');
 
         window.addEventListener('scroll', function() {
-            const y = window.scrollY;
-            navbar.classList.toggle('scrolled', y > 50);
-            backTop.classList.toggle('visible', y > 400);
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+            backTop.classList.toggle('visible', window.scrollY > 400);
         }, { passive: true });
 
         hamburger.addEventListener('click', function() {
             this.classList.toggle('active');
             navMenu.classList.toggle('open');
-            this.setAttribute('aria-expanded', navMenu.classList.contains('open'));
         });
 
         navMenu.querySelectorAll('a').forEach(function(link) {
