@@ -172,57 +172,36 @@
             align-items: stretch;
         }
 
-        .archive-preview-card {
-            min-height: 420px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #0A0F1A, #111827 30%, #1A2436 50%, #0D1A2D 70%, #0A0F1A);
-            text-align: center;
-            padding: 20px;
-        }
-
-        .archive-preview-card .preview-content {
-            text-align: center;
-        }
-        .archive-preview-card .preview-icon {
-            font-size: 5rem;
-            display: block;
-            margin-bottom: 16px;
-        }
-        .archive-preview-card .preview-title {
-            font-size: 1.6rem;
-            font-weight: 700;
-            font-family: var(--font-pixel);
-            color: var(--text-primary);
-        }
-        .archive-preview-card .preview-sub {
-            color: var(--text-muted);
-            font-family: var(--font-mono);
-            font-size: 0.9rem;
-        }
-
-        /* 手机及平板 */
-        @media (max-width: 768px) {
-            .archive-detail-grid {
-                grid-template-columns: 1fr !important;
-                gap: 20px;
-            }
-            .archive-preview-card {
-                min-height: auto !important;
-                padding: 24px 20px !important;
-                border-radius: var(--radius-md);
-            }
-            .archive-preview-card .preview-icon {
-                font-size: 3.5rem;
-            }
-            .archive-preview-card .preview-title {
-                font-size: 1.3rem;
-            }
-            .archive-preview-card .preview-sub {
-                font-size: 0.8rem;
-            }
+      .archive-preview-card {
+    min-height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-lg);
+    background: var(--gradient-preview);
+    text-align: center;
+    padding: 20px;
+    transition: background 0.4s ease;
+}
+.archive-preview-card .preview-content { text-align: center; }
+.archive-preview-card .preview-icon { font-size: 5rem; display: block; margin-bottom: 16px; }
+.archive-preview-card .preview-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    font-family: var(--font-pixel);
+    color: var(--text-primary);
+}
+.archive-preview-card .preview-sub {
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+}
+.archive-preview-card .preview-hint {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    margin-top: 12px;
+    opacity: 0.6;
+}
             /* 右侧卡片的内边距调小 */
             .archive-detail-grid .card:last-child {
                 padding: 24px 16px !important;
