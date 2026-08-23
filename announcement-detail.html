@@ -5,21 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="公告详情 - 科技城存档">
     <title>公告详情 - 科技城存档</title>
-   
-      <script>
+
+    <script>
     (function() {
         try {
             const saved = localStorage.getItem('theme');
-            const theme = (saved === 'light' || saved === 'dark') ? saved : 'light';  //
+            const theme = (saved === 'light' || saved === 'dark') ? saved : 'light';
             document.documentElement.setAttribute('data-theme', theme);
             document.documentElement.style.backgroundColor = theme === 'dark' ? '#080C14' : '#EEF2F6';
         } catch(e) {
-            document.documentElement.setAttribute('data-theme', 'light');  //
+            document.documentElement.setAttribute('data-theme', 'light');
             document.documentElement.style.backgroundColor = '#EEF2F6';
         }
     })();
 </script>
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -113,7 +113,8 @@
         (function() {
             const btn = document.getElementById('theme-toggle');
             if (btn) {
-                const saved = localStorage.getItem('theme') || 'dark';
+                // 修正：默认值改为 'light'
+                const saved = localStorage.getItem('theme') || 'light';
                 btn.textContent = saved === 'dark' ? '☀️' : '🌙';
                 btn.addEventListener('click', function() {
                     const current = document.documentElement.getAttribute('data-theme') || 'dark';
@@ -155,27 +156,38 @@
             { id: 5, date: '2026-08-18', title: '📄 安装教程现已更新为PDF在线版', body: '<p>我们已对安装教程进行了全面升级！</p><p>新的教程采用 <strong>PDF 文档</strong> 形式呈现，内容更详尽，排版更清晰，并且支持 <strong>在线预览</strong> 和 <strong>一键下载</strong>。</p><p>你可以直接在“安装教程”页面滚动浏览，也可以点击下载按钮保存到本地，随时查阅。</p><p>本次更新涵盖了客户端安装、存档导入、常见问题排查等完整流程，并配有截图说明，帮助新手快速上手。</p><p>如果你在阅读过程中有任何疑问，欢迎通过邮箱 <strong>kjsofficial@foxmail.com</strong> 反馈。</p>' },
             { id: 6, date: '2026-08-19', title: '📱 移动端体验全面优化', body: '<p>我们已对科技城网站进行了全面的移动端适配优化！</p><p>本次优化重点解决了以下问题：</p><ul><li><strong>导航菜单</strong>：增大了触控区域，点击更精准，滑动更流畅。</li><li><strong>字体与间距</strong>：针对小屏幕调整了文字大小和行距，阅读更舒适。</li><li><strong>卡片与按钮</strong>：增大了按钮尺寸和内边距，手指操作更方便。</li><li><strong>网格布局</strong>：在手机上自动调整为单列显示，内容不拥挤。</li><li><strong>图片展示</strong>：优化了图片在移动端的显示比例和加载体验。</li></ul><p>现在，无论你使用手机、平板还是电脑，都能获得一致的优质浏览体验。</p><p>如果你在移动端使用中遇到任何问题，欢迎通过邮箱 <strong>kjsofficial@foxmail.com</strong> 反馈。</p>' },
             { id: 7, date: '2026-08-20', title: '🔧 存档详情页移动端布局修复', body: '<p>我们已对“存档详情”页面的移动端布局进行了修复！</p><p>本次修复解决了以下问题：</p><ul><li><strong>左侧空白区域</strong>：预览图卡片在手机上不再占据一半宽度，改为全宽显示并自适应高度，避免空白浪费。</li><li><strong>内容被挤压</strong>：双栏布局在手机上自动切换为单栏，右侧内容完整展开，文字不再换行拥挤。</li><li><strong>视觉重心失衡</strong>：左侧卡片在手机上保持紧凑，不再喧宾夺主。</li><li><strong>边缘贴边</strong>：卡片与屏幕边缘留有适当间距，边框不再局促。</li></ul><p>现在，在手机上浏览“存档详情”页面，信息展示更清晰，操作更顺手。</p><p>如果你在手机端使用中遇到任何其他问题，欢迎通过邮箱 <strong>kjsofficial@foxmail.com</strong> 反馈。</p>' },
-            { id: 8, date: '2026-08-22', title: '🚀 网站 2.0 全面重构上线', body: '<p>科技城存档网站迎来了一次<strong>彻底的视觉革新</strong>！从设计语言到排版布局，从交互细节到浏览体验，所有页面全部重写。</p><p><strong>🎨 全新设计语言</strong><br>我们采用了更<strong>极简、现代、精致</strong>的视觉风格：</p><ul><li><strong>干净留白</strong>：去除冗余装饰，让内容成为真正的焦点</li><li><strong>柔和质感</strong>：微妙的渐变、阴影与圆角，提升视觉温度</li><li><strong>统一调性</strong>：所有页面设计语言高度一致，浏览更流畅</li><li><strong>精致排版</strong>：更考究的字距、行距与层级，阅读更舒适</li></ul><p><strong>📱 全端体验优化</strong><br>无论是手机、平板还是桌面，都能获得一致的优质浏览体验。导航菜单、卡片布局、按钮尺寸均针对移动端进行了细致调优。</p><p><strong>⚡ 功能完整保留</strong><br>本次重构的核心原则是<strong>“功能零损失”</strong>——主题切换、协议弹窗、公告系统、下载功能……你熟悉的所有功能都在，而且更好用了。</p><p><strong>🌓 主题切换升级</strong><br>亮色/暗黑模式切换更加顺滑，所有页面元素（包括卡片、按钮、边框、渐变）都完美适配两种主题。</p><p><strong>📦 技术更新</strong><br>底层样式系统全面重构，采用更科学的 CSS 变量体系，为未来的持续迭代奠定了更扎实的基础。</p><p>这是科技城网站上线以来<strong>最大规模的一次更新</strong>，也是我们对“长期主义”理念的又一次践行。我们希望这次重构能让你在浏览时感受到——<strong>我们始终在为每一个细节倾注心力</strong>。</p><p style="margin-top:20px; color:var(--text-primary); font-weight:500;">🚀 欢迎探索全新的科技城存档网站，开启更舒适的浏览之旅。</p>' }，
-            { id: 9, date: '2026-08-23', title: '✨ 毛玻璃质感升级 & 默认主题切换为明亮模式',body: `<p>科技城存档网站迎来了一次<strong>视觉质感与默认体验的双重升级</strong>！</p><p><strong>🔮 毛玻璃/高斯模糊全面增强</strong><br>我们对全站的玻璃拟态效果进行了深度优化：</p><ul><li><strong>高斯模糊强度提升</strong>：从 24px 提升至 28px，弹窗/导航栏达到 36px 重度模糊，背景透感更真实</li>
-            <li><strong>饱和度与亮度增强</strong>：saturate(1.5) + brightness(1.08)，让玻璃背后的色彩更生动</li>
-            <li><strong>玻璃悬停反馈</strong>：卡片悬停时背景透度增加，边框发光，交互更细腻</li>
-            <li><strong>噪点纹理保留</strong>：配合毛玻璃的颗粒质感，营造真实玻璃的安静高级感</li>
-        </ul>
+            { id: 8, date: '2026-08-22', title: '🚀 网站 2.0 全面重构上线', body: '<p>科技城存档网站迎来了一次<strong>彻底的视觉革新</strong>！从设计语言到排版布局，从交互细节到浏览体验，所有页面全部重写。</p><p><strong>🎨 全新设计语言</strong><br>我们采用了更<strong>极简、现代、精致</strong>的视觉风格：</p><ul><li><strong>干净留白</strong>：去除冗余装饰，让内容成为真正的焦点</li><li><strong>柔和质感</strong>：微妙的渐变、阴影与圆角，提升视觉温度</li><li><strong>统一调性</strong>：所有页面设计语言高度一致，浏览更流畅</li><li><strong>精致排版</strong>：更考究的字距、行距与层级，阅读更舒适</li></ul><p><strong>📱 全端体验优化</strong><br>无论是手机、平板还是桌面，都能获得一致的优质浏览体验。导航菜单、卡片布局、按钮尺寸均针对移动端进行了细致调优。</p><p><strong>⚡ 功能完整保留</strong><br>本次重构的核心原则是<strong>“功能零损失”</strong>——主题切换、协议弹窗、公告系统、下载功能……你熟悉的所有功能都在，而且更好用了。</p><p><strong>🌓 主题切换升级</strong><br>亮色/暗黑模式切换更加顺滑，所有页面元素（包括卡片、按钮、边框、渐变）都完美适配两种主题。</p><p><strong>📦 技术更新</strong><br>底层样式系统全面重构，采用更科学的 CSS 变量体系，为未来的持续迭代奠定了更扎实的基础。</p><p>这是科技城网站上线以来<strong>最大规模的一次更新</strong>，也是我们对“长期主义”理念的又一次践行。我们希望这次重构能让你在浏览时感受到——<strong>我们始终在为每一个细节倾注心力</strong>。</p><p style="margin-top:20px; color:var(--text-primary); font-weight:500;">🚀 欢迎探索全新的科技城存档网站，开启更舒适的浏览之旅。</p>' },
+            // 注意：此处是英文逗号，已修正
+            {
+                id: 9,
+                date: '2026-08-23',
+                title: '✨ 毛玻璃质感升级 & 默认主题切换为明亮模式',
+                body: `
+                    <p>科技城存档网站迎来了一次<strong>视觉质感与默认体验的双重升级</strong>！</p>
 
-        <p><strong>☀️ 默认主题切换为明亮模式</strong><br>
-        即日起，新用户首次访问网站将默认呈现<strong>明亮白模式</strong>，而非之前的暗黑模式。这一调整基于以下考虑：</p>
-        <ul>
-            <li><strong>更通用的第一印象</strong>：明亮模式在大多数环境下可读性更强，适合更多用户群体</li>
-            <li><strong>视觉通透感</strong>：配合毛玻璃质感，明亮模式下的玻璃效果更加通透、轻盈</li>
-            <li><strong>用户自主选择权</strong>：你仍然可以通过右上角的 🌙/☀️ 按钮随时切换主题，且你的选择会被浏览器记住</li>
-        </ul>
+                    <p><strong>🔮 毛玻璃/高斯模糊全面增强</strong><br>
+                    我们对全站的玻璃拟态效果进行了深度优化：</p>
+                    <ul>
+                        <li><strong>高斯模糊强度提升</strong>：从 24px 提升至 28px，弹窗/导航栏达到 36px 重度模糊，背景透感更真实</li>
+                        <li><strong>饱和度与亮度增强</strong>：saturate(1.5) + brightness(1.08)，让玻璃背后的色彩更生动</li>
+                        <li><strong>玻璃悬停反馈</strong>：卡片悬停时背景透度增加，边框发光，交互更细腻</li>
+                        <li><strong>噪点纹理保留</strong>：配合毛玻璃的颗粒质感，营造真实玻璃的安静高级感</li>
+                    </ul>
 
-        <p><strong>🎨 适用场景页布局优化</strong><br>
-        同步修复了“适用场景”页面卡片“3+1 孤儿”布局问题，现改为 2x2 均衡网格，视觉更对称、更舒适。</p>
+                    <p><strong>☀️ 默认主题切换为明亮模式</strong><br>
+                    即日起，新用户首次访问网站将默认呈现<strong>明亮白模式</strong>，而非之前的暗黑模式。这一调整基于以下考虑：</p>
+                    <ul>
+                        <li><strong>更通用的第一印象</strong>：明亮模式在大多数环境下可读性更强，适合更多用户群体</li>
+                        <li><strong>视觉通透感</strong>：配合毛玻璃质感，明亮模式下的玻璃效果更加通透、轻盈</li>
+                        <li><strong>用户自主选择权</strong>：你仍然可以通过右上角的 🌙/☀️ 按钮随时切换主题，且你的选择会被浏览器记住</li>
+                    </ul>
 
-        <p style="margin-top:20px; color:var(--text-primary); font-weight:500;">💡 如果你更喜欢暗黑模式，点击右上角 🌙 按钮即可切换，你的偏好会被自动保存。</p>
-    `
-}
+                    <p><strong>🎨 适用场景页布局优化</strong><br>
+                    同步修复了“适用场景”页面卡片“3+1 孤儿”布局问题，现改为 2x2 均衡网格，视觉更对称、更舒适。</p>
+
+                    <p style="margin-top:20px; color:var(--text-primary); font-weight:500;">💡 如果你更喜欢暗黑模式，点击右上角 🌙 按钮即可切换，你的偏好会被自动保存。</p>
+                `
+            }
         ];
         function loadDetail() {
             const params = new URLSearchParams(window.location.search);
