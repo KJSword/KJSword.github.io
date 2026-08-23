@@ -5,20 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="公告详情 - 科技城存档">
     <title>公告详情 - 科技城存档</title>
-    <!-- 防闪黑：在渲染前设置主题 -->
-    <script>
-        (function() {
-            try {
-                const saved = localStorage.getItem('theme');
-                const theme = (saved === 'light' || saved === 'dark') ? saved : 'dark';
-                document.documentElement.setAttribute('data-theme', theme);
-                document.documentElement.style.backgroundColor = theme === 'dark' ? '#080C14' : '#EEF2F6';
-            } catch(e) {
-                document.documentElement.setAttribute('data-theme', 'dark');
-                document.documentElement.style.backgroundColor = '#080C14';
-            }
-        })();
-    </script>
+   
+      <script>
+    (function() {
+        try {
+            const saved = localStorage.getItem('theme');
+            const theme = (saved === 'light' || saved === 'dark') ? saved : 'light';  //
+            document.documentElement.setAttribute('data-theme', theme);
+            document.documentElement.style.backgroundColor = theme === 'dark' ? '#080C14' : '#EEF2F6';
+        } catch(e) {
+            document.documentElement.setAttribute('data-theme', 'light');  //
+            document.documentElement.style.backgroundColor = '#EEF2F6';
+        }
+    })();
+</script>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
