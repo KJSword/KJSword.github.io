@@ -9,8 +9,15 @@
     <!-- 防闪黑：在渲染前设置主题 -->
     <script>
         (function() {
-            const saved = localStorage.getItem('theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', saved);
+            try {
+                const saved = localStorage.getItem('theme');
+                const theme = (saved === 'light' || saved === 'dark') ? saved : 'dark';
+                document.documentElement.setAttribute('data-theme', theme);
+                document.documentElement.style.backgroundColor = theme === 'dark' ? '#080C14' : '#EEF2F6';
+            } catch(e) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.documentElement.style.backgroundColor = '#080C14';
+            }
         })();
     </script>
 
@@ -20,10 +27,9 @@
     <link rel="stylesheet" href="style.css">
     <style>
         .about-home {
-            background: var(--bg-surface);
             padding: var(--s-6) 0;
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
         }
         .about-grid {
             display: grid;
@@ -52,7 +58,7 @@
             font-weight: 500;
             margin-top: 14px;
             padding-top: 14px;
-            border-top: 1px solid var(--border);
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
         }
         .about-stats {
             display: grid;
@@ -60,12 +66,13 @@
             gap: 14px;
         }
         .stat-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.04);
             border-radius: var(--radius-md);
             padding: 22px 16px;
             text-align: center;
             transition: all 0.3s ease;
+            backdrop-filter: blur(12px);
         }
         .stat-card:hover {
             border-color: var(--primary);
@@ -84,6 +91,10 @@
             color: var(--text-muted);
         }
         .stat-card.full { grid-column: 1 / -1; }
+        [data-theme="light"] .stat-card {
+            background: rgba(255, 255, 255, 0.40);
+            border-color: rgba(255, 255, 255, 0.30);
+        }
 
         @media (max-width: 768px) {
             .about-grid { grid-template-columns: 1fr; gap: 32px; }
@@ -195,7 +206,7 @@
             </div>
             <div class="footer-bottom">
                 <p>© 2026 <a href="index.html">科技城存档</a> · 基于 GitHub Pages 分发</p>
-                <p style="margin-top:6px; font-size:0.6rem; opacity:0.5;">© 2026 Spiral Game Studio · Minecraft 标志属于 Mojang Studios</p>
+                <p style="margin-top:6px; font-size:0.6rem; opacity:0.4;">© 2026 Spiral Game Studio · Minecraft 标志属于 Mojang Studios</p>
             </div>
         </div>
     </footer>
@@ -215,6 +226,7 @@
                     document.documentElement.setAttribute('data-theme', next);
                     localStorage.setItem('theme', next);
                     this.textContent = next === 'dark' ? '☀️' : '🌙';
+                    document.documentElement.style.backgroundColor = next === 'dark' ? '#080C14' : '#EEF2F6';
                 });
             }
         })();
