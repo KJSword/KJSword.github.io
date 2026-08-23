@@ -6,15 +6,14 @@
     <meta name="description" content="科技城存档使用说明与许可 - 关于螺旋游戏">
     <title>使用说明 - 科技城存档</title>
 
-    <!-- ===== 防闪黑：在渲染前设置主题（立即执行） ===== -->
+    <!-- 防闪黑：在渲染前设置主题 -->
     <script>
         (function() {
             try {
                 const saved = localStorage.getItem('theme');
                 const theme = (saved === 'light' || saved === 'dark') ? saved : 'dark';
                 document.documentElement.setAttribute('data-theme', theme);
-                // 即时设置背景色，防止白屏
-                document.documentElement.style.backgroundColor = theme === 'dark' ? '#080C14' : '#F1F4F8';
+                document.documentElement.style.backgroundColor = theme === 'dark' ? '#080C14' : '#EEF2F6';
             } catch(e) {
                 document.documentElement.setAttribute('data-theme', 'dark');
                 document.documentElement.style.backgroundColor = '#080C14';
@@ -39,17 +38,21 @@
         }
         .about-grid .tag-list .tag {
             padding: 6px 14px;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
             border-radius: var(--radius-sm);
             font-size: 0.75rem;
             color: var(--text-secondary);
+        }
+        [data-theme="light"] .about-grid .tag-list .tag {
+            background: rgba(255, 255, 255, 0.20);
+            border-color: rgba(255, 255, 255, 0.20);
         }
 
         .spiral-section {
             margin-top: 48px;
             padding-top: 40px;
-            border-top: 1px solid var(--border);
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
         }
         .spiral-section .content {
             color: var(--text-secondary);
@@ -73,7 +76,7 @@
             font-weight: 500;
             margin-top: 14px;
             padding-top: 14px;
-            border-top: 1px solid var(--border);
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
         }
 
         @media (max-width: 768px) {
@@ -167,7 +170,7 @@
             </div>
             <div class="footer-bottom">
                 <p>© 2026 <a href="index.html">科技城存档</a> · 基于 GitHub Pages 分发</p>
-                <p style="margin-top:6px; font-size:0.6rem; opacity:0.5;">© 2026 Spiral Game Studio · Minecraft 标志属于 Mojang Studios</p>
+                <p style="margin-top:6px; font-size:0.6rem; opacity:0.4;">© 2026 Spiral Game Studio · Minecraft 标志属于 Mojang Studios</p>
             </div>
         </div>
     </footer>
@@ -175,7 +178,6 @@
     <button class="back-top" id="back-top" aria-label="回到顶部">↑</button>
 
     <script>
-        // 主题切换
         (function() {
             const btn = document.getElementById('theme-toggle');
             if (btn) {
@@ -187,8 +189,7 @@
                     document.documentElement.setAttribute('data-theme', next);
                     localStorage.setItem('theme', next);
                     this.textContent = next === 'dark' ? '☀️' : '🌙';
-                    // 即时更新背景色
-                    document.documentElement.style.backgroundColor = next === 'dark' ? '#080C14' : '#F1F4F8';
+                    document.documentElement.style.backgroundColor = next === 'dark' ? '#080C14' : '#EEF2F6';
                 });
             }
         })();
