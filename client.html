@@ -9,8 +9,15 @@
     <!-- 防闪黑：在渲染前设置主题 -->
     <script>
         (function() {
-            const saved = localStorage.getItem('theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', saved);
+            try {
+                const saved = localStorage.getItem('theme');
+                const theme = (saved === 'light' || saved === 'dark') ? saved : 'dark';
+                document.documentElement.setAttribute('data-theme', theme);
+                document.documentElement.style.backgroundColor = theme === 'dark' ? '#080C14' : '#EEF2F6';
+            } catch(e) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.documentElement.style.backgroundColor = '#080C14';
+            }
         })();
     </script>
 
@@ -32,13 +39,17 @@
         }
         .client-card .info-tags .tag {
             padding: 4px 12px;
-            background: var(--bg-body);
-            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
             border-radius: var(--radius-sm);
             font-size: 0.7rem;
             color: var(--text-muted);
         }
         .client-card .info-tags .tag strong { color: var(--primary); }
+        [data-theme="light"] .client-card .info-tags .tag {
+            background: rgba(255, 255, 255, 0.20);
+            border-color: rgba(255, 255, 255, 0.20);
+        }
     </style>
 </head>
 <body>
@@ -129,7 +140,7 @@
                 <ul><li>唯一用途：仅用于运行、配置、管理《科技市》存档</li><li>严格限制：禁止用于任何商业用途</li><li>分发禁止：严禁以任何形式对外分发、共享、重新打包本客户端</li></ul>
                 <h4>八、 联系方式</h4>
                 <ul><li>邮箱：kjsofficial@foxmail.com【注明问题】</li></ul>
-                <hr style="border-color:var(--border); margin:14px 0;">
+                <hr style="border-color:rgba(255,255,255,0.04); margin:14px 0;">
                 <h3 style="color:var(--text-primary); font-size:0.95rem;">《科技市》定制客户端隐私政策</h3>
                 <p><strong>适用客户端：</strong> 《科技市》专用定制启动器（基于开源PCL2修改版）</p>
                 <h4>一、 数据收集声明</h4>
@@ -159,7 +170,7 @@
             </div>
             <div class="footer-bottom">
                 <p>© 2026 <a href="index.html">科技城存档</a> · 基于 GitHub Pages 分发</p>
-                <p style="margin-top:6px; font-size:0.6rem; opacity:0.5;">© 2026 Spiral Game Studio · Minecraft 标志属于 Mojang Studios</p>
+                <p style="margin-top:6px; font-size:0.6rem; opacity:0.4;">© 2026 Spiral Game Studio · Minecraft 标志属于 Mojang Studios</p>
             </div>
         </div>
     </footer>
@@ -178,6 +189,7 @@
                     document.documentElement.setAttribute('data-theme', next);
                     localStorage.setItem('theme', next);
                     this.textContent = next === 'dark' ? '☀️' : '🌙';
+                    document.documentElement.style.backgroundColor = next === 'dark' ? '#080C14' : '#EEF2F6';
                 });
             }
         })();
