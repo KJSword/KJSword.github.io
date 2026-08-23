@@ -9,8 +9,15 @@
     <!-- 防闪黑：在渲染前设置主题 -->
     <script>
         (function() {
-            const saved = localStorage.getItem('theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', saved);
+            try {
+                const saved = localStorage.getItem('theme');
+                const theme = (saved === 'light' || saved === 'dark') ? saved : 'dark';
+                document.documentElement.setAttribute('data-theme', theme);
+                document.documentElement.style.backgroundColor = theme === 'dark' ? '#080C14' : '#EEF2F6';
+            } catch(e) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.documentElement.style.backgroundColor = '#080C14';
+            }
         })();
     </script>
 
@@ -37,11 +44,15 @@
         }
         .download-card .file-info span {
             padding: 4px 14px;
-            background: var(--bg-body);
-            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
             border-radius: var(--radius-sm);
             font-size: 0.8rem;
             color: var(--text-muted);
+        }
+        [data-theme="light"] .download-card .file-info span {
+            background: rgba(255, 255, 255, 0.20);
+            border-color: rgba(255, 255, 255, 0.20);
         }
         .download-card .btn-download {
             display: inline-flex;
@@ -53,16 +64,16 @@
             font-family: var(--font);
             border: none;
             border-radius: var(--radius-sm);
-            background: var(--gradient-primary);
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: #fff;
             cursor: pointer;
-            box-shadow: 0 4px 16px rgba(0, 180, 216, 0.25);
+            box-shadow: 0 4px 24px rgba(79, 195, 247, 0.15);
             transition: all 0.3s ease;
             text-decoration: none;
         }
         .download-card .btn-download:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 28px rgba(0, 180, 216, 0.35);
+            box-shadow: 0 8px 32px rgba(79, 195, 247, 0.25);
         }
         .download-card .alt-text {
             margin-top: 14px;
@@ -111,7 +122,7 @@
                     <p>详细的图文安装指南，下载 PDF 后查看</p>
                 </div>
 
-                <div style="background:rgba(255,82,82,0.06); border-left:3px solid #FF5252; padding:12px 18px; border-radius:var(--radius-sm); margin-bottom:20px; max-width:580px; margin-left:auto; margin-right:auto;">
+                <div style="background:rgba(255,82,82,0.04); border-left:3px solid #FF5252; padding:12px 18px; border-radius:var(--radius-sm); margin-bottom:20px; max-width:580px; margin-left:auto; margin-right:auto;">
                     <strong style="font-size:0.85rem;">⚠️ 重要声明：</strong><span style="font-size:0.85rem; color:var(--text-secondary);"> 整合包和存档正式版<strong>非商用永久免费</strong>，付费购买均为倒卖。</span>
                 </div>
 
@@ -145,7 +156,7 @@
             </div>
             <div class="footer-bottom">
                 <p>© 2026 <a href="index.html">科技城存档</a> · 基于 GitHub Pages 分发</p>
-                <p style="margin-top:6px; font-size:0.6rem; opacity:0.5;">© 2026 Spiral Game Studio · Minecraft 标志属于 Mojang Studios</p>
+                <p style="margin-top:6px; font-size:0.6rem; opacity:0.4;">© 2026 Spiral Game Studio · Minecraft 标志属于 Mojang Studios</p>
             </div>
         </div>
     </footer>
@@ -164,6 +175,7 @@
                     document.documentElement.setAttribute('data-theme', next);
                     localStorage.setItem('theme', next);
                     this.textContent = next === 'dark' ? '☀️' : '🌙';
+                    document.documentElement.style.backgroundColor = next === 'dark' ? '#080C14' : '#EEF2F6';
                 });
             }
         })();
