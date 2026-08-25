@@ -1,0 +1,9 @@
+[
+    {
+        "name": "安装教程 PDF",
+        "path": "assets/pdf/tutorial.pdf",
+        "description": "科技城存档的完整图文安装指南，包含客户端安装、存档导入、常见问题等"
+    }
+    // 未来可添加更多文件，例如：
+    // { "name": "地图预览图", "path": "images/preview.jpg", "description": "科技城全景预览" }
+]
