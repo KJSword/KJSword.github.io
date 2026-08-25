@@ -6,102 +6,115 @@
     <meta name="description" content="科技城存档 - 地图作者与服主的理想底图">
     <title>首页 - 科技城存档</title>
 
+    <!-- 防闪黑：在渲染前设置主题 -->
     <script>
-    (function() {
-        try {
-            const saved = localStorage.getItem('theme');
-            const theme = (saved === 'light' || saved === 'dark') ? saved : 'light';  //
-            document.documentElement.setAttribute('data-theme', theme);
-            document.documentElement.style.backgroundColor = theme === 'dark' ? '#080C14' : '#EEF2F6';
-        } catch(e) {
-            document.documentElement.setAttribute('data-theme', 'light');  //
-            document.documentElement.style.backgroundColor = '#EEF2F6';
-        }
-    })();
-</script>
+        (function() {
+            try {
+                const saved = localStorage.getItem('theme');
+                const theme = (saved === 'light' || saved === 'dark') ? saved : 'light';
+                document.documentElement.setAttribute('data-theme', theme);
+                document.documentElement.style.backgroundColor = theme === 'dark' ? '#080C14' : '#EEF2F6';
+            } catch(e) {
+                document.documentElement.setAttribute('data-theme', 'light');
+                document.documentElement.style.backgroundColor = '#EEF2F6';
+            }
+        })();
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <!-- 加载公告数据 -->
+    <script src="data/announcements.js"></script>
     <style>
-        .about-home {
-            padding: var(--s-6) 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.03);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        /* -------- 搜索框样式 -------- */
+        .search-container {
+            max-width: 640px;
+            margin: 0 auto 20px;
+            position: relative;
         }
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 48px;
-            align-items: start;
-        }
-        .about-text {
-            color: var(--text-secondary);
-            line-height: 2;
-            font-size: 0.93rem;
-        }
-        .about-text p { margin-bottom: 14px; }
-        .about-text .highlight { color: var(--primary); font-weight: 600; }
-        .about-text .strong { color: var(--text-primary); font-weight: 600; }
-        .about-text .quote {
-            border-left: 3px solid var(--primary);
-            padding-left: 18px;
-            margin: 18px 0;
-            color: var(--text-muted);
-            font-style: italic;
-        }
-        .about-text .closing {
-            font-size: 0.98rem;
-            color: var(--text-primary);
-            font-weight: 500;
-            margin-top: 14px;
-            padding-top: 14px;
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
-        }
-        .about-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-        }
-        .stat-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.04);
+        .search-container input {
+            width: 100%;
+            padding: 14px 20px;
+            font-size: 1rem;
             border-radius: var(--radius-md);
-            padding: 22px 16px;
-            text-align: center;
-            transition: all 0.3s ease;
+            border: 1px solid var(--glass-border);
+            background: var(--glass-bg);
             backdrop-filter: blur(12px);
+            color: var(--text-primary);
+            outline: none;
+            transition: border-color 0.3s;
         }
-        .stat-card:hover {
-            border-color: var(--primary);
-            transform: translateY(-3px);
-        }
-        .stat-card .number {
-            font-size: 2rem;
-            font-weight: 700;
-            font-family: var(--font-pixel);
-            color: var(--primary);
-            display: block;
-            margin-bottom: 2px;
-        }
-        .stat-card .label {
-            font-size: 0.75rem;
+        .search-container input::placeholder {
             color: var(--text-muted);
         }
-        .stat-card.full { grid-column: 1 / -1; }
-        [data-theme="light"] .stat-card {
-            background: rgba(255, 255, 255, 0.40);
-            border-color: rgba(255, 255, 255, 0.30);
+        .search-container input:focus {
+            border-color: var(--primary);
         }
-
+        .search-results {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            right: 0;
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            max-height: 400px;
+            overflow-y: auto;
+            box-shadow: var(--shadow-glass);
+            z-index: 100;
+            display: none;
+            padding: 8px 0;
+            backdrop-filter: blur(16px);
+        }
+        .search-results.active {
+            display: block;
+        }
+        .search-result-item {
+            padding: 10px 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+        .search-result-item:hover {
+            background: var(--glass-bg-hover);
+        }
+        .search-result-item .title {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        .search-result-item .sub {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        .search-result-item .match {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .search-result-empty {
+            padding: 20px;
+            text-align: center;
+            color: var(--text-muted);
+        }
+        /* 响应式调整 */
         @media (max-width: 768px) {
-            .about-grid { grid-template-columns: 1fr; gap: 32px; }
-            .about-stats { grid-template-columns: 1fr 1fr; }
-            .stat-card .number { font-size: 1.6rem; }
-        }
-        @media (max-width: 480px) {
-            .about-stats { grid-template-columns: 1fr; }
+            .search-container input {
+                padding: 12px 16px;
+                font-size: 0.9rem;
+            }
+            .search-results {
+                max-height: 300px;
+            }
         }
     </style>
 </head>
@@ -137,6 +150,7 @@
     </header>
 
     <main>
+        <!-- ===== 英雄区 ===== -->
         <section class="hero">
             <div class="container">
                 <div class="hero-badge">⚡ 专为地图作者 &amp; 服主打造</div>
@@ -156,6 +170,17 @@
             </div>
         </section>
 
+        <!-- ===== 搜索区域（新增） ===== -->
+        <section class="section" style="padding-top: 0; padding-bottom: 0;">
+            <div class="container">
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="🔍 搜索公告、文档..." autocomplete="off">
+                    <div class="search-results" id="search-results"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 关于螺旋游戏 ===== -->
         <section class="about-home">
             <div class="container">
                 <div class="section-header">
@@ -181,6 +206,7 @@
             </div>
         </section>
 
+        <!-- ===== 最新动态 ===== -->
         <section class="section">
             <div class="container">
                 <div class="section-header">
@@ -195,6 +221,7 @@
         </section>
     </main>
 
+    <!-- ===== 页脚 ===== -->
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
@@ -213,11 +240,11 @@
     <button class="back-top" id="back-top" aria-label="回到顶部">↑</button>
 
     <script>
-        // 主题切换
+        // ===== 主题切换 =====
         (function() {
             const btn = document.getElementById('theme-toggle');
             if (btn) {
-                const saved = localStorage.getItem('theme') || 'dark';
+                const saved = localStorage.getItem('theme') || 'light';
                 btn.textContent = saved === 'dark' ? '☀️' : '🌙';
                 btn.addEventListener('click', function() {
                     const current = document.documentElement.getAttribute('data-theme') || 'dark';
@@ -230,6 +257,7 @@
             }
         })();
 
+        // ===== 导航栏交互 =====
         const navbar = document.getElementById('navbar');
         const hamburger = document.getElementById('hamburger');
         const navMenu = document.getElementById('nav-menu');
@@ -254,6 +282,113 @@
 
         backTop.addEventListener('click', function() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ============================================================
+        // ===== 搜索功能 =====
+        // ============================================================
+        const searchInput = document.getElementById('search-input');
+        const resultsContainer = document.getElementById('search-results');
+
+        // 加载可搜索文件列表
+        let filesIndex = [];
+        fetch('data/files.json')
+            .then(response => response.json())
+            .then(data => {
+                filesIndex = data;
+            })
+            .catch(() => {
+                // 若文件不存在，不影响搜索功能
+                filesIndex = [];
+            });
+
+        // 搜索执行函数
+        function performSearch(query) {
+            const trimmed = query.trim().toLowerCase();
+            if (!trimmed) {
+                resultsContainer.classList.remove('active');
+                return;
+            }
+
+            const results = [];
+
+            // 1. 搜索公告（announcements 来自外部 JS 全局变量）
+            if (typeof announcements !== 'undefined' && Array.isArray(announcements)) {
+                announcements.forEach(item => {
+                    // 搜索标题和正文（去除 HTML 标签后搜索）
+                    const plainBody = item.body.replace(/<[^>]+>/g, '');
+                    const titleMatch = item.title.toLowerCase().includes(trimmed);
+                    const bodyMatch = plainBody.toLowerCase().includes(trimmed);
+                    if (titleMatch || bodyMatch) {
+                        results.push({
+                            type: '公告',
+                            title: item.title,
+                            sub: item.date,
+                            match: titleMatch ? item.title : plainBody.substring(0, 80) + '...',
+                            link: 'announcement-detail.html?id=' + item.id
+                        });
+                    }
+                });
+            }
+
+            // 2. 搜索文件
+            filesIndex.forEach(file => {
+                const nameMatch = file.name.toLowerCase().includes(trimmed);
+                const descMatch = file.description && file.description.toLowerCase().includes(trimmed);
+                if (nameMatch || descMatch) {
+                    results.push({
+                        type: '文件',
+                        title: file.name,
+                        sub: file.description || '',
+                        match: file.name,
+                        link: file.path
+                    });
+                }
+            });
+
+            // 渲染结果
+            if (results.length === 0) {
+                resultsContainer.innerHTML = '<div class="search-result-empty">没有找到相关结果</div>';
+                resultsContainer.classList.add('active');
+                return;
+            }
+
+            let html = '';
+            results.forEach(item => {
+                html += `
+                    <a href="${item.link}" class="search-result-item" target="${item.type === '文件' ? '_blank' : '_self'}">
+                        <span class="title">${item.title}</span>
+                        <span class="sub">${item.type} · ${item.sub}</span>
+                        <span class="match">${item.match}</span>
+                    </a>
+                `;
+            });
+            resultsContainer.innerHTML = html;
+            resultsContainer.classList.add('active');
+        }
+
+        // 输入事件（防抖）
+        let debounceTimer;
+        searchInput.addEventListener('input', function() {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                performSearch(this.value);
+            }, 200);
+        });
+
+        // 点击外部关闭结果列表
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.search-container')) {
+                resultsContainer.classList.remove('active');
+            }
+        });
+
+        // 键盘 ESC 关闭
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                resultsContainer.classList.remove('active');
+                searchInput.blur();
+            }
         });
     </script>
 </body>
