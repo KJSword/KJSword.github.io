@@ -25,10 +25,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <!-- 加载公告数据 -->
+
+    <!-- 加载公告数据（供搜索使用） -->
     <script src="data/announcements.js"></script>
+
     <style>
-        /* -------- 搜索框样式 -------- */
+        /* ============================================================
+           搜索栏样式（修复过度透明）
+           ============================================================ */
         .search-container {
             max-width: 640px;
             margin: 0 auto 20px;
@@ -40,17 +44,21 @@
             font-size: 1rem;
             border-radius: var(--radius-md);
             border: 1px solid var(--glass-border);
-            background: var(--glass-bg);
+            /* ===== 修复：降低透明度，提升可读性 ===== */
+            background: var(--bg-card);
             backdrop-filter: blur(12px);
             color: var(--text-primary);
             outline: none;
-            transition: border-color 0.3s;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            box-shadow: var(--shadow-sm);
         }
         .search-container input::placeholder {
             color: var(--text-muted);
+            opacity: 0.7;
         }
         .search-container input:focus {
             border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 195, 247, 0.15);
         }
         .search-results {
             position: absolute;
@@ -60,25 +68,25 @@
             background: var(--bg-card);
             border: 1px solid var(--glass-border);
             border-radius: var(--radius-md);
-            max-height: 400px;
+            max-height: 420px;
             overflow-y: auto;
             box-shadow: var(--shadow-glass);
             z-index: 100;
             display: none;
-            padding: 8px 0;
+            padding: 6px 0;
             backdrop-filter: blur(16px);
         }
         .search-results.active {
             display: block;
         }
         .search-result-item {
+            display: block;
             padding: 10px 16px;
             cursor: pointer;
             transition: background 0.2s;
             border-bottom: 1px solid var(--glass-border);
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
+            text-decoration: none;
+            color: inherit;
         }
         .search-result-item:last-child {
             border-bottom: none;
@@ -91,7 +99,7 @@
             color: var(--text-primary);
         }
         .search-result-item .sub {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--text-muted);
         }
         .search-result-item .match {
@@ -106,7 +114,21 @@
             text-align: center;
             color: var(--text-muted);
         }
-        /* 响应式调整 */
+        /* 亮色模式下搜索框背景更实 */
+        [data-theme="light"] .search-container input {
+            background: rgba(255, 255, 255, 0.85);
+        }
+        [data-theme="light"] .search-results {
+            background: rgba(255, 255, 255, 0.92);
+        }
+        /* 暗色模式下半透明 */
+        [data-theme="dark"] .search-container input {
+            background: rgba(20, 28, 45, 0.75);
+        }
+        [data-theme="dark"] .search-results {
+            background: rgba(13, 20, 35, 0.92);
+        }
+
         @media (max-width: 768px) {
             .search-container input {
                 padding: 12px 16px;
@@ -115,6 +137,13 @@
             .search-results {
                 max-height: 300px;
             }
+        }
+
+        /* ============================================================
+           首页公告区（保留最新动态入口）
+           ============================================================ */
+        .home-news-section {
+            padding: var(--s-6) 0;
         }
     </style>
 </head>
@@ -170,8 +199,8 @@
             </div>
         </section>
 
-        <!-- ===== 搜索区域（新增） ===== -->
-        <section class="section" style="padding-top: 0; padding-bottom: 0;">
+        <!-- ===== 搜索栏 ===== -->
+        <section class="section" style="padding-top: var(--s-4); padding-bottom: 0;">
             <div class="container">
                 <div class="search-container">
                     <input type="text" id="search-input" placeholder="🔍 搜索公告、文档..." autocomplete="off">
@@ -180,34 +209,8 @@
             </div>
         </section>
 
-        <!-- ===== 关于螺旋游戏 ===== -->
-        <section class="about-home">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-tag">关于我们</span>
-                    <h2>关于螺旋游戏</h2>
-                    <p>生于方块，长于想象的独立创作团体</p>
-                </div>
-                <div class="about-grid">
-                    <div class="about-text">
-                        <p><span class="highlight">螺旋游戏（Spiral Game）</span>，一个生于方块，长于想象的独立创作团体。我们的名字寓意着对创造与进化的无尽追求——如同螺旋，每一次延伸都基于原有的基石，却始终望向更高的维度。</p>
-                        <p>我们的灵魂之作，是历时五年以纯粹手工雕琢而成的《我的世界》综合存档——<span class="strong">「科城」</span>。它不仅仅是一座城市，更是一场偏执的实践。每一处细节都承载着时间与热诚的重量。</p>
-                        <p><span class="strong">「科城」</span>是我们理念的结晶：它既是拥有沉浸式叙事与精妙谜题的解密地图模版，也是功能完备、足以成为任何多人服务器璀璨核心的主城模板。</p>
-                        <div class="quote">“最好的创作源于对手工艺的敬畏、对玩法的深思，以及对一个世界该有灵魂的笃信。”</div>
-                        <p>我们是一群相信<span class="strong">“长期主义”</span>的造梦者。螺旋游戏并非庞大的商业工厂，而是一间专注的手工作坊。</p>
-                        <p class="closing">🚀 欢迎你，加入这场永不停歇的螺旋之旅。</p>
-                    </div>
-                    <div class="about-stats">
-                        <div class="stat-card"><span class="number">5</span><span class="label">年匠心打磨</span></div>
-                        <div class="stat-card"><span class="number">∞</span><span class="label">无限创造可能</span></div>
-                        <div class="stat-card full"><span class="number">🏙️</span><span class="label" style="font-size:0.95rem; color:var(--text-secondary);">科城 — 解密模版 · 主城框架</span></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ===== 最新动态 ===== -->
-        <section class="section">
+        <!-- ===== 最新动态（保留，作为公告入口） ===== -->
+        <section class="home-news-section">
             <div class="container">
                 <div class="section-header">
                     <span class="section-tag">最新动态</span>
@@ -302,7 +305,6 @@
                 filesIndex = [];
             });
 
-        // 搜索执行函数
         function performSearch(query) {
             const trimmed = query.trim().toLowerCase();
             if (!trimmed) {
@@ -312,10 +314,9 @@
 
             const results = [];
 
-            // 1. 搜索公告（announcements 来自外部 JS 全局变量）
+            // 1. 搜索公告
             if (typeof announcements !== 'undefined' && Array.isArray(announcements)) {
                 announcements.forEach(item => {
-                    // 搜索标题和正文（去除 HTML 标签后搜索）
                     const plainBody = item.body.replace(/<[^>]+>/g, '');
                     const titleMatch = item.title.toLowerCase().includes(trimmed);
                     const bodyMatch = plainBody.toLowerCase().includes(trimmed);
@@ -367,7 +368,6 @@
             resultsContainer.classList.add('active');
         }
 
-        // 输入事件（防抖）
         let debounceTimer;
         searchInput.addEventListener('input', function() {
             clearTimeout(debounceTimer);
@@ -376,14 +376,12 @@
             }, 200);
         });
 
-        // 点击外部关闭结果列表
         document.addEventListener('click', function(e) {
             if (!e.target.closest('.search-container')) {
                 resultsContainer.classList.remove('active');
             }
         });
 
-        // 键盘 ESC 关闭
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 resultsContainer.classList.remove('active');
