@@ -90,7 +90,7 @@ var announcements = [
         title: '🔍 站内搜索功能上线 & 首页布局优化',
         body: `<p>科技城存档网站迎来了一次<strong>实用性与视觉聚焦的双重升级</strong>！</p>
 
-        <p><strong>🔍 站内全局搜索正式上线（Bata）</strong><br>
+        <p><strong>🔍 站内全局搜索上线（Bata）</strong><br>
         现在，你可以在首页直接搜索站内内容，快速找到所需信息：</p>
         <ul>
             <li><strong>搜索范围</strong>：覆盖全部公告（ID 1~9999）和站内可搜索文件（如 PDF 教程等）</li>
