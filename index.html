@@ -29,13 +29,60 @@
 
     <style>
         /* ============================================================
-           搜索栏样式 - 修复移动端重叠、溢出、滚动条
+           搜索区域 - 独立卡片式设计
            ============================================================ */
-        .search-container {
-            max-width: 640px;
-            margin: 0 auto 32px; /* 增大下边距，给搜索留出呼吸空间 */
+        .search-section {
+            padding: 20px 0 36px;
             position: relative;
-            z-index: 50;
+            z-index: 10;
+        }
+
+        .search-card {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 28px 32px 32px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px) saturate(1.4);
+            -webkit-backdrop-filter: blur(20px) saturate(1.4);
+            border: 1px solid var(--glass-border);
+            border-top: 1px solid var(--glass-border-top);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-glass);
+            transition: border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+        .search-card:hover {
+            border-color: rgba(79, 195, 247, 0.15);
+            box-shadow: var(--shadow-glass-hover);
+        }
+
+        [data-theme="light"] .search-card {
+            background: rgba(255, 255, 255, 0.50);
+        }
+
+        .search-card .search-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .search-card .search-header .icon {
+            font-size: 1.3rem;
+        }
+        .search-card .search-header h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+        }
+        .search-card .search-header .hint {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-left: auto;
+        }
+
+        .search-container {
+            position: relative;
+            width: 100%;
         }
         .search-container input {
             width: 100%;
@@ -148,15 +195,26 @@
 
         /* 移动端优化 */
         @media (max-width: 768px) {
-            .search-container {
-                margin: 0 auto 28px; /* 移动端稍小一点 */
+            .search-section {
+                padding: 12px 0 24px;
+            }
+            .search-card {
+                padding: 18px 16px 22px;
+                border-radius: var(--radius-md);
+                margin: 0 4px;
+            }
+            .search-card .search-header .hint {
+                display: none;
+            }
+            .search-card .search-header h3 {
+                font-size: 0.85rem;
             }
             .search-container input {
                 padding: 12px 16px;
                 font-size: 0.9rem;
             }
             .search-results {
-                max-height: 300px;
+                max-height: 280px;
                 margin: 0 2px;
                 border-radius: var(--radius-sm);
             }
@@ -176,21 +234,21 @@
         }
 
         /* ============================================================
-           首页公告区 - 增加上边距，与搜索区域拉开距离
+           最新动态 - 与搜索区域保持明显间距
            ============================================================ */
         .home-news-section {
-            padding: var(--s-6) 0;
+            padding: var(--s-5) 0 var(--s-6);
             clear: both;
             position: relative;
             z-index: 10;
-            margin-top: 24px; /* 增大上边距，与搜索区域拉开距离 */
+            border-top: 1px solid var(--glass-border);
+            margin-top: 8px;
         }
 
-        /* 移动端微调 */
         @media (max-width: 768px) {
             .home-news-section {
-                margin-top: 16px;
-                padding: var(--s-5) 0;
+                padding: var(--s-4) 0 var(--s-5);
+                margin-top: 4px;
             }
         }
     </style>
@@ -227,6 +285,7 @@
     </header>
 
     <main>
+        <!-- ===== 英雄区 ===== -->
         <section class="hero">
             <div class="container">
                 <div class="hero-badge">⚡ 专为地图作者 &amp; 服主打造</div>
@@ -246,17 +305,28 @@
             </div>
         </section>
 
-        <!-- ===== 搜索栏区块 ===== -->
-        <section class="section" style="padding-top: var(--s-4); padding-bottom: 0;">
+        <!-- ============================================================
+             搜索区域 - 独立卡片模块
+             ============================================================ -->
+        <section class="search-section">
             <div class="container">
-                <div class="search-container">
-                    <input type="text" id="search-input" placeholder="🔍 搜索公告、文档..." autocomplete="off">
-                    <div class="search-results" id="search-results"></div>
+                <div class="search-card">
+                    <div class="search-header">
+                        <span class="icon">🔍</span>
+                        <h3>站内搜索</h3>
+                        <span class="hint">搜索公告 · 文档</span>
+                    </div>
+                    <div class="search-container">
+                        <input type="text" id="search-input" placeholder="输入关键词，快速查找..." autocomplete="off">
+                        <div class="search-results" id="search-results"></div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- ===== 最新动态（已下移，与搜索区域保持间距） ===== -->
+        <!-- ============================================================
+             最新动态 - 独立区块，与搜索区域分离
+             ============================================================ -->
         <section class="home-news-section">
             <div class="container">
                 <div class="section-header">
@@ -271,6 +341,7 @@
         </section>
     </main>
 
+    <!-- ===== 页脚 ===== -->
     <footer class="footer">
         <div class="container">
             <div class="footer-grid">
@@ -424,7 +495,7 @@
         });
 
         document.addEventListener('click', function(e) {
-            if (!e.target.closest('.search-container')) {
+            if (!e.target.closest('.search-container') && !e.target.closest('.search-card')) {
                 resultsContainer.classList.remove('active');
             }
         });
