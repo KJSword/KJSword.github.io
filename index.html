@@ -33,9 +33,9 @@
            ============================================================ */
         .search-container {
             max-width: 640px;
-            margin: 0 auto 20px;
+            margin: 0 auto 32px; /* 增大下边距，给搜索留出呼吸空间 */
             position: relative;
-            z-index: 50; /* 低于导航栏，但高于正文 */
+            z-index: 50;
         }
         .search-container input {
             width: 100%;
@@ -70,9 +70,9 @@
             border-radius: var(--radius-md);
             max-height: 420px;
             overflow-y: auto;
-            overflow-x: hidden; /* 禁止横向滚动 */
+            overflow-x: hidden;
             box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
-            z-index: 100; /* 确保在顶层，但低于导航栏 */
+            z-index: 100;
             display: none;
             padding: 6px 0;
             backdrop-filter: blur(20px);
@@ -148,6 +148,9 @@
 
         /* 移动端优化 */
         @media (max-width: 768px) {
+            .search-container {
+                margin: 0 auto 28px; /* 移动端稍小一点 */
+            }
             .search-container input {
                 padding: 12px 16px;
                 font-size: 0.9rem;
@@ -173,14 +176,22 @@
         }
 
         /* ============================================================
-           首页公告区 - 增加上边距避免与搜索结果重叠
+           首页公告区 - 增加上边距，与搜索区域拉开距离
            ============================================================ */
         .home-news-section {
             padding: var(--s-6) 0;
             clear: both;
             position: relative;
             z-index: 10;
-            margin-top: 10px; /* 额外间距 */
+            margin-top: 24px; /* 增大上边距，与搜索区域拉开距离 */
+        }
+
+        /* 移动端微调 */
+        @media (max-width: 768px) {
+            .home-news-section {
+                margin-top: 16px;
+                padding: var(--s-5) 0;
+            }
         }
     </style>
 </head>
@@ -235,6 +246,7 @@
             </div>
         </section>
 
+        <!-- ===== 搜索栏区块 ===== -->
         <section class="section" style="padding-top: var(--s-4); padding-bottom: 0;">
             <div class="container">
                 <div class="search-container">
@@ -244,6 +256,7 @@
             </div>
         </section>
 
+        <!-- ===== 最新动态（已下移，与搜索区域保持间距） ===== -->
         <section class="home-news-section">
             <div class="container">
                 <div class="section-header">
@@ -321,7 +334,7 @@
         });
 
         // ============================================================
-        // ===== 搜索功能 - 加强输入/失焦控制 =====
+        // ===== 搜索功能 =====
         // ============================================================
         const searchInput = document.getElementById('search-input');
         const resultsContainer = document.getElementById('search-results');
@@ -404,21 +417,18 @@
             }, 200);
         });
 
-        // 输入框失焦时延迟隐藏结果（给点击留时间）
         searchInput.addEventListener('blur', function() {
             setTimeout(() => {
                 resultsContainer.classList.remove('active');
             }, 200);
         });
 
-        // 点击页面其他地方隐藏结果
         document.addEventListener('click', function(e) {
             if (!e.target.closest('.search-container')) {
                 resultsContainer.classList.remove('active');
             }
         });
 
-        // ESC 键关闭
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 resultsContainer.classList.remove('active');
