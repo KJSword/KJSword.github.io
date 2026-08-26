@@ -32,7 +32,7 @@
            搜索区域 - 独立卡片式设计
            ============================================================ */
         .search-section {
-            padding: 20px 0 36px;
+            padding: 20px 0 10px; /* 底部内边距减少，交给卡片自身控制 */
             position: relative;
             z-index: 10;
         }
@@ -49,6 +49,8 @@
             border-radius: var(--radius-lg);
             box-shadow: var(--shadow-glass);
             transition: border-color 0.4s ease, box-shadow 0.4s ease;
+            /* 重要：为搜索结果预留底部空间 */
+            margin-bottom: 20px;
         }
         .search-card:hover {
             border-color: rgba(79, 195, 247, 0.15);
@@ -107,6 +109,7 @@
             box-shadow: 0 0 0 3px rgba(79, 195, 247, 0.15);
         }
 
+        /* ----- 搜索结果下拉框 ----- */
         .search-results {
             position: absolute;
             top: calc(100% + 8px);
@@ -115,7 +118,7 @@
             background: var(--bg-card);
             border: 1px solid var(--glass-border);
             border-radius: var(--radius-md);
-            max-height: 420px;
+            max-height: 340px; /* 限制高度，避免过长 */
             overflow-y: auto;
             overflow-x: hidden;
             box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
@@ -193,15 +196,15 @@
             background: rgba(20, 28, 45, 0.75);
         }
 
-        /* 移动端优化 */
+        /* ===== 移动端优化 ===== */
         @media (max-width: 768px) {
             .search-section {
-                padding: 12px 0 24px;
+                padding: 12px 0 4px;
             }
             .search-card {
                 padding: 18px 16px 22px;
                 border-radius: var(--radius-md);
-                margin: 0 4px;
+                margin: 0 4px 16px; /* 底部间距加大 */
             }
             .search-card .search-header .hint {
                 display: none;
@@ -214,7 +217,7 @@
                 font-size: 0.9rem;
             }
             .search-results {
-                max-height: 280px;
+                max-height: 220px; /* 移动端进一步限制高度 */
                 margin: 0 2px;
                 border-radius: var(--radius-sm);
             }
@@ -242,13 +245,13 @@
             position: relative;
             z-index: 10;
             border-top: 1px solid var(--glass-border);
-            margin-top: 8px;
+            margin-top: 12px; /* 增加上边距，进一步避免重叠 */
         }
 
         @media (max-width: 768px) {
             .home-news-section {
                 padding: var(--s-4) 0 var(--s-5);
-                margin-top: 4px;
+                margin-top: 8px;
             }
         }
     </style>
@@ -488,18 +491,21 @@
             }, 200);
         });
 
+        // 失焦延迟关闭（给点击留时间）
         searchInput.addEventListener('blur', function() {
             setTimeout(() => {
                 resultsContainer.classList.remove('active');
             }, 200);
         });
 
+        // 点击页面其他地方关闭
         document.addEventListener('click', function(e) {
             if (!e.target.closest('.search-container') && !e.target.closest('.search-card')) {
                 resultsContainer.classList.remove('active');
             }
         });
 
+        // ESC 键关闭
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 resultsContainer.classList.remove('active');
