@@ -781,6 +781,22 @@ body::after {
    响应式
    ============================================================ */
 @media (max-width: 768px) {
+    /* ===== 新增：移动端导航栏背景不透明度增强 ===== */
+    .navbar {
+        background: rgba(8, 12, 20, 0.65) !important;
+        backdrop-filter: blur(var(--glass-blur-heavy)) saturate(var(--glass-saturate)) !important;
+        -webkit-backdrop-filter: blur(var(--glass-blur-heavy)) saturate(var(--glass-saturate)) !important;
+    }
+    [data-theme="light"] .navbar {
+        background: rgba(238, 242, 246, 0.80) !important;
+    }
+    .navbar.scrolled {
+        background: rgba(8, 12, 20, 0.82) !important;
+    }
+    [data-theme="light"] .navbar.scrolled {
+        background: rgba(238, 242, 246, 0.92) !important;
+    }
+
     .navbar .container { height: 58px; }
     .hamburger { display: flex; }
     .nav-menu {
