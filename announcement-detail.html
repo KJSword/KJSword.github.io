@@ -34,6 +34,9 @@
             font-size: 0.95rem;
             line-height: 1.9;
             color: var(--text-secondary);
+            /* ===== 关键修复：保留换行和空格 ===== */
+            white-space: pre-wrap;
+            word-wrap: break-word;
         }
         .detail-content p { margin-bottom: 14px; }
         .detail-content ul { padding-left: 20px; margin-bottom: 14px; }
@@ -167,7 +170,6 @@
         function loadDetail() {
             const params = new URLSearchParams(window.location.search);
             const id = parseInt(params.get('id'));
-            // 检查外部数据是否已加载
             if (typeof announcements === 'undefined' || !Array.isArray(announcements)) {
                 document.getElementById('detail-body').innerHTML = '<p>⚠️ 公告数据加载失败，请检查 <code>data/announcements.js</code> 是否存在。</p>';
                 return;
@@ -188,7 +190,6 @@
             }
         }
 
-        // 等待外部数据加载完成后再渲染
         if (document.readyState === 'complete' || document.readyState === 'interactive') {
             loadDetail();
         } else {
