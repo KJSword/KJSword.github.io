@@ -32,7 +32,7 @@
            搜索区域 - 独立卡片式设计
            ============================================================ */
         .search-section {
-            padding: 20px 0 10px; /* 底部内边距减少，交给卡片自身控制 */
+            padding: 20px 0 10px;
             position: relative;
             z-index: 10;
         }
@@ -49,7 +49,6 @@
             border-radius: var(--radius-lg);
             box-shadow: var(--shadow-glass);
             transition: border-color 0.4s ease, box-shadow 0.4s ease;
-            /* 重要：为搜索结果预留底部空间 */
             margin-bottom: 20px;
         }
         .search-card:hover {
@@ -118,7 +117,7 @@
             background: var(--bg-card);
             border: 1px solid var(--glass-border);
             border-radius: var(--radius-md);
-            max-height: 340px; /* 限制高度，避免过长 */
+            max-height: 340px;
             overflow-y: auto;
             overflow-x: hidden;
             box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
@@ -204,7 +203,7 @@
             .search-card {
                 padding: 18px 16px 22px;
                 border-radius: var(--radius-md);
-                margin: 0 4px 16px; /* 底部间距加大 */
+                margin: 0 4px 16px;
             }
             .search-card .search-header .hint {
                 display: none;
@@ -217,7 +216,7 @@
                 font-size: 0.9rem;
             }
             .search-results {
-                max-height: 220px; /* 移动端进一步限制高度 */
+                max-height: 220px;
                 margin: 0 2px;
                 border-radius: var(--radius-sm);
             }
@@ -233,25 +232,6 @@
                 white-space: normal;
                 word-break: break-word;
                 max-height: 3.6em;
-            }
-        }
-
-        /* ============================================================
-           最新动态 - 与搜索区域保持明显间距
-           ============================================================ */
-        .home-news-section {
-            padding: var(--s-5) 0 var(--s-6);
-            clear: both;
-            position: relative;
-            z-index: 10;
-            border-top: 1px solid var(--glass-border);
-            margin-top: 12px; /* 增加上边距，进一步避免重叠 */
-        }
-
-        @media (max-width: 768px) {
-            .home-news-section {
-                padding: var(--s-4) 0 var(--s-5);
-                margin-top: 8px;
             }
         }
     </style>
@@ -304,6 +284,7 @@
                 <div class="hero-buttons">
                     <a href="archive.html" class="btn btn-primary">🏙️ 查看存档详情</a>
                     <a href="tutorial.html" class="btn btn-outline">📖 安装教程</a>
+                    <a href="announcements.html" class="btn btn-outline">📰 最新动态</a>
                 </div>
             </div>
         </section>
@@ -323,22 +304,6 @@
                         <input type="text" id="search-input" placeholder="输入关键词，快速查找..." autocomplete="off">
                         <div class="search-results" id="search-results"></div>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ============================================================
-             最新动态 - 独立区块，与搜索区域分离
-             ============================================================ -->
-        <section class="home-news-section">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-tag">最新动态</span>
-                    <h2>最新动态</h2>
-                    <p>查看项目的最新公告与更新日志</p>
-                </div>
-                <div class="text-center">
-                    <a href="announcements.html" class="btn btn-primary">📰 查看所有公告</a>
                 </div>
             </div>
         </section>
@@ -491,21 +456,18 @@
             }, 200);
         });
 
-        // 失焦延迟关闭（给点击留时间）
         searchInput.addEventListener('blur', function() {
             setTimeout(() => {
                 resultsContainer.classList.remove('active');
             }, 200);
         });
 
-        // 点击页面其他地方关闭
         document.addEventListener('click', function(e) {
             if (!e.target.closest('.search-container') && !e.target.closest('.search-card')) {
                 resultsContainer.classList.remove('active');
             }
         });
 
-        // ESC 键关闭
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 resultsContainer.classList.remove('active');
