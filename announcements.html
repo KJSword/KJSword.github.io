@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="科技城存档 - 官方公告与动态">
+    <title>公告 - 科技城存档</title>
+
+    <script>
+        (function() {
+            try {
+                const saved = localStorage.getItem('theme');
+                const theme = (saved === 'light' || saved === 'dark') ? saved : 'light';
+                document.documentElement.setAttribute('data-theme', theme);
+                document.documentElement.style.backgroundColor = theme === 'dark' ? '#080C14' : '#EEF2F6';
+            } catch(e) {
+                document.documentElement.setAttribute('data-theme', 'light');
+                document.documentElement.style.backgroundColor = '#EEF2F6';
+            }
+        })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .announcement-link {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+        .announcement-link .card {
+            padding: 20px 24px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .announcement-link:hover .card {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+        .announcement-link .card h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 6px 0 4px;
+            transition: color 0.3s ease;
+        }
+        .announcement-link:hover .card h3 {
+            color: var(--primary);
+        }
+        .announcement-link .meta {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+        }
+        .announcement-link .excerpt {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin: 4px 0 8px;
+        }
+        .announcement-link .read-more {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+        .announcement-link:hover .read-more {
+            padding-left: 6px;
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar" id="navbar">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">
+                <span class="icon">🏙️</span>
+                <span class="text">
+                    <span class="title">科技城存档</span>
+                    <span class="sub">TECH CITY</span>
+                </span>
+            </a>
+            <button class="hamburger" id="hamburger" aria-label="切换菜单">
+                <span></span><span></span><span></span>
+            </button>
+            <nav aria-label="主导航">
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="announcements.html" class="active">公告</a></li>
+                    <li><a href="archive.html">存档详情</a></li>
+                    <li><a href="client.html">专用客户端</a></li>
+                    <li><a href="scenarios.html">适用场景</a></li>
+                    <li><a href="tutorial.html">安装教程</a></li>
+                    <li><a href="about.html">使用说明</a></li><li><a href="team.html">关于团队</a></li>
+                    <li><a href="gallery.html">图片鉴赏</a></li>
+                    <li><a href="sponsor.html">赞助</a></li>
+                </ul>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="切换主题">☀️</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="section" style="padding-top:100px;">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">全部公告</span>
+                    <h2>所有公告</h2>
+                    <p>科技城项目的最新动态与重要通知</p>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr; gap:16px; max-width:720px; margin:0 auto;">
+
+                    <!-- ===== 公告 11 ===== -->
+                    <a href="announcement-detail.html?id=11" class="announcement-link">
+                        <article class="card">
+                            <div class="meta">2026-08-27</div>
+                            <h3>🔧 首页搜索功能全面优化 &amp; 移动端体验修复</h3>
+                            <p class="excerpt">搜索功能全面优化，修复重叠、溢出问题；首页布局精简，移动端体验增强。</p>
+                            <span class="read-more">阅读全文 →</span>
+                        </article>
+                    </a>
+
+                    <!-- ===== 公告 10 ===== -->
+                    <a href="announcement-detail.html?id=10" class="announcement-link">
+                        <article class="card">
+                            <div class="meta">2026-08-26</div>
+                            <h3>🔍 站内搜索功能上线 &amp; 首页布局优化</h3>
+                            <p class="excerpt">新增全局搜索，快速查找公告与文档；首页移除"关于我们"板块，视觉更聚焦。</p>
+                            <span class="read-more">阅读全文 →</span>
+                        </article>
+                    </a>
+
+                    <!-- ===== 公告 9 ===== -->
+                    <a href="announcement-detail.html?id=9" class="announcement-link">
+                        <article class="card">
+                            <div class="meta">2026-08-23</div>
+                            <h3>✨ 毛玻璃质感升级 &amp; 默认主题切换为明亮模式</h3>
+                            <p class="excerpt">网站视觉全面升级：增强毛玻璃/高斯模糊效果，首次访问默认呈现明亮白模式，视觉更通透、更舒适。</p>
+                            <span class="read-more">阅读全文 →</span>
+                        </article>
+                    </a>
+
+                    <!-- ===== 公告 8 ===== -->
+                    <a href="announcement-detail.html?id=8" class="announcement-link">
+                        <article class="card">
+                            <div class="meta">2026-08-22</div>
+                            <h3>🚀 网站 2.0 全面重构上线</h3>
+                            <p class="excerpt">科技城存档网站迎来史上最大规模视觉升级！极简设计、全新排版、统一体验，所有功能完整保留。</p>
+                            <span class="read-more">阅读全文 →</span>
+                        </article>
+                    </a>
+
+                    <!-- ===== 公告 7 ===== -->
+                    <a href="announcement-detail.html?id=7" class="announcement-link">
+                        <article class="card">
+                            <div class="meta">2026-08-20</div>
+                            <h3>🔧 存档详情页移动端布局修复</h3>
+                            <p class="excerpt">修复了手机端"存档详情"页面左侧空白、内容被挤压的问题，现在浏览更舒适。</p>
+                            <span class="read-more">阅读全文 →</span>
+                        </article>
+                    </a>
+
+                    <!-- ===== 公告 6 ===== -->
+                    <a href="announcement-detail.html?id=6" class="announcement-link">
+                        <article class="card">
+                            <div class="meta">2026-08-19</div>
+                            <h3>📱 移动端体验全面优化</h3>
+                            <p class="excerpt">针对手机和平板设备进行了全面适配优化，导航更顺手、阅读更舒适、操作更便捷。</p>
+                            <span class="read-more">阅读全文 →</span>
+                        </article>
+                    </a>
+
+                    <!-- ===== 公告 5 ===== -->
+                    <a href="announcement-detail.html?id=5" class="announcement-link">
+                        <article class="card">
+                            <div class="meta">2026-08-18</div>
+                            <h3>📄 安装教程现已更新为PDF在线版</h3>
+                            <p class="excerpt">安装教程已全面升级为PDF图文版，支持在线预览和下载，阅读更清晰、操作更直观。</p>
+                            <span class="read-more">阅读全文 →</span>
+                        </article>
+                    </a>
+
+                    <!-- ===== 公告 4 ===== -->
+                    <a href="announcement-detail.html?id=4" class="announcement-link">
+                        <article class="card">
+                            <div class="meta">2026-08-18</div>
+                            <h3>🖼️ 图片鉴赏栏目上线预告</h3>
+                            <p class="excerpt">科技城网站即将新增"图片鉴赏"栏目，用于展示存档的精美截图和创意建筑。测试中，敬请期待！</p>
+                            <span class="read-more">阅读全文 →</span>
+                        </article>
+                    </a>
+
+                    <!-- ===== 公告 1 ===== -->
+                    <a href="announcement-detail.html?id=1" class="announcement-link">
+                        <article class="card">
+                            <div class="meta">2026-08-17</div>
+                            <h3>🎉 科技城网站 v1.0 正式发布！</h3>
+                            <p class="excerpt">科技城新网站现已开放访问。全新的页面结构、更清晰的导航，带你更好地了解科技城存档项目。</p>
+                            <span class="read-more">阅读全文 →</span>
+                        </article>
+                    </a>
+
+                    <!-- ===== 公告 2 ===== -->
+                    <a href="announcement-detail.html?id=2" class="announcement-link">
+                        <article class="card">
+                            <div class="meta">2026-08-10</div>
+                            <h3>🔧 网站功能更新通知</h3>
+                            <p class="excerpt">多页面结构正式上线，存档详情、客户端下载、安装教程等内容已独立成页，浏览更清晰。</p>
+                            <span class="read-more">阅读全文 →</span>
+                        </article>
+                    </a>
+
+                    <!-- ===== 公告 3 ===== -->
+                    <a href="announcement-detail.html?id=3" class="announcement-link">
+                        <article class="card">
+                            <div class="meta">2026-08-01</div>
+                            <h3>📦 专用客户端和地图下载即将上线</h3>
+                            <p class="excerpt">集成优化模组、小地图和建筑辅助的专用客户端和存档下载功能正在测试中，敬请期待。</p>
+                            <span class="read-more">阅读全文 →</span>
+                        </article>
+                    </a>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col"><h4>🏙️ 科技城存档</h4><ul><li><a href="index.html">首页</a></li><li><a href="announcements.html">公告</a></li><li><a href="archive.html">存档详情</a></li><li><a href="client.html">专用客户端</a></li></ul></div>
+                <div class="footer-col"><h4>📚 资源</h4><ul><li><a href="scenarios.html">适用场景</a></li><li><a href="tutorial.html">安装教程</a></li><li><a href="about.html">使用说明</a></li><li><a href="team.html">关于团队</a></li><li><a href="gallery.html">图片鉴赏</a></li></ul></div>
+                <div class="footer-col"><h4>🔗 相关链接</h4><ul><li><a href="https://www.minecraft.net" target="_blank">Minecraft官网</a></li><li><a href="https://pages.github.com" target="_blank">GitHub Pages</a></li></ul></div>
+                <div class="footer-col"><h4>📧 联系我们</h4><ul><li><a href="mailto:kjsofficial@foxmail.com">客服邮箱</a></li><li><a href="mailto:kjsofficial@foxmail.com">商务合作</a></li></ul></div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 <a href="index.html">科技城存档</a> · 基于 GitHub Pages 分发</p>
+                <p style="margin-top:6px; font-size:0.6rem; opacity:0.4;">© 2026 Spiral Game Studio · Minecraft 标志属于 Mojang Studios</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-top" id="back-top" aria-label="回到顶部">↑</button>
+
+    <script>
+        // ===== 主题切换 =====
+        (function() {
+            const btn = document.getElementById('theme-toggle');
+            if (btn) {
+                const saved = localStorage.getItem('theme') || 'light';
+                btn.textContent = saved === 'dark' ? '☀️' : '🌙';
+                btn.addEventListener('click', function() {
+                    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+                    const next = current === 'dark' ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', next);
+                    localStorage.setItem('theme', next);
+                    this.textContent = next === 'dark' ? '☀️' : '🌙';
+                    document.documentElement.style.backgroundColor = next === 'dark' ? '#080C14' : '#EEF2F6';
+                });
+            }
+        })();
+
+        // ===== 导航栏交互 =====
+        const navbar = document.getElementById('navbar');
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        const backTop = document.getElementById('back-top');
+
+        window.addEventListener('scroll', function() {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+            backTop.classList.toggle('visible', window.scrollY > 400);
+        }, { passive: true });
+
+        hamburger.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navMenu.classList.toggle('open');
+        });
+
+        navMenu.querySelectorAll('a').forEach(function(link) {
+            link.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('open');
+            });
+        });
+
+        backTop.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>

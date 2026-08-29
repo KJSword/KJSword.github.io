@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="科技城存档安装教程 - PDF 下载">
+    <title>安装教程 - 科技城存档</title>
+
+      <script>
+    (function() {
+        try {
+            const saved = localStorage.getItem('theme');
+            const theme = (saved === 'light' || saved === 'dark') ? saved : 'light';  //
+            document.documentElement.setAttribute('data-theme', theme);
+            document.documentElement.style.backgroundColor = theme === 'dark' ? '#080C14' : '#EEF2F6';
+        } catch(e) {
+            document.documentElement.setAttribute('data-theme', 'light');  //
+            document.documentElement.style.backgroundColor = '#EEF2F6';
+        }
+    })();
+</script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .download-card {
+            max-width: 580px;
+            margin: 0 auto;
+            padding: 40px 32px;
+            text-align: center;
+        }
+        .download-card .icon { font-size: 4.5rem; display: block; margin-bottom: 14px; }
+        .download-card h3 { font-size: 1.4rem; font-weight: 700; color: var(--text-primary); margin-bottom: 6px; }
+        .download-card p { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.8; }
+        .download-card .file-info {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin: 16px 0 24px;
+        }
+        .download-card .file-info span {
+            padding: 4px 14px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        [data-theme="light"] .download-card .file-info span {
+            background: var(--glass-bg);
+        }
+        .download-card .btn-download {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 40px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            font-family: var(--font);
+            border: none;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: #fff;
+            cursor: pointer;
+            box-shadow: 0 4px 24px rgba(79, 195, 247, 0.15);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .download-card .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(79, 195, 247, 0.25);
+        }
+        .download-card .alt-text {
+            margin-top: 14px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        .download-card .alt-text a { color: var(--primary); }
+    </style>
+</head>
+<body>
+    <header class="navbar" id="navbar">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">
+                <span class="icon">🏙️</span>
+                <span class="text">
+                    <span class="title">科技城存档</span>
+                    <span class="sub">TECH CITY</span>
+                </span>
+            </a>
+            <button class="hamburger" id="hamburger" aria-label="切换菜单">
+                <span></span><span></span><span></span>
+            </button>
+            <nav aria-label="主导航">
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="announcements.html">公告</a></li>
+                    <li><a href="archive.html">存档详情</a></li>
+                    <li><a href="client.html">专用客户端</a></li>
+                    <li><a href="scenarios.html">适用场景</a></li>
+                    <li><a href="tutorial.html" class="active">安装教程</a></li>
+                    <li><a href="about.html">使用说明</a></li><li><a href="team.html">关于团队</a></li>
+                    <li><a href="gallery.html">图片鉴赏</a></li>
+                    <li><a href="sponsor.html">赞助</a></li>
+                </ul>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="切换主题">☀️</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="section" style="padding-top:100px;">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">教程文档</span>
+                    <h2>📖 安装教程</h2>
+                    <p>详细的图文安装指南，下载 PDF 后查看</p>
+                </div>
+
+                <div style="background:rgba(255,82,82,0.04); border-left:3px solid #FF5252; padding:12px 18px; border-radius:var(--radius-sm); margin-bottom:20px; max-width:580px; margin-left:auto; margin-right:auto;">
+                    <strong style="font-size:0.85rem;">⚠️ 重要声明：</strong><span style="font-size:0.85rem; color:var(--text-secondary);"> 整合包和存档正式版<strong>非商用永久免费</strong>，付费购买均为倒卖。</span>
+                </div>
+
+                <div class="card download-card">
+                    <span class="icon">📄</span>
+                    <h3>科技城安装教程</h3>
+                    <p>包含客户端安装、存档导入、常见问题等完整图文指南。</p>
+                    <div class="file-info">
+                        <span>📦 格式：PDF</span>
+                        <span>📏 大小：约 2.5 MB</span>
+                        <span>📅 更新：2026-08-18</span>
+                    </div>
+                    <a href="assets/pdf/tutorial.pdf" download class="btn-download">
+                        ⬇️ 下载 PDF 教程
+                    </a>
+                    <p class="alt-text">
+                        如果下载失败，请尝试 <a href="assets/pdf/tutorial.pdf" target="_blank">在新窗口中打开</a> 或右键另存为。
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col"><h4>🏙️ 科技城存档</h4><ul><li><a href="index.html">首页</a></li><li><a href="announcements.html">公告</a></li><li><a href="archive.html">存档详情</a></li><li><a href="client.html">专用客户端</a></li></ul></div>
+                <div class="footer-col"><h4>📚 资源</h4><ul><li><a href="scenarios.html">适用场景</a></li><li><a href="tutorial.html">安装教程</a></li><li><a href="about.html">使用说明</a></li><li><a href="team.html">关于团队</a></li><li><a href="gallery.html">图片鉴赏</a></li></ul></div>
+                <div class="footer-col"><h4>🔗 相关链接</h4><ul><li><a href="https://www.minecraft.net" target="_blank">Minecraft官网</a></li><li><a href="https://pages.github.com" target="_blank">GitHub Pages</a></li></ul></div>
+                <div class="footer-col"><h4>📧 联系我们</h4><ul><li><a href="mailto:kjsofficial@foxmail.com">客服邮箱</a></li><li><a href="mailto:kjsofficial@foxmail.com">商务合作</a></li></ul></div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 <a href="index.html">科技城存档</a> · 基于 GitHub Pages 分发</p>
+                <p style="margin-top:6px; font-size:0.6rem; opacity:0.4;">© 2026 Spiral Game Studio · Minecraft 标志属于 Mojang Studios</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-top" id="back-top" aria-label="回到顶部">↑</button>
+
+    <script>
+        (function() {
+            const btn = document.getElementById('theme-toggle');
+            if (btn) {
+                const saved = localStorage.getItem('theme') || 'dark';
+                btn.textContent = saved === 'dark' ? '☀️' : '🌙';
+                btn.addEventListener('click', function() {
+                    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+                    const next = current === 'dark' ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', next);
+                    localStorage.setItem('theme', next);
+                    this.textContent = next === 'dark' ? '☀️' : '🌙';
+                    document.documentElement.style.backgroundColor = next === 'dark' ? '#080C14' : '#EEF2F6';
+                });
+            }
+        })();
+
+        const navbar = document.getElementById('navbar');
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        const backTop = document.getElementById('back-top');
+
+        window.addEventListener('scroll', function() {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+            backTop.classList.toggle('visible', window.scrollY > 400);
+        }, { passive: true });
+
+        hamburger.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navMenu.classList.toggle('open');
+        });
+
+        navMenu.querySelectorAll('a').forEach(function(link) {
+            link.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('open');
+            });
+        });
+
+        backTop.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="公告详情 - 科技城存档">
+    <title>公告详情 - 科技城存档</title>
+
+    <!-- 防闪黑：在渲染前设置主题（默认明亮） -->
+    <script>
+        (function() {
+            try {
+                const saved = localStorage.getItem('theme');
+                const theme = (saved === 'light' || saved === 'dark') ? saved : 'light';
+                document.documentElement.setAttribute('data-theme', theme);
+                document.documentElement.style.backgroundColor = theme === 'dark' ? '#080C14' : '#EEF2F6';
+            } catch(e) {
+                document.documentElement.setAttribute('data-theme', 'light');
+                document.documentElement.style.backgroundColor = '#EEF2F6';
+            }
+        })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- ===== 引入外部公告数据（与主页搜索共用） ===== -->
+    <script src="data/announcements.js"></script>
+
+    <style>
+        .detail-content {
+            font-size: 0.95rem;
+            line-height: 1.9;
+            color: var(--text-secondary);
+            /* ===== 关键修复：保留换行和空格 ===== */
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .detail-content p { margin-bottom: 14px; }
+        .detail-content ul { padding-left: 20px; margin-bottom: 14px; }
+        .detail-content li { margin-bottom: 4px; }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 16px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            transition: color 0.3s ease;
+        }
+        .back-link:hover { color: var(--primary); }
+        .detail-meta {
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar" id="navbar">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">
+                <span class="icon">🏙️</span>
+                <span class="text">
+                    <span class="title">科技城存档</span>
+                    <span class="sub">TECH CITY</span>
+                </span>
+            </a>
+            <button class="hamburger" id="hamburger" aria-label="切换菜单">
+                <span></span><span></span><span></span>
+            </button>
+            <nav aria-label="主导航">
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="announcements.html" class="active">公告</a></li>
+                    <li><a href="archive.html">存档详情</a></li>
+                    <li><a href="client.html">专用客户端</a></li>
+                    <li><a href="scenarios.html">适用场景</a></li>
+                    <li><a href="tutorial.html">安装教程</a></li>
+                    <li><a href="about.html">使用说明</a></li><li><a href="team.html">关于团队</a></li>
+                    <li><a href="gallery.html">图片鉴赏</a></li>
+                    <li><a href="sponsor.html">赞助</a></li>
+                </ul>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="切换主题">☀️</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="section" style="padding-top:100px;">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">公告详情</span>
+                    <h2 id="detail-title">公告标题</h2>
+                    <p id="detail-date" class="detail-meta">日期</p>
+                </div>
+                <div style="max-width:720px; margin:0 auto;">
+                    <a href="announcements.html" class="back-link">← 返回公告列表</a>
+                    <div class="card" style="padding:28px 32px;">
+                        <div id="detail-body" class="detail-content">内容加载中...</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col"><h4>🏙️ 科技城存档</h4><ul><li><a href="index.html">首页</a></li><li><a href="announcements.html">公告</a></li><li><a href="archive.html">存档详情</a></li><li><a href="client.html">专用客户端</a></li></ul></div>
+                <div class="footer-col"><h4>📚 资源</h4><ul><li><a href="scenarios.html">适用场景</a></li><li><a href="tutorial.html">安装教程</a></li><li><a href="about.html">使用说明</a></li><li><a href="team.html">关于团队</a></li><li><a href="gallery.html">图片鉴赏</a></li></ul></div>
+                <div class="footer-col"><h4>🔗 相关链接</h4><ul><li><a href="https://www.minecraft.net" target="_blank">Minecraft官网</a></li><li><a href="https://pages.github.com" target="_blank">GitHub Pages</a></li></ul></div>
+                <div class="footer-col"><h4>📧 联系我们</h4><ul><li><a href="mailto:kjsofficial@foxmail.com">客服邮箱</a></li><li><a href="mailto:kjsofficial@foxmail.com">商务合作</a></li></ul></div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 <a href="index.html">科技城存档</a> · 基于 GitHub Pages 分发</p>
+                <p style="margin-top:6px; font-size:0.6rem; opacity:0.4;">© 2026 Spiral Game Studio · Minecraft 标志属于 Mojang Studios</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-top" id="back-top" aria-label="回到顶部">↑</button>
+
+    <script>
+        // ===== 主题切换 =====
+        (function() {
+            const btn = document.getElementById('theme-toggle');
+            if (btn) {
+                const saved = localStorage.getItem('theme') || 'light';
+                btn.textContent = saved === 'dark' ? '☀️' : '🌙';
+                btn.addEventListener('click', function() {
+                    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+                    const next = current === 'dark' ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', next);
+                    localStorage.setItem('theme', next);
+                    this.textContent = next === 'dark' ? '☀️' : '🌙';
+                    document.documentElement.style.backgroundColor = next === 'dark' ? '#080C14' : '#EEF2F6';
+                });
+            }
+        })();
+
+        // ===== 导航栏交互 =====
+        const navbar = document.getElementById('navbar');
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        const backTop = document.getElementById('back-top');
+
+        window.addEventListener('scroll', function() {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+            backTop.classList.toggle('visible', window.scrollY > 400);
+        }, { passive: true });
+
+        hamburger.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navMenu.classList.toggle('open');
+        });
+
+        navMenu.querySelectorAll('a').forEach(function(link) {
+            link.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('open');
+            });
+        });
+
+        backTop.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ===== 加载公告详情（使用外部全局变量 announcements） =====
+        function loadDetail() {
+            const params = new URLSearchParams(window.location.search);
+            const id = parseInt(params.get('id'));
+            if (typeof announcements === 'undefined' || !Array.isArray(announcements)) {
+                document.getElementById('detail-body').innerHTML = '<p>⚠️ 公告数据加载失败，请检查 <code>data/announcements.js</code> 是否存在。</p>';
+                return;
+            }
+            const item = announcements.find(a => a.id === id);
+            const titleEl = document.getElementById('detail-title');
+            const dateEl = document.getElementById('detail-date');
+            const bodyEl = document.getElementById('detail-body');
+            if (item) {
+                titleEl.textContent = item.title;
+                dateEl.textContent = item.date;
+                bodyEl.innerHTML = item.body;
+                document.title = item.title + ' - 科技城存档';
+            } else {
+                titleEl.textContent = '公告未找到';
+                dateEl.textContent = '';
+                bodyEl.innerHTML = '<p>抱歉，您访问的公告不存在，请返回列表查看其他公告。</p>';
+            }
+        }
+
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            loadDetail();
+        } else {
+            document.addEventListener('DOMContentLoaded', loadDetail);
+        }
+    </script>
+</body>
+</html>
