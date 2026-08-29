@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="科技城存档使用说明与许可 - 关于螺旋游戏">
+    <title>使用说明 - 科技城存档</title>
+
+   <script>
+    (function() {
+        try {
+            const saved = localStorage.getItem('theme');
+            const theme = (saved === 'light' || saved === 'dark') ? saved : 'light';  // 
+            document.documentElement.setAttribute('data-theme', theme);
+            document.documentElement.style.backgroundColor = theme === 'dark' ? '#080C14' : '#EEF2F6';
+        } catch(e) {
+            document.documentElement.setAttribute('data-theme', 'light');  // 
+            document.documentElement.style.backgroundColor = '#EEF2F6';
+        }
+    })();
+</script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+        .about-grid .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .about-grid .tag-list .tag {
+            padding: 6px 14px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+        [data-theme="light"] .about-grid .tag-list .tag {
+            background: rgba(255, 255, 255, 0.20);
+            border-color: rgba(255, 255, 255, 0.20);
+        }
+
+        .spiral-section {
+            margin-top: 48px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .spiral-section .content {
+            color: var(--text-secondary);
+            line-height: 2;
+            font-size: 0.93rem;
+            max-width: 720px;
+        }
+        .spiral-section .content p { margin-bottom: 14px; }
+        .spiral-section .content .highlight { color: var(--primary); font-weight: 600; }
+        .spiral-section .content .strong { color: var(--text-primary); font-weight: 600; }
+        .spiral-section .content .quote {
+            border-left: 3px solid var(--primary);
+            padding-left: 18px;
+            margin: 18px 0;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+        .spiral-section .content .closing {
+            font-size: 0.98rem;
+            color: var(--text-primary);
+            font-weight: 500;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        /* ===== 版本历史时间线 ===== */
+        .timeline {
+            position: relative;
+            margin-top: 28px;
+            padding-left: 32px;
+            max-width: 760px;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            border-radius: 2px;
+            background: linear-gradient(180deg, var(--primary) 0%, rgba(79, 195, 247, 0.06) 100%);
+        }
+        .timeline-item { position: relative; padding-bottom: 22px; }
+        .timeline-item:last-child { padding-bottom: 0; }
+        .timeline-item .dot {
+            position: absolute;
+            left: -32px;
+            top: 8px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 3px solid rgba(79, 195, 247, 0.22);
+            box-shadow: 0 0 10px rgba(79, 195, 247, 0.35);
+        }
+        .timeline-item.future .dot {
+            background: var(--accent);
+            border-color: rgba(255, 213, 79, 0.22);
+            box-shadow: 0 0 10px rgba(255, 213, 79, 0.30);
+        }
+        .timeline-card {
+            padding: 18px 20px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+        }
+        .timeline-card:hover {
+            border-color: rgba(79, 195, 247, 0.35);
+            background: var(--glass-bg-hover);
+            transform: translateX(2px);
+        }
+        .timeline-card .head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .timeline-card .ver {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .timeline-card .ver strong {
+            font-size: 1.02rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .timeline-card .badge {
+            padding: 3px 10px;
+            border-radius: 999px;
+            font-size: 0.68rem;
+            font-weight: 600;
+            background: rgba(79, 195, 247, 0.10);
+            border: 1px solid rgba(79, 195, 247, 0.25);
+            color: var(--primary);
+        }
+        .timeline-card .badge.warn {
+            background: rgba(255, 82, 82, 0.08);
+            border-color: rgba(255, 82, 82, 0.28);
+            color: #FF8A80;
+        }
+        .timeline-card .badge.future {
+            background: var(--accent-soft);
+            border-color: rgba(255, 213, 79, 0.30);
+            color: var(--accent);
+        }
+        .timeline-card .year {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        .timeline-card p {
+            color: var(--text-secondary);
+            font-size: 0.88rem;
+            line-height: 1.9;
+        }
+        .timeline-card p .hl { color: var(--primary); font-weight: 600; }
+        .timeline-card p .st { color: var(--text-primary); font-weight: 600; }
+        .timeline-card .meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 12px;
+        }
+        .timeline-card .meta span {
+            padding: 3px 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+        .timeline-card .meta span b { color: var(--primary); font-weight: 600; }
+        .timeline-card .meta .label {
+            background: rgba(79, 195, 247, 0.08);
+            border-color: rgba(79, 195, 247, 0.25);
+            color: var(--primary);
+        }
+        [data-theme="light"] .timeline-card { background: rgba(255, 255, 255, 0.40); border-color: rgba(255, 255, 255, 0.55); }
+        [data-theme="light"] .timeline-card .meta span { background: rgba(255, 255, 255, 0.35); border-color: rgba(255, 255, 255, 0.55); }
+
+        @media (max-width: 768px) {
+            .about-grid { grid-template-columns: 1fr; gap: 20px; }
+            .spiral-section { margin-top: 32px; padding-top: 28px; }
+            .timeline { padding-left: 24px; }
+            .timeline::before { left: 6px; }
+            .timeline-item .dot { left: -24px; width: 14px; height: 14px; }
+            .timeline-card { padding: 14px 16px; }
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar" id="navbar">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">
+                <span class="icon">🏙️</span>
+                <span class="text">
+                    <span class="title">科技城存档</span>
+                    <span class="sub">TECH CITY</span>
+                </span>
+            </a>
+            <button class="hamburger" id="hamburger" aria-label="切换菜单">
+                <span></span><span></span><span></span>
+            </button>
+            <nav aria-label="主导航">
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="announcements.html">公告</a></li>
+                    <li><a href="archive.html">存档详情</a></li>
+                    <li><a href="client.html">专用客户端</a></li>
+                    <li><a href="scenarios.html">适用场景</a></li>
+                    <li><a href="tutorial.html">安装教程</a></li>
+                    <li><a href="about.html" class="active">使用说明</a></li>
+                    <li><a href="gallery.html">图片鉴赏</a></li>
+                    <li><a href="sponsor.html">赞助</a></li>
+                </ul>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="切换主题">☀️</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="section" style="padding-top:100px;">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-tag">许可协议</span>
+                    <h2>📋 使用说明与许可</h2>
+                    <p>请遵守以下规则，共同维护良好的创作环境</p>
+                </div>
+
+                <div class="about-grid">
+                    <div>
+                        <p style="color:var(--text-secondary); margin-bottom:14px;">科技城存档是我们<strong style="color:var(--text-primary);">独立制作并免费分发</strong>的基础底图。你可以自由地在本地或服务器上使用它，也允许在<strong style="color:var(--text-primary);">保留来源署名</strong>的前提下，基于此地图进行二次创作和分发。</p>
+                        <p style="color:var(--text-secondary); margin-bottom:14px;">地图中包含预留的建筑框架和红石线路，方便你快速扩展。</p>
+                        <div class="tag-list">
+                            <span class="tag">✅ 允许二次创作</span>
+                            <span class="tag">✅ 允许服务器使用</span>
+                            <span class="tag">⚠️ 请保留署名</span>
+                            <span class="tag">❌ 禁止商业转售</span>
+                        </div>
+                    </div>
+                    <div class="card" style="padding:24px 20px;">
+                        <h4 style="font-size:1.05rem; font-weight:600; color:var(--text-primary); margin-bottom:12px;">📜 使用许可</h4>
+                        <p style="color:var(--text-secondary); font-size:0.9rem; line-height:1.9;"><strong style="color:var(--text-primary);">允许：</strong><br>· 个人游玩和服务器使用<br>· 基于此地图进行建筑扩展<br>· 用于制作RPG、冒险等衍生地图<br>· 在注明来源的情况下分享二次创作<br><br><strong style="color:var(--text-primary);">不允许：</strong><br>· 将原始存档直接用于商业销售<br>· 移除或篡改地图内的署名信息<br>· 声称此地图为你原创</p>
+                    </div>
+                </div>
+
+                <div class="spiral-section" id="version-history">
+                    <span class="section-tag">版本历史</span>
+                    <h2 style="font-size:clamp(1.3rem, 2.5vw, 1.8rem); font-weight:700; color:var(--text-primary); margin-top:4px; margin-bottom:4px;">🛤️ 科技市发展历程</h2>
+                    <p style="color:var(--text-secondary); font-size:0.92rem; margin-bottom:20px;">从 2015 年的远古版本到未来的重塑计划，一座方块城市的生长史</p>
+
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <span class="dot"></span>
+                            <div class="timeline-card">
+                                <div class="head">
+                                    <div class="ver"><strong>科技市 1.0</strong><span class="badge">远古版</span></div>
+                                    <span class="year">2015 · MC 1.6.4</span>
+                                </div>
+                                <p>科技市最初的一个版本：建筑简陋，风格单一，地图范围小，地图主题也不完善。一切，都从这里的一小块土地开始。</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <span class="dot"></span>
+                            <div class="timeline-card">
+                                <div class="head">
+                                    <div class="ver"><strong>科技市 2.0</strong><span class="badge warn">存档丢失</span></div>
+                                    <span class="year">MC 1.6.4 → 1.16.5</span>
+                                </div>
+                                <p>第一次版本更迭：没有任何内容更新，只是更新了游戏版本。该版本存档已丢失，留下的信息非常少。</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <span class="dot"></span>
+                            <div class="timeline-card">
+                                <div class="head">
+                                    <div class="ver"><strong>科技市 3.0 / 3.5</strong><span class="badge">内容 +40%</span></div>
+                                    <span class="year">MC 1.16.5</span>
+                                </div>
+                                <p>第二次版本更迭，比 2.0 <span class="hl">增加 40% 的内容</span>，同时更新游戏版本。3.0 曾因卡顿、闪退等问题被诟病；随后推出的 <span class="st">3.5</span> 大幅度优化了游戏不稳定的问题。</p>
+                                <div class="meta">
+                                    <span class="label">重大更新</span>
+                                    <span>🏙️ 高新区更新</span>
+                                    <span>🚇 轨道交通更新</span>
+                                    <span>🌙 北暮区更新</span>
+                                    <span>🏙️ 东城更新</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <span class="dot"></span>
+                            <div class="timeline-card">
+                                <div class="head">
+                                    <div class="ver"><strong>科技市 4.0</strong><span class="badge">内容 +67%</span></div>
+                                    <span class="year">MC 1.18.2</span>
+                                </div>
+                                <p>第三次版本更迭：应用了 <span class="st">mod 预制建筑</span>，建筑风格更加多变，内容增加 67%，游戏性能更加流畅。</p>
+                                <div class="meta">
+                                    <span class="label">重大更新</span>
+                                    <span>🗺️ 地图自定义命令中心更新</span>
+                                    <span>🎓 教育更新</span>
+                                    <span>🚈 城铁更新</span>
+                                    <span>🏥 医院更新</span>
+                                    <span>🌙 北暮更新</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item">
+                            <span class="dot"></span>
+                            <div class="timeline-card">
+                                <div class="head">
+                                    <div class="ver"><strong>科技市 5.0 - 8.0</strong><span class="badge">定制客户端</span></div>
+                                    <span class="year">稳步迭代</span>
+                                </div>
+                                <p>进入稳步迭代阶段，持续打磨城市细节，并推出了<span class="st">定制客户端</span>，带来开箱即用的完整体验。</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item future">
+                            <span class="dot"></span>
+                            <div class="timeline-card">
+                                <div class="head">
+                                    <div class="ver"><strong>未来</strong><span class="badge future">重塑 · 赋能未来</span></div>
+                                    <span class="year">敬请期待</span>
+                                </div>
+                                <p>未来代号：<span class="st">「重塑，赋能未来」</span>。这座城市的故事，远未结束。</p>
+                                <div class="meta">
+                                    <span class="label">计划更新</span>
+                                    <span>📺 电视台更新</span>
+                                    <span>⚡ 流畅更新</span>
+                                    <span>✈️ 科技市机场更新</span>
+                                    <span>🏭 万安产业园更新</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="spiral-section">
+                    <span class="section-tag">关于团队</span>
+                    <h2 style="font-size:clamp(1.3rem, 2.5vw, 1.8rem); font-weight:700; color:var(--text-primary); margin-top:4px; margin-bottom:4px;">关于螺旋游戏</h2>
+                    <p style="color:var(--text-secondary); font-size:0.92rem; margin-bottom:20px;">生于方块，长于想象的独立创作团体</p>
+
+                    <div class="content">
+                        <p><span class="highlight">螺旋游戏（Spiral Game）</span>，一个生于方块，长于想象的独立创作团体。我们的名字寓意着对创造与进化的无尽追求——如同螺旋，每一次延伸都基于原有的基石，却始终望向更高的维度。</p>
+                        <p>我们的灵魂之作，是历时五年以纯粹手工雕琢而成的《我的世界》综合存档——<span class="strong">「科城」</span>。它不仅仅是一座城市，更是一场偏执的实践。每一处细节都承载着时间与热诚的重量。</p>
+                        <p><span class="strong">「科城」</span>是我们理念的结晶：它既是拥有沉浸式叙事与精妙谜题的解密地图模版，也是功能完备、足以成为任何多人服务器璀璨核心的主城模板。我们深信，最好的创作源于对手工艺的敬畏、对玩法的深思，以及对一个世界该有灵魂的笃信。</p>
+                        <div class="quote">“最好的创作源于对手工艺的敬畏、对玩法的深思，以及对一个世界该有灵魂的笃信。”</div>
+                        <p>我们是一群相信<span class="strong">“长期主义”</span>的造梦者。螺旋游戏并非庞大的商业工厂，而是一间专注的手工作坊。我们珍视与每一位玩家、地图创作者和服务器服主的连接，你们的每一次探索、每一份演绎，都是这个螺旋向上生长的新动力。</p>
+                        <p>未来，我们将继续深耕于《我的世界》的无限可能，创造更多拥有独特灵魂与扎实品质的世界。</p>
+                        <p class="closing">🚀 欢迎你，加入这场永不停歇的螺旋之旅。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col"><h4>🏙️ 科技城存档</h4><ul><li><a href="index.html">首页</a></li><li><a href="announcements.html">公告</a></li><li><a href="archive.html">存档详情</a></li><li><a href="client.html">专用客户端</a></li></ul></div>
+                <div class="footer-col"><h4>📚 资源</h4><ul><li><a href="scenarios.html">适用场景</a></li><li><a href="tutorial.html">安装教程</a></li><li><a href="about.html">使用说明</a></li><li><a href="gallery.html">图片鉴赏</a></li></ul></div>
+                <div class="footer-col"><h4>🔗 相关链接</h4><ul><li><a href="https://www.minecraft.net" target="_blank">Minecraft官网</a></li><li><a href="https://pages.github.com" target="_blank">GitHub Pages</a></li></ul></div>
+                <div class="footer-col"><h4>📧 联系我们</h4><ul><li><a href="mailto:kjsofficial@foxmail.com">客服邮箱</a></li><li><a href="mailto:kjsofficial@foxmail.com">商务合作</a></li></ul></div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 <a href="index.html">科技城存档</a> · 基于 GitHub Pages 分发</p>
+                <p style="margin-top:6px; font-size:0.6rem; opacity:0.4;">© 2026 Spiral Game Studio · Minecraft 标志属于 Mojang Studios</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-top" id="back-top" aria-label="回到顶部">↑</button>
+
+    <script>
+        (function() {
+            const btn = document.getElementById('theme-toggle');
+            if (btn) {
+                const saved = localStorage.getItem('theme') || 'dark';
+                btn.textContent = saved === 'dark' ? '☀️' : '🌙';
+                btn.addEventListener('click', function() {
+                    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+                    const next = current === 'dark' ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', next);
+                    localStorage.setItem('theme', next);
+                    this.textContent = next === 'dark' ? '☀️' : '🌙';
+                    document.documentElement.style.backgroundColor = next === 'dark' ? '#080C14' : '#EEF2F6';
+                });
+            }
+        })();
+
+        const navbar = document.getElementById('navbar');
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        const backTop = document.getElementById('back-top');
+
+        window.addEventListener('scroll', function() {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+            backTop.classList.toggle('visible', window.scrollY > 400);
+        }, { passive: true });
+
+        hamburger.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navMenu.classList.toggle('open');
+        });
+
+        navMenu.querySelectorAll('a').forEach(function(link) {
+            link.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('open');
+            });
+        });
+
+        backTop.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
