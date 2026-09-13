@@ -2,236 +2,399 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>网站维护中 - 科技城存档</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="科技城存档 - 地图作者与服主的理想底图">
+    <title>首页 - 科技城存档 2.5</title>
 
-     <script>
-    (function() {
-        try {
-            const saved = localStorage.getItem('theme');
-            const theme = (saved === 'light' || saved === 'dark') ? saved : 'light';  //
-            document.documentElement.setAttribute('data-theme', theme);
-            document.documentElement.style.backgroundColor = theme === 'dark' ? '#080C14' : '#EEF2F6';
-        } catch(e) {
-            document.documentElement.setAttribute('data-theme', 'light');  //
-            document.documentElement.style.backgroundColor = '#EEF2F6';
-        }
-    })();
-</script>
+    <script>
+        (function() {
+            try {
+                const saved = localStorage.getItem('theme');
+                const theme = (saved === 'light' || saved === 'dark') ? saved : 'light';
+                document.documentElement.setAttribute('data-theme', theme);
+                document.documentElement.style.backgroundColor = theme === 'dark' ? '#0D1E1C' : '#E8F4F2';
+            } catch(e) {
+                document.documentElement.setAttribute('data-theme', 'light');
+                document.documentElement.style.backgroundColor = '#E8F4F2';
+            }
+        })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300..700&family=Playfair+Display:ital,wght@0,700;1,600&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <script src="data/announcements.js"></script>
 
     <style>
-        :root {
-            --primary: #4FC3F7;
-            --primary-light: #81D4FA;
-            --accent: #FFD54F;
-            --bg-body: #080C14;
-            --bg-card: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.06);
-            --glass-border-top: rgba(255, 255, 255, 0.10);
-            --text-primary: #EEF2F6;
-            --text-secondary: #A8B9CC;
-            --text-muted: #5A6F84;
-            --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.6);
-            --btn-shadow: rgba(79, 195, 247, 0.15);
-            --grid-color: rgba(255, 255, 255, 0.02);
-            --glow-color: rgba(79, 195, 247, 0.03);
-            --accent-glow: rgba(255, 213, 79, 0.02);
-        }
-
-        [data-theme="light"] {
-            --bg-body: #EEF2F6;
-            --bg-card: rgba(255, 255, 255, 0.50);
-            --glass-border: rgba(255, 255, 255, 0.30);
-            --glass-border-top: rgba(255, 255, 255, 0.50);
-            --text-primary: #121826;
-            --text-secondary: #3D4F63;
-            --text-muted: #7A8FA5;
-            --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.08);
-            --btn-shadow: rgba(79, 195, 247, 0.20);
-            --grid-color: rgba(0, 0, 0, 0.02);
-            --glow-color: rgba(79, 195, 247, 0.03);
-            --accent-glow: rgba(255, 213, 79, 0.02);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-            background: var(--bg-body);
-            color: var(--text-primary);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
+        /* ============================================================
+           搜索区域 - 独立卡片式设计
+           ============================================================ */
+        .search-section {
+            padding: 20px 0 10px;
             position: relative;
-            overflow: hidden;
-            transition: background 0.6s ease, color 0.6s ease;
+            z-index: 10;
         }
 
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            background:
-                radial-gradient(ellipse at 15% 20%, var(--glow-color) 0%, transparent 50%),
-                radial-gradient(ellipse at 85% 80%, var(--accent-glow) 0%, transparent 40%);
-            pointer-events: none;
-            z-index: 0;
-            transition: background 0.6s ease;
-        }
-
-        body::after {
-            content: '';
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            pointer-events: none;
-            opacity: 0.3;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-            background-size: 256px 256px;
-            mix-blend-mode: overlay;
-        }
-        [data-theme="light"] body::after { opacity: 0.1; }
-
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 44px;
-            height: 44px;
-            background: var(--bg-card);
+        .search-card {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 28px 32px 32px;
+            background: var(--bg-elevated);
             border: 1px solid var(--glass-border);
-            border-top: 1px solid var(--glass-border-top);
-            border-radius: 50%;
-            color: var(--text-secondary);
-            font-size: 1.2rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-            backdrop-filter: blur(16px) saturate(1.4);
-            transition: all 0.3s ease;
+            border-radius: var(--radius-lg);
             box-shadow: var(--shadow-glass);
-        }
-        .theme-toggle:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            transform: rotate(20deg);
-        }
-
-        .maintenance-card {
-            position: relative;
-            z-index: 1;
-            max-width: 640px;
-            width: 100%;
-            background: var(--bg-card);
-            backdrop-filter: blur(24px) saturate(1.4);
-            border: 1px solid var(--glass-border);
-            border-top: 1px solid var(--glass-border-top);
-            border-radius: 16px;
-            box-shadow: var(--shadow-glass);
-            padding: 48px 40px;
-            text-align: center;
-            transition: all 0.4s ease;
-        }
-        .maintenance-card:hover {
-            border-color: rgba(79, 195, 247, 0.15);
-            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
-        }
-
-        .icon { font-size: 4.5rem; display: block; margin-bottom: 16px; }
-        h1 { font-size: 2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; letter-spacing: 0.5px; transition: color 0.4s ease; }
-        h1 .highlight {
-            background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--accent));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        .description {
-            font-size: 1.05rem;
-            line-height: 1.8;
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-            transition: color 0.4s ease;
-        }
-        .description strong { color: var(--text-primary); }
-        .badge {
-            display: inline-block;
-            padding: 6px 20px;
-            background: rgba(255, 213, 79, 0.08);
-            border: 1.5px solid var(--accent);
-            border-radius: 30px;
-            color: var(--accent);
-            font-weight: 600;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
+            transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.6s var(--silk);
             margin-bottom: 20px;
         }
-        .eta {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 24px;
+        .search-card:hover {
+            border-color: var(--accent-border);
+            box-shadow: var(--shadow-glass-hover);
         }
-        .btn {
-            display: inline-flex;
+
+        .search-card .search-header {
+            display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 14px 32px;
-            font-size: 1rem;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+        .search-card .search-header .icon {
+            font-size: 1.3rem;
+        }
+        .search-card .search-header h3 {
+            font-size: 0.95rem;
             font-weight: 600;
-            font-family: inherit;
-            text-decoration: none;
-            border: 1px solid transparent;
-            border-radius: 8px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            color: #FFFFFF;
-            box-shadow: 0 4px 24px var(--btn-shadow);
-            transition: all 0.3s ease;
-            cursor: pointer;
+            color: var(--text-primary);
+            margin: 0;
         }
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 32px var(--btn-shadow);
-        }
-        .footer-text {
-            margin-top: 32px;
+        .search-card .search-header .hint {
             font-size: 0.75rem;
             color: var(--text-muted);
-            border-top: 1px solid var(--glass-border);
-            padding-top: 20px;
+            margin-left: auto;
         }
-        .footer-text a { color: var(--primary); text-decoration: none; }
 
-        @media (max-width: 480px) {
-            .maintenance-card { padding: 32px 20px; }
-            h1 { font-size: 1.6rem; }
-            .icon { font-size: 3.5rem; }
-            .btn { padding: 12px 24px; font-size: 0.9rem; }
-            .theme-toggle { width: 40px; height: 40px; font-size: 1.1rem; top: 12px; right: 12px; }
+        .search-container {
+            position: relative;
+            width: 100%;
+        }
+        .search-container input {
+            width: 100%;
+            padding: 14px 20px;
+            font-size: 1rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--glass-border);
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            color: var(--text-primary);
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            box-shadow: var(--shadow-sm);
+            box-sizing: border-box;
+        }
+        .search-container input::placeholder {
+            color: var(--text-muted);
+            opacity: 0.7;
+        }
+        .search-container input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.15);
+        }
+
+        /* ----- 搜索结果下拉框 ----- */
+        .search-results {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            right: 0;
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            max-height: 340px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            display: none;
+            padding: 6px 0;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-sizing: border-box;
+            width: 100%;
+        }
+        .search-results.active {
+            display: block;
+        }
+        .search-result-item {
+            display: block;
+            padding: 10px 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+            border-bottom: 1px solid var(--glass-border);
+            text-decoration: none;
+            color: inherit;
+            overflow: hidden;
+            word-wrap: break-word;
+            white-space: normal;
+        }
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+        .search-result-item:hover {
+            background: var(--surface-tint);
+        }
+        .search-result-item .title {
+            font-weight: 500;
+            color: var(--text-primary);
+            display: block;
+        }
+        .search-result-item .sub {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: block;
+        }
+        .search-result-item .match {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            display: block;
+            white-space: normal;
+            word-break: break-word;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-height: 2.8em;
+            line-height: 1.4;
+        }
+        .search-result-empty {
+            padding: 20px;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        /* 亮色模式 */
+        [data-theme="light"] .search-results {
+            background: rgba(255, 255, 255, 0.97);
+            border-color: rgba(0, 0, 0, 0.10);
+        }
+        [data-theme="light"] .search-container input {
+            background: rgba(255, 255, 255, 0.85);
+        }
+
+        /* 暗色模式 */
+        [data-theme="dark"] .search-results {
+            background: rgba(10, 16, 28, 0.96);
+            border-color: rgba(255, 255, 255, 0.08);
+        }
+        [data-theme="dark"] .search-container input {
+            background: rgba(20, 28, 45, 0.75);
+        }
+
+        /* ===== 移动端优化 ===== */
+        @media (max-width: 768px) {
+            .search-section {
+                padding: 12px 0 4px;
+            }
+            .search-card {
+                padding: 18px 16px 22px;
+                border-radius: var(--radius-md);
+                margin: 0 4px 16px;
+            }
+            .search-card .search-header .hint {
+                display: none;
+            }
+            .search-card .search-header h3 {
+                font-size: 0.85rem;
+            }
+            .search-container input {
+                padding: 12px 16px;
+                font-size: 1rem;
+            }
+            .search-results {
+                max-height: 220px;
+                margin: 0 2px;
+                border-radius: var(--radius-sm);
+            }
+            .search-result-item {
+                padding: 8px 14px;
+                font-size: 0.85rem;
+            }
+            .search-result-item .title {
+                font-size: 0.9rem;
+            }
+            .search-result-item .match {
+                font-size: 0.75rem;
+                white-space: normal;
+                word-break: break-word;
+                max-height: 3.6em;
+            }
         }
     </style>
 </head>
 <body>
 
-    <button class="theme-toggle" id="theme-toggle" aria-label="切换主题">☀️</button>
+    <header class="navbar" id="navbar">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">
+                <span class="icon">🏙️</span>
+                <span class="text">
+                    <span class="title">科技城存档</span>
+                    <span class="sub">TECH CITY</span>
+                </span>
+            </a>
+            <button class="hamburger" id="hamburger" aria-label="切换菜单">
+                <span></span><span></span><span></span>
+            </button>
+            <nav aria-label="主导航">
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="index.html" class="active">首页</a></li>
+                    <li><a href="announcements.html">公告</a></li>
+                    <li><a href="archive.html">存档详情</a></li>
+                    <li><a href="client.html">专用客户端</a></li>
+                    <li><a href="scenarios.html">适用场景</a></li>
+                    <li><a href="tutorial.html">安装教程</a></li>
+                    <li><a href="about.html">使用说明</a></li><li><a href="team.html">关于团队</a></li>
+                    <li><a href="gallery.html">图片鉴赏</a></li>
+                    <li><a href="sponsor.html">赞助</a></li>
+                </ul>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="切换主题">☀️</button>
+        </div>
+    </header>
 
-    <div class="maintenance-card">
-        <span class="icon">🔧</span>
-        <h1><span class="highlight">科技城</span> 维护中</h1>
-        <div class="badge">⏳ 正在升级</div>
-        <p class="description">我们正在对网站进行<strong>维护与优化</strong>，以提供更好的体验。<br>预计很快恢复，感谢你的耐心等待！</p>
-        <p class="eta">⏱️ 预计恢复时间：<strong>2026年9月13日 18:00</strong></p>
-        <a href="mailto:kjsofficial@foxmail.com" class="btn">📧 联系客服</a>
-        <div class="footer-text">© 2026 <a href="#">科技城存档</a> · 维护期间部分功能暂不可用</div>
-    </div>
+    <main>
+        <!-- ===== 英雄区 — Clearwave 双栏布局 ===== -->
+        <section class="hero">
+            <div class="container">
+                <div style="text-align:center;">
+                    <a href="announcement-detail.html?id=12" class="announce-banner">
+                        <span class="announce-dot">📢</span>
+                        <span class="announce-text"><strong>公告</strong>科城2.5网站已上线</span>
+                        <span class="announce-arrow">→</span>
+                    </a>
+                </div>
+                <div class="hero-inner">
+                    <div class="hero-content">
+                        <div class="hero-badge reveal">⚡ 专为地图作者 &amp; 服主打造</div>
+                        <h1 class="reveal reveal-delay-1">科技城<span class="highlight">基础底图</span><br>你的下一个项目起点</h1>
+                        <p class="hero-subtitle reveal reveal-delay-2">一套结构完整、功能分区清晰的现代科技城市框架。拥有完善的道路系统、功能建筑群和基础设施预留，可作为服务器主城、RPG地图底图或建筑展示的完美基础。</p>
+                        <div class="hero-tags reveal reveal-delay-2">
+                            <span class="tag">📐 城市规划</span>
+                            <span class="tag">🛣️ 完整路网</span>
+                            <span class="tag">🏗️ 功能分区</span>
+                            <span class="tag">⚡ 红石预留</span>
+                            <span class="tag">🎨 现代风格</span>
+                        </div>
+                        <div class="hero-buttons reveal reveal-delay-3">
+                            <a href="archive.html" class="btn btn-primary">🏙️ 查看存档详情</a>
+                            <a href="tutorial.html" class="btn btn-outline">📖 安装教程</a>
+                            <a href="announcements.html" class="btn btn-outline">📰 最新动态</a>
+                        </div>
+                        <div class="hero-trust reveal reveal-delay-4">
+                            <div class="trust-item">🧱 存档结构完整</div>
+                            <div class="trust-divider"></div>
+                            <div class="trust-item">🔋 红石线路预留</div>
+                            <div class="trust-divider"></div>
+                            <div class="trust-item">🗺️ 即下即用</div>
+                        </div>
+                    </div>
+                    <div class="hero-visual reveal reveal-delay-2">
+                        <div class="hero-dashboard">
+                            <div class="dashboard-bar">
+                                <div class="db-dot"></div><div class="db-dot"></div><div class="db-dot"></div>
+                            </div>
+                            <div class="dashboard-body">
+                                <div class="db-header">
+                                    <div class="db-title">城市总览 · Tech City 2.5</div>
+                                    <div class="db-tag">Live</div>
+                                </div>
+                                <div class="db-chart">
+                                    <div class="db-bar" style="height:35%"></div>
+                                    <div class="db-bar" style="height:55%"></div>
+                                    <div class="db-bar" style="height:42%"></div>
+                                    <div class="db-bar active" style="height:75%"></div>
+                                    <div class="db-bar" style="height:60%"></div>
+                                    <div class="db-bar active" style="height:88%"></div>
+                                    <div class="db-bar" style="height:70%"></div>
+                                    <div class="db-bar active" style="height:92%"></div>
+                                </div>
+                                <div class="db-stats">
+                                    <div class="db-stat">
+                                        <div class="db-stat-val">12</div>
+                                        <div class="db-stat-label">功能分区</div>
+                                        <div class="db-stat-change">完整规划</div>
+                                    </div>
+                                    <div class="db-stat">
+                                        <div class="db-stat-val">86<span style="font-size:.9rem;color:var(--accent)">+</span></div>
+                                        <div class="db-stat-label">功能建筑群</div>
+                                        <div class="db-stat-change">可自由改造</div>
+                                    </div>
+                                    <div class="db-stat">
+                                        <div class="db-stat-val">9.4<span style="font-size:.9rem;color:var(--accent)">km</span></div>
+                                        <div class="db-stat-label">道路系统</div>
+                                        <div class="db-stat-change">全域贯通</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hero-float-badge">
+                            <div class="float-badge-icon">⚡</div>
+                            <div class="float-badge-text">
+                                <strong>红石线路预留</strong>
+                                <span>基础设施 · 已就绪</span>
+                            </div>
+                        </div>
+                        <div class="hero-float-badge-2">
+                            <div class="float-badge-2-val">v2.5</div>
+                            <div class="float-badge-2-label">最新稳定版本</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             搜索区域 - 独立卡片模块
+             ============================================================ -->
+        <section class="search-section">
+            <div class="container">
+                <div class="search-card">
+                    <div class="search-header">
+                        <span class="icon">🔍</span>
+                        <h3>站内搜索</h3>
+                        <span class="hint">搜索公告 · 文档</span>
+                    </div>
+                    <div class="search-container">
+                        <input type="text" id="search-input" placeholder="输入关键词，快速查找..." autocomplete="off">
+                        <div class="search-results" id="search-results"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===== 页脚 ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col"><h4>🏙️ 科技城存档</h4><ul><li><a href="index.html">首页</a></li><li><a href="announcements.html">公告</a></li><li><a href="archive.html">存档详情</a></li><li><a href="client.html">专用客户端</a></li></ul></div>
+                <div class="footer-col"><h4>📚 资源</h4><ul><li><a href="scenarios.html">适用场景</a></li><li><a href="tutorial.html">安装教程</a></li><li><a href="about.html">使用说明</a></li><li><a href="team.html">关于团队</a></li><li><a href="gallery.html">图片鉴赏</a></li></ul></div>
+                <div class="footer-col"><h4>🔗 相关链接</h4><ul><li><a href="https://www.minecraft.net" target="_blank">Minecraft官网</a></li><li><a href="https://pages.github.com" target="_blank">GitHub Pages</a></li></ul></div>
+                <div class="footer-col"><h4>📧 联系我们</h4><ul><li><a href="mailto:kjsofficial@foxmail.com">客服邮箱</a></li><li><a href="mailto:kjsofficial@foxmail.com">商务合作</a></li></ul></div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 <a href="index.html">科技城存档</a> · 基于 GitHub Pages 分发</p>
+                <p style="margin-top:6px; font-size:0.6rem; opacity:0.4;">© 2026 Spiral Game Studio · Minecraft 标志属于 Mojang Studios</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-top" id="back-top" aria-label="回到顶部">↑</button>
 
     <script>
+        // ===== 主题切换 =====
         (function() {
             const btn = document.getElementById('theme-toggle');
             if (btn) {
-                const saved = localStorage.getItem('theme') || 'dark';
+                const saved = localStorage.getItem('theme') || 'light';
                 btn.textContent = saved === 'dark' ? '☀️' : '🌙';
                 btn.addEventListener('click', function() {
                     const current = document.documentElement.getAttribute('data-theme') || 'dark';
@@ -239,10 +402,164 @@
                     document.documentElement.setAttribute('data-theme', next);
                     localStorage.setItem('theme', next);
                     this.textContent = next === 'dark' ? '☀️' : '🌙';
-                    document.documentElement.style.backgroundColor = next === 'dark' ? '#080C14' : '#EEF2F6';
+                    document.documentElement.style.backgroundColor = next === 'dark' ? '#0D1E1C' : '#E8F4F2';
                 });
             }
         })();
+
+        // ===== 导航栏交互 =====
+        const navbar = document.getElementById('navbar');
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        const backTop = document.getElementById('back-top');
+
+        window.addEventListener('scroll', function() {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+            backTop.classList.toggle('visible', window.scrollY > 400);
+        }, { passive: true });
+
+        hamburger.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navMenu.classList.toggle('open');
+        });
+        document.addEventListener('click', function(e) {
+            if (navMenu.classList.contains('open') && !e.target.closest('.navbar')) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('open');
+            }
+        });
+
+        navMenu.querySelectorAll('a').forEach(function(link) {
+            link.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('open');
+            });
+        });
+
+        backTop.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ===== 滚动入场 — Clearwave reveal =====
+        (function() {
+            const revealEls = document.querySelectorAll('.reveal');
+            if (!('IntersectionObserver' in window)) {
+                revealEls.forEach(function(el) { el.classList.add('visible'); });
+                return;
+            }
+            const revealObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        revealObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+            revealEls.forEach(function(el) { revealObserver.observe(el); });
+        })();
+
+        // ============================================================
+        // ===== 搜索功能 =====
+        // ============================================================
+        const searchInput = document.getElementById('search-input');
+        const resultsContainer = document.getElementById('search-results');
+
+        let filesIndex = [];
+        fetch('data/files.json')
+            .then(response => response.json())
+            .then(data => {
+                filesIndex = data;
+            })
+            .catch(() => {
+                filesIndex = [];
+            });
+
+        function performSearch(query) {
+            const trimmed = query.trim().toLowerCase();
+            if (!trimmed) {
+                resultsContainer.classList.remove('active');
+                return;
+            }
+
+            const results = [];
+
+            if (typeof announcements !== 'undefined' && Array.isArray(announcements)) {
+                announcements.forEach(item => {
+                    const plainBody = item.body.replace(/<[^>]+>/g, '');
+                    const titleMatch = item.title.toLowerCase().includes(trimmed);
+                    const bodyMatch = plainBody.toLowerCase().includes(trimmed);
+                    if (titleMatch || bodyMatch) {
+                        results.push({
+                            type: '公告',
+                            title: item.title,
+                            sub: item.date,
+                            match: titleMatch ? item.title : plainBody.substring(0, 80) + '...',
+                            link: 'announcement-detail.html?id=' + item.id
+                        });
+                    }
+                });
+            }
+
+            filesIndex.forEach(file => {
+                const nameMatch = file.name.toLowerCase().includes(trimmed);
+                const descMatch = file.description && file.description.toLowerCase().includes(trimmed);
+                if (nameMatch || descMatch) {
+                    results.push({
+                        type: '文件',
+                        title: file.name,
+                        sub: file.description || '',
+                        match: file.name,
+                        link: file.path
+                    });
+                }
+            });
+
+            if (results.length === 0) {
+                resultsContainer.innerHTML = '<div class="search-result-empty">没有找到相关结果</div>';
+                resultsContainer.classList.add('active');
+                return;
+            }
+
+            let html = '';
+            results.forEach(item => {
+                html += `
+                    <a href="${item.link}" class="search-result-item" target="${item.type === '文件' ? '_blank' : '_self'}">
+                        <span class="title">${item.title}</span>
+                        <span class="sub">${item.type} · ${item.sub}</span>
+                        <span class="match">${item.match}</span>
+                    </a>
+                `;
+            });
+            resultsContainer.innerHTML = html;
+            resultsContainer.classList.add('active');
+        }
+
+        let debounceTimer;
+        searchInput.addEventListener('input', function() {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(() => {
+                performSearch(this.value);
+            }, 200);
+        });
+
+        searchInput.addEventListener('blur', function() {
+            setTimeout(() => {
+                resultsContainer.classList.remove('active');
+            }, 200);
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.search-container') && !e.target.closest('.search-card')) {
+                resultsContainer.classList.remove('active');
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                resultsContainer.classList.remove('active');
+                searchInput.blur();
+            }
+        });
     </script>
 </body>
 </html>
