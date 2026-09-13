@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网站维护中 - 科技城存档</title>
+
+     <script>
+    (function() {
+        try {
+            const saved = localStorage.getItem('theme');
+            const theme = (saved === 'light' || saved === 'dark') ? saved : 'light';  //
+            document.documentElement.setAttribute('data-theme', theme);
+            document.documentElement.style.backgroundColor = theme === 'dark' ? '#080C14' : '#EEF2F6';
+        } catch(e) {
+            document.documentElement.setAttribute('data-theme', 'light');  //
+            document.documentElement.style.backgroundColor = '#EEF2F6';
+        }
+    })();
+</script>
+
+    <style>
+        :root {
+            --primary: #4FC3F7;
+            --primary-light: #81D4FA;
+            --accent: #FFD54F;
+            --bg-body: #080C14;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --glass-border-top: rgba(255, 255, 255, 0.10);
+            --text-primary: #EEF2F6;
+            --text-secondary: #A8B9CC;
+            --text-muted: #5A6F84;
+            --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.6);
+            --btn-shadow: rgba(79, 195, 247, 0.15);
+            --grid-color: rgba(255, 255, 255, 0.02);
+            --glow-color: rgba(79, 195, 247, 0.03);
+            --accent-glow: rgba(255, 213, 79, 0.02);
+        }
+
+        [data-theme="light"] {
+            --bg-body: #EEF2F6;
+            --bg-card: rgba(255, 255, 255, 0.50);
+            --glass-border: rgba(255, 255, 255, 0.30);
+            --glass-border-top: rgba(255, 255, 255, 0.50);
+            --text-primary: #121826;
+            --text-secondary: #3D4F63;
+            --text-muted: #7A8FA5;
+            --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.08);
+            --btn-shadow: rgba(79, 195, 247, 0.20);
+            --grid-color: rgba(0, 0, 0, 0.02);
+            --glow-color: rgba(79, 195, 247, 0.03);
+            --accent-glow: rgba(255, 213, 79, 0.02);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: var(--bg-body);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: background 0.6s ease, color 0.6s ease;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 15% 20%, var(--glow-color) 0%, transparent 50%),
+                radial-gradient(ellipse at 85% 80%, var(--accent-glow) 0%, transparent 40%);
+            pointer-events: none;
+            z-index: 0;
+            transition: background 0.6s ease;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.3;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+            background-size: 256px 256px;
+            mix-blend-mode: overlay;
+        }
+        [data-theme="light"] body::after { opacity: 0.1; }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 44px;
+            height: 44px;
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-top: 1px solid var(--glass-border-top);
+            border-radius: 50%;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            backdrop-filter: blur(16px) saturate(1.4);
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-glass);
+        }
+        .theme-toggle:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            transform: rotate(20deg);
+        }
+
+        .maintenance-card {
+            position: relative;
+            z-index: 1;
+            max-width: 640px;
+            width: 100%;
+            background: var(--bg-card);
+            backdrop-filter: blur(24px) saturate(1.4);
+            border: 1px solid var(--glass-border);
+            border-top: 1px solid var(--glass-border-top);
+            border-radius: 16px;
+            box-shadow: var(--shadow-glass);
+            padding: 48px 40px;
+            text-align: center;
+            transition: all 0.4s ease;
+        }
+        .maintenance-card:hover {
+            border-color: rgba(79, 195, 247, 0.15);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5);
+        }
+
+        .icon { font-size: 4.5rem; display: block; margin-bottom: 16px; }
+        h1 { font-size: 2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; letter-spacing: 0.5px; transition: color 0.4s ease; }
+        h1 .highlight {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .description {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            transition: color 0.4s ease;
+        }
+        .description strong { color: var(--text-primary); }
+        .badge {
+            display: inline-block;
+            padding: 6px 20px;
+            background: rgba(255, 213, 79, 0.08);
+            border: 1.5px solid var(--accent);
+            border-radius: 30px;
+            color: var(--accent);
+            font-weight: 600;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+        .eta {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 32px;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: inherit;
+            text-decoration: none;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: #FFFFFF;
+            box-shadow: 0 4px 24px var(--btn-shadow);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px var(--btn-shadow);
+        }
+        .footer-text {
+            margin-top: 32px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--glass-border);
+            padding-top: 20px;
+        }
+        .footer-text a { color: var(--primary); text-decoration: none; }
+
+        @media (max-width: 480px) {
+            .maintenance-card { padding: 32px 20px; }
+            h1 { font-size: 1.6rem; }
+            .icon { font-size: 3.5rem; }
+            .btn { padding: 12px 24px; font-size: 0.9rem; }
+            .theme-toggle { width: 40px; height: 40px; font-size: 1.1rem; top: 12px; right: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="theme-toggle" id="theme-toggle" aria-label="切换主题">☀️</button>
+
+    <div class="maintenance-card">
+        <span class="icon">🔧</span>
+        <h1><span class="highlight">科技城</span> 维护中</h1>
+        <div class="badge">⏳ 正在升级</div>
+        <p class="description">我们正在对网站进行<strong>维护与优化</strong>，以提供更好的体验。<br>预计很快恢复，感谢你的耐心等待！</p>
+        <p class="eta">⏱️ 预计恢复时间：<strong>2026年9月13日 18:00</strong></p>
+        <a href="mailto:kjsofficial@foxmail.com" class="btn">📧 联系客服</a>
+        <div class="footer-text">© 2026 <a href="#">科技城存档</a> · 维护期间部分功能暂不可用</div>
+    </div>
+
+    <script>
+        (function() {
+            const btn = document.getElementById('theme-toggle');
+            if (btn) {
+                const saved = localStorage.getItem('theme') || 'dark';
+                btn.textContent = saved === 'dark' ? '☀️' : '🌙';
+                btn.addEventListener('click', function() {
+                    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+                    const next = current === 'dark' ? 'light' : 'dark';
+                    document.documentElement.setAttribute('data-theme', next);
+                    localStorage.setItem('theme', next);
+                    this.textContent = next === 'dark' ? '☀️' : '🌙';
+                    document.documentElement.style.backgroundColor = next === 'dark' ? '#080C14' : '#EEF2F6';
+                });
+            }
+        })();
+    </script>
+</body>
+</html>
