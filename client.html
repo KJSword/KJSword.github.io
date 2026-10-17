@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="科技城专用客户端下载与客户端用户协议、隐私政策">
+    <title>专用客户端 · 科技城存档 3.0</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============================================================
+           科技城存档 3.0 — Orbit 太空主题
+           ============================================================ */
+        :root {
+            --bg: #050508;
+            --text-primary: #FFFFFF;
+            --text-secondary: rgba(255, 255, 255, 0.72);
+            --text-muted: rgba(255, 255, 255, 0.47);
+            --glass-border: rgba(255, 255, 255, 0.09);
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-bg-hover: rgba(255, 255, 255, 0.055);
+            --accent: #A78BFA;
+            --accent-soft: rgba(167, 139, 250, 0.12);
+            --accent-border: rgba(167, 139, 250, 0.45);
+            --green-glow: #D9F6E2;
+            --font-main: 'Inter', 'Noto Sans SC', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 84px;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            letter-spacing: 0.012em;
+        }
+
+        /* 微弱星云底色 */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(700px 420px at 12% -6%, rgba(124, 58, 237, 0.10), transparent 65%),
+                radial-gradient(760px 460px at 88% -10%, rgba(124, 58, 237, 0.08), transparent 65%);
+        }
+
+        a { color: inherit; text-decoration: none; }
+        img { max-width: 100%; display: block; }
+        .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+        /* ===== 星空层 ===== */
+        #starfield {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .star {
+            position: absolute;
+            border-radius: 50%;
+            background: #fff;
+            opacity: 0.5;
+            animation: twinkle var(--d, 4s) ease-in-out infinite alternate;
+        }
+        @keyframes twinkle {
+            from { opacity: calc(var(--o, 0.5) * 0.2); }
+            to   { opacity: var(--o, 0.5); }
+        }
+        .sparkle {
+            position: absolute;
+            background: #E4C7FF;
+            clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%);
+            filter: drop-shadow(0 0 6px rgba(216, 180, 254, 0.9));
+            animation: twinkle var(--d, 5s) ease-in-out infinite alternate;
+        }
+
+        /* ===== 导航栏 ===== */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            transition: background 0.35s ease, border-color 0.35s ease, backdrop-filter 0.35s ease;
+            border-bottom: 1px solid transparent;
+        }
+        .navbar.scrolled {
+            background: rgba(6, 6, 12, 0.78);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-bottom-color: rgba(255, 255, 255, 0.07);
+        }
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            height: 66px;
+        }
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            flex-shrink: 0;
+        }
+        .navbar-brand svg { width: 24px; height: 24px; }
+        .navbar-brand .name {
+            font-weight: 600;
+            font-size: 1.02rem;
+            letter-spacing: -0.01em;
+        }
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 26px;
+            list-style: none;
+            margin: 0 auto;
+        }
+        .nav-menu a {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.72);
+            transition: color 0.25s ease;
+        }
+        .nav-menu a:hover, .nav-menu a.active { color: #fff; }
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+            margin-left: auto;
+        }
+
+        /* 通用按钮（Orbit 风格小圆角） */
+        .btn-o {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 9px 18px;
+            border-radius: 9px;
+            font-size: 0.84rem;
+            font-weight: 500;
+            font-family: var(--font-main);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            border: 1px solid transparent;
+            white-space: nowrap;
+        }
+        .btn-o.light {
+            background: #fff;
+            color: #0a0a12;
+        }
+        .btn-o.light:hover { transform: translateY(-1px); box-shadow: 0 6px 24px rgba(255,255,255,0.18); }
+        .btn-o.ghost {
+            background: rgba(8, 8, 16, 0.55);
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.28);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+        }
+        .btn-o.ghost:hover { border-color: rgba(255,255,255,0.55); background: rgba(255,255,255,0.06); }
+        .btn-o.lg { padding: 12px 26px; font-size: 0.92rem; border-radius: 11px; }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            margin-left: auto;
+        }
+        .hamburger span {
+            width: 22px; height: 2px;
+            background: #fff;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        /* ===== 英雄区 ===== */
+        .hero {
+            position: relative;
+            min-height: max(100vh, 820px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+            background: #020204;
+        }
+        .hero-inner {
+            position: relative;
+            z-index: 5;
+            text-align: center;
+            padding: 128px 24px 0;
+            max-width: 880px;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 5px 14px 5px 6px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 999px;
+            font-size: 0.76rem;
+            color: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.02);
+            transition: border-color 0.3s ease, background 0.3s ease;
+            margin-bottom: 30px;
+        }
+        .hero-badge:hover { border-color: rgba(255,255,255,0.45); background: rgba(255,255,255,0.05); }
+        .hero-badge .pill-new {
+            background: #fff;
+            color: #0a0a12;
+            font-size: 0.66rem;
+            font-weight: 700;
+            padding: 2.5px 9px;
+            border-radius: 999px;
+            letter-spacing: 0.02em;
+        }
+        .hero-badge .arrow { opacity: 0.7; }
+
+        .hero h1 {
+            font-size: clamp(2.4rem, 5.8vw, 4.2rem);
+            font-weight: 700;
+            line-height: 1.14;
+            letter-spacing: -0.025em;
+            margin-bottom: 18px;
+            text-shadow: 0 0 60px rgba(167, 139, 250, 0.25);
+        }
+        .hero-sub {
+            font-size: clamp(0.95rem, 1.6vw, 1.06rem);
+            color: rgba(255, 255, 255, 0.68);
+            max-width: 620px;
+            margin: 0 auto 26px;
+            line-height: 1.9;
+        }
+        .hero-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .hero-tags {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 22px;
+        }
+        .hero-tags .tag {
+            font-size: 0.72rem;
+            color: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 999px;
+            padding: 4px 13px;
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(4px);
+        }
+
+        /* 行星插画 */
+        .hero-art {
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            min-width: 900px;
+            height: 62%;
+            z-index: 2;
+            pointer-events: none;
+        }
+        .hero-art svg { width: 100%; height: 100%; display: block; }
+        .flame-glow { animation: flamePulse 7s ease-in-out infinite alternate; transform-origin: center bottom; }
+        @keyframes flamePulse {
+            from { opacity: 0.75; }
+            to   { opacity: 1; }
+        }
+        .float-a { animation: floaty 7s ease-in-out infinite alternate; transform-box: fill-box; }
+        .float-b { animation: floaty 9s ease-in-out infinite alternate-reverse; transform-box: fill-box; }
+        .float-c { animation: floaty 11s ease-in-out infinite alternate; transform-box: fill-box; }
+        @keyframes floaty {
+            from { transform: translateY(-7px); }
+            to   { transform: translateY(9px); }
+        }
+
+        .hero-fade {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 140px;
+            z-index: 4;
+            background: linear-gradient(180deg, transparent, var(--bg));
+            pointer-events: none;
+        }
+
+        /* ===== 区块通用 ===== */
+        .section { padding: 110px 0; position: relative; }
+        .section-header { text-align: center; margin-bottom: 46px; }
+        .section-tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: var(--accent-soft);
+            border: 1px solid rgba(167, 139, 250, 0.25);
+            border-radius: 999px;
+            padding: 5px 15px;
+            margin-bottom: 16px;
+        }
+        .section-header h2 {
+            font-size: clamp(1.55rem, 3vw, 2.1rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 10px;
+        }
+        .section-header p { color: var(--text-muted); font-size: 0.96rem; }
+
+        /* ===== 搜索 ===== */
+        .search-wrap { max-width: 640px; margin: 0 auto 42px; position: relative; }
+        .search-wrap input {
+            width: 100%;
+            padding: 14px 22px;
+            font-size: 0.95rem;
+            font-family: var(--font-main);
+            color: #fff;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 14px;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .search-wrap input::placeholder { color: rgba(255, 255, 255, 0.35); }
+        .search-wrap input:focus {
+            border-color: var(--accent-border);
+            box-shadow: 0 0 0 4px rgba(167, 139, 250, 0.12);
+        }
+        .search-results {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0; right: 0;
+            background: rgba(12, 12, 22, 0.97);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            max-height: 340px;
+            overflow-y: auto;
+            box-shadow: 0 18px 60px rgba(0, 0, 0, 0.7);
+            display: none;
+            padding: 6px 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+        }
+        .search-results.active { display: block; }
+        .search-result-item {
+            display: block;
+            padding: 11px 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: background 0.2s;
+        }
+        .search-result-item:last-child { border-bottom: none; }
+        .search-result-item:hover { background: rgba(255, 255, 255, 0.05); }
+        .search-result-item .title { display: block; font-weight: 500; font-size: 0.9rem; color: #fff; }
+        .search-result-item .sub { display: block; font-size: 0.72rem; color: var(--text-muted); font-family: var(--font-mono); margin-top: 1px; }
+        .search-result-item .match { display: block; font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px; max-height: 2.7em; overflow: hidden; }
+        .search-result-empty { padding: 22px; text-align: center; color: var(--text-muted); font-size: 0.88rem; }
+
+        /* ===== 公告列表 ===== */
+        .announce-list {
+            display: grid;
+            gap: 14px;
+            max-width: 760px;
+            margin: 0 auto;
+        }
+        .announce-card {
+            display: block;
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 20px 26px;
+            transition: all 0.3s ease;
+        }
+        .announce-card:hover {
+            border-color: var(--accent-border);
+            background: var(--card-bg-hover);
+            transform: translateY(-3px);
+        }
+        .announce-card .meta {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            letter-spacing: 0.05em;
+        }
+        .announce-card h3 {
+            font-size: 1.08rem;
+            font-weight: 600;
+            margin: 6px 0 6px;
+            transition: color 0.3s;
+        }
+        .announce-card:hover h3 { color: var(--accent); }
+        .announce-card .excerpt {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.85;
+        }
+        .announce-card .more {
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        /* ===== 存档 & 客户端 ===== */
+        .archive-grid {
+            display: grid;
+            grid-template-columns: 0.9fr 1.1fr;
+            gap: 26px;
+            max-width: 980px;
+            margin: 0 auto;
+            align-items: stretch;
+        }
+        .panel {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 30px 28px;
+        }
+        .preview-panel {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 340px;
+            background:
+                radial-gradient(340px 240px at 50% 30%, rgba(167, 139, 250, 0.10), transparent 70%),
+                var(--card-bg);
+        }
+        .preview-panel .planet-ico { font-size: 4.6rem; line-height: 1; margin-bottom: 16px; }
+        .preview-panel .t {
+            font-weight: 700;
+            font-size: 1.35rem;
+            letter-spacing: 0.12em;
+        }
+        .preview-panel .s { color: var(--text-muted); font-size: 0.8rem; font-family: var(--font-mono); margin-top: 6px; }
+        .preview-panel .hint { color: var(--text-muted); font-size: 0.72rem; opacity: 0.6; margin-top: 12px; }
+
+        .info-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 16px; }
+        .info-tags .tag {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 999px;
+            padding: 4px 12px;
+        }
+        .info-tags .tag strong { color: var(--accent); font-weight: 600; }
+        .panel h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 8px; }
+        .panel .desc { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.9; margin-bottom: 16px; }
+        .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-bottom: 20px; }
+        .feature-grid .item {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 10px;
+            padding: 8px 12px;
+        }
+        .dl-label { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 9px; }
+        .pan-list { display: grid; gap: 9px; }
+        .pan-card {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 13px 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 13px;
+            cursor: pointer;
+            transition: all 0.28s ease;
+        }
+        .pan-card:hover {
+            border-color: var(--accent-border);
+            background: rgba(167, 139, 250, 0.06);
+            transform: translateX(3px);
+        }
+        .pan-card .icon { font-size: 1.45rem; }
+        .pan-card .info { display: flex; flex-direction: column; }
+        .pan-card .name { font-weight: 600; font-size: 0.88rem; }
+        .pan-card .status { font-size: 0.7rem; color: var(--text-muted); }
+        .pan-card .action { margin-left: auto; font-size: 0.76rem; color: var(--accent); font-weight: 500; }
+        .pan-card.disabled { opacity: 0.35; pointer-events: none; }
+
+        /* ===== 适用场景 ===== */
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            max-width: 1040px;
+            margin: 0 auto;
+        }
+        .scenario-card {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 18px;
+            padding: 30px 22px;
+            text-align: center;
+            transition: all 0.35s ease;
+        }
+        .scenario-card:hover {
+            border-color: var(--accent-border);
+            background: var(--card-bg-hover);
+            transform: translateY(-5px);
+        }
+        .scenario-card .icon { font-size: 2.4rem; display: block; margin-bottom: 13px; }
+        .scenario-card h3 { font-size: 0.98rem; font-weight: 600; margin-bottom: 7px; }
+        .scenario-card p { font-size: 0.84rem; color: var(--text-secondary); line-height: 1.85; }
+
+        /* ===== 使用说明 / 时间线 ===== */
+        .guide-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 26px;
+            max-width: 980px;
+            margin: 0 auto 64px;
+        }
+        .guide-grid .lead { color: var(--text-secondary); font-size: 0.92rem; line-height: 2; }
+        .guide-grid .lead strong { color: #fff; }
+        .permit-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 16px; }
+        .permit-tags .tag {
+            font-size: 0.74rem;
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 999px;
+            padding: 5px 13px;
+        }
+        .timeline {
+            position: relative;
+            max-width: 780px;
+            margin: 0 auto;
+            padding-left: 34px;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px; top: 10px; bottom: 10px;
+            width: 2px;
+            border-radius: 2px;
+            background: linear-gradient(180deg, var(--accent) 0%, rgba(167, 139, 250, 0.05) 100%);
+        }
+        .timeline-item { position: relative; padding-bottom: 20px; }
+        .timeline-item:last-child { padding-bottom: 0; }
+        .timeline-item .dot {
+            position: absolute;
+            left: -34px; top: 10px;
+            width: 16px; height: 16px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 3px solid rgba(167, 139, 250, 0.25);
+            box-shadow: 0 0 12px rgba(167, 139, 250, 0.5);
+        }
+        .timeline-card {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 18px 22px;
+            transition: all 0.3s ease;
+        }
+        .timeline-card:hover { border-color: var(--accent-border); transform: translateX(3px); }
+        .timeline-card .head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 7px;
+        }
+        .timeline-card .ver { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+        .timeline-card .ver strong { font-size: 1rem; font-weight: 700; }
+        .timeline-card .badge {
+            font-size: 0.66rem;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 999px;
+            background: var(--accent-soft);
+            border: 1px solid rgba(167, 139, 250, 0.3);
+            color: var(--accent);
+        }
+        .timeline-card .badge.warn {
+            background: rgba(255, 96, 96, 0.08);
+            border-color: rgba(255, 96, 96, 0.3);
+            color: #FF8A80;
+        }
+        .timeline-card .year { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); }
+        .timeline-card p { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.95; }
+        .timeline-card .meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 11px; }
+        .timeline-card .meta span {
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 3px 10px;
+        }
+        .timeline-card .meta span.label {
+            color: var(--accent);
+            background: var(--accent-soft);
+            border-color: rgba(167, 139, 250, 0.3);
+        }
+
+        /* ===== 团队 ===== */
+        .team-card {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 38px 40px;
+        }
+        .team-card .content { color: var(--text-secondary); line-height: 2.05; font-size: 0.94rem; }
+        .team-card .content p { margin-bottom: 14px; }
+        .team-card .hl { color: var(--accent); font-weight: 600; }
+        .team-card .st { color: #fff; font-weight: 600; }
+        .team-card .quote {
+            border-left: 3px solid var(--accent);
+            padding-left: 18px;
+            margin: 18px 0;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+        .team-card .closing {
+            color: #fff; font-weight: 500;
+            margin-top: 14px; padding-top: 14px;
+            border-top: 1px solid var(--glass-border);
+        }
+        .team-tags {
+            display: flex; flex-wrap: wrap; gap: 8px;
+            margin-top: 22px; padding-top: 20px;
+            border-top: 1px solid var(--glass-border);
+        }
+        .team-tags .tag {
+            font-size: 0.74rem;
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: 999px;
+            padding: 5px 14px;
+        }
+
+        /* ===== 图鉴占位 ===== */
+        .gallery-panel {
+            max-width: 640px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 62px 30px;
+        }
+        .gallery-panel .icon { font-size: 4.4rem; display: block; margin-bottom: 16px; }
+        .gallery-panel h3 { font-size: 1.35rem; font-weight: 700; margin-bottom: 8px; }
+        .gallery-panel p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.85; max-width: 440px; margin: 0 auto; }
+        .gallery-panel .badge {
+            display: inline-block;
+            margin-top: 16px;
+            font-size: 0.76rem;
+            color: var(--accent);
+            border: 1.5px solid var(--accent-border);
+            border-radius: 999px;
+            padding: 4px 18px;
+            letter-spacing: 0.08em;
+        }
+
+        /* ===== 赞助 ===== */
+        .sponsor-card {
+            max-width: 520px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 44px 36px;
+        }
+        .sponsor-card .icon { font-size: 3.4rem; display: block; margin-bottom: 14px; }
+        .sponsor-card h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 9px; }
+        .sponsor-card p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.85; margin-bottom: 22px; }
+        .sponsor-card .note { font-size: 0.72rem; color: var(--text-muted); margin: 14px 0 0; }
+
+        /* ===== 页脚 ===== */
+        .footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+            padding: 60px 0 40px;
+            background: #040408;
+            position: relative;
+            z-index: 5;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 44px;
+        }
+        .footer-col h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 14px; }
+        .footer-col ul { list-style: none; display: grid; gap: 9px; }
+        .footer-col a {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            transition: color 0.25s;
+        }
+        .footer-col a:hover { color: #fff; }
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 24px;
+            text-align: center;
+        }
+        .footer-bottom p { font-size: 0.78rem; color: var(--text-muted); }
+        .footer-bottom a { color: var(--text-secondary); }
+        .footer-bottom a:hover { color: #fff; }
+        .footer-bottom .tiny { font-size: 0.62rem; opacity: 0.45; margin-top: 6px; }
+
+        /* ===== 回到顶部 ===== */
+        .back-top {
+            position: fixed;
+            right: 26px; bottom: 26px;
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            color: #fff;
+            font-size: 1.1rem;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(12px);
+            transition: all 0.35s ease;
+            z-index: 900;
+        }
+        .back-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+        .back-top:hover { background: rgba(255, 255, 255, 0.16); }
+
+        /* ===== 协议模态框 ===== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(2, 2, 6, 0.78);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-box {
+            width: 100%;
+            max-width: 680px;
+            max-height: 86vh;
+            display: flex;
+            flex-direction: column;
+            background: #0D0C17;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 20px;
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.8);
+            animation: modalIn 0.3s ease;
+        }
+        @keyframes modalIn {
+            from { opacity: 0; transform: translateY(18px) scale(0.98); }
+            to   { opacity: 1; transform: none; }
+        }
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            padding: 20px 26px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .modal-header h3 { font-size: 1rem; font-weight: 600; }
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.6rem;
+            line-height: 1;
+            cursor: pointer;
+            transition: color 0.25s;
+        }
+        .modal-close:hover { color: #fff; }
+        .modal-body {
+            padding: 22px 26px;
+            overflow-y: auto;
+            font-size: 0.86rem;
+            line-height: 1.9;
+            color: var(--text-secondary);
+        }
+        .modal-body h4 {
+            color: #fff;
+            font-size: 0.92rem;
+            margin: 18px 0 8px;
+        }
+        .modal-body h3 { color: #fff; font-size: 1rem; margin: 20px 0 8px; }
+        .modal-body p { margin-bottom: 10px; }
+        .modal-body ul { padding-left: 20px; margin-bottom: 12px; }
+        .modal-body li { margin-bottom: 4px; }
+        .modal-body strong { color: rgba(255, 255, 255, 0.88); }
+        .modal-body hr { border: none; border-top: 1px solid rgba(255, 255, 255, 0.09); margin: 18px 0; }
+        .modal-footer {
+            padding: 16px 26px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .agreement-check {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            margin-bottom: 14px;
+        }
+        .agreement-check input { accent-color: var(--accent); width: 15px; height: 15px; cursor: pointer; }
+        .modal-actions { display: flex; justify-content: flex-end; gap: 10px; }
+        .btn-cancel {
+            padding: 9px 18px;
+            font-size: 0.82rem;
+            font-family: var(--font-main);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 9px;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.25s;
+        }
+        .btn-cancel:hover { background: rgba(255, 255, 255, 0.1); }
+        .btn-confirm {
+            padding: 9px 18px;
+            font-size: 0.82rem;
+            font-family: var(--font-main);
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 9px;
+            color: rgba(255, 255, 255, 0.4);
+            cursor: not-allowed;
+            transition: all 0.25s;
+        }
+        .btn-confirm.enabled {
+            background: #fff;
+            color: #0a0a12;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .btn-confirm.enabled:hover { box-shadow: 0 6px 24px rgba(255, 255, 255, 0.2); }
+
+        /* ===== 滚动入场 ===== */
+        .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.8s ease, transform 0.8s var(--ease, cubic-bezier(0.22, 1, 0.36, 1)); }
+        .reveal.visible { opacity: 1; transform: none; }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.32s; }
+
+        /* ===== 页面头 ===== */
+        .page-hero {
+            position: relative;
+            padding: 170px 0 78px;
+            background: #020204;
+            overflow: hidden;
+            text-align: center;
+        }
+        .page-hero .container { position: relative; z-index: 5; }
+        .page-hero .crumbs {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            font-size: 0.76rem;
+            color: var(--text-muted);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 999px;
+            padding: 6px 16px;
+            background: rgba(255, 255, 255, 0.02);
+            margin-bottom: 28px;
+        }
+        .page-hero .crumbs a { color: var(--text-secondary); transition: color 0.25s; }
+        .page-hero .crumbs a:hover { color: #fff; }
+        .page-hero h1 {
+            font-size: clamp(1.9rem, 4.4vw, 3rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+            text-shadow: 0 0 60px rgba(167, 139, 250, 0.25);
+        }
+        .page-hero .lead {
+            color: var(--text-secondary);
+            font-size: 0.97rem;
+            max-width: 660px;
+            margin: 0 auto;
+            line-height: 1.95;
+        }
+        .page-hero::after {
+            content: '';
+            position: absolute;
+            left: 0; right: 0; bottom: 0;
+            height: 80px;
+            background: linear-gradient(180deg, transparent, var(--bg));
+            pointer-events: none;
+            z-index: 4;
+        }
+        @media (max-width: 640px) {
+            .page-hero { padding: 140px 0 60px; }
+        }
+
+        /* ===== 灰玻璃卡片（磨砂模糊 + 灰底） ===== */
+        .panel {
+            background: rgba(150, 150, 168, 0.075);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            backdrop-filter: blur(18px) saturate(1.1);
+            -webkit-backdrop-filter: blur(18px) saturate(1.1);
+        }
+        .panel .desc {
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+            line-height: 1.9;
+            margin-bottom: 16px;
+        }
+        .search-wrap input {
+            background: rgba(150, 150, 168, 0.09);
+            backdrop-filter: blur(14px) saturate(1.15);
+            -webkit-backdrop-filter: blur(14px) saturate(1.15);
+        }
+        .search-wrap input:focus {
+            background: rgba(150, 150, 168, 0.13);
+        }
+        .announce-card {
+            background: rgba(150, 150, 168, 0.075);
+            backdrop-filter: blur(18px) saturate(1.1);
+            -webkit-backdrop-filter: blur(18px) saturate(1.1);
+        }
+        .announce-card:hover {
+            background: rgba(165, 165, 185, 0.115);
+        }
+        .scenario-card {
+            background: rgba(150, 150, 168, 0.075);
+            backdrop-filter: blur(18px) saturate(1.1);
+            -webkit-backdrop-filter: blur(18px) saturate(1.1);
+        }
+        .scenario-card:hover {
+            background: rgba(165, 165, 185, 0.115);
+        }
+        .timeline-card {
+            background: rgba(150, 150, 168, 0.075);
+            backdrop-filter: blur(18px) saturate(1.1);
+            -webkit-backdrop-filter: blur(18px) saturate(1.1);
+        }
+        .timeline-card:hover {
+            background: rgba(165, 165, 185, 0.115);
+        }
+        .pan-card {
+            background: rgba(150, 150, 168, 0.08);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .pan-card:hover {
+            background: rgba(167, 139, 250, 0.10);
+        }
+        .search-results {
+            background: rgba(20, 20, 30, 0.80);
+            backdrop-filter: blur(26px) saturate(1.2);
+            -webkit-backdrop-filter: blur(26px) saturate(1.2);
+        }
+        .preview-panel {
+            background:
+                radial-gradient(340px 240px at 50% 30%, rgba(167, 139, 250, 0.10), transparent 70%),
+                rgba(150, 150, 168, 0.075);
+        }
+
+        /* ===== 响应式 ===== */
+        @media (max-width: 1024px) {
+            .scenario-grid { grid-template-columns: 1fr 1fr; }
+            .nav-menu { gap: 18px; }
+        }
+        @media (max-width: 860px) {
+            .nav-menu, .nav-actions { display: none; }
+            .hamburger { display: flex; }
+            .nav-menu.open {
+                display: flex;
+                position: fixed;
+                top: 66px; left: 0; right: 0;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                background: rgba(8, 8, 16, 0.97);
+                backdrop-filter: blur(20px);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+                padding: 10px 18px 16px;
+                margin: 0;
+            }
+            .nav-menu.open li { border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+            .nav-menu.open li:last-child { border-bottom: none; }
+            .nav-menu.open a {
+                display: block;
+                padding: 13px 6px;
+                font-size: 0.92rem;
+            }
+            .archive-grid, .guide-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 640px) {
+            .section { padding: 80px 0; }
+            .hero-inner { padding-top: 124px; }
+            .hero-art { min-width: 760px; height: 56%; }
+            .scenario-grid { grid-template-columns: 1fr; }
+            .feature-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; gap: 22px; }
+            .team-card { padding: 26px 20px; }
+            .panel { padding: 24px 20px; }
+            .announce-card { padding: 17px 19px; }
+            .modal-box { max-height: 92vh; border-radius: 18px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== 导航栏 ===== -->
+    <header class="navbar" id="navbar">
+        <div class="container">
+            <a href="index.html" class="navbar-brand" aria-label="科技城存档首页">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <circle cx="12" cy="12" r="6.2" fill="#E9E4F5"/>
+                    <ellipse cx="12" cy="12" rx="10.4" ry="3.4" stroke="#B9A8E8" stroke-width="1.3" transform="rotate(-18 12 12)"/>
+                </svg>
+                <span class="name">科技城存档</span>
+            </a>
+            <button class="hamburger" id="hamburger" aria-label="切换菜单">
+                <span></span><span></span><span></span>
+            </button>
+            <nav aria-label="主导航">
+                <ul class="nav-menu" id="nav-menu">
+                    <li><a href="announcements.html">公告</a></li>
+                    <li><a href="archive.html">存档</a></li>
+                    <li><a href="client.html" class="active">客户端</a></li>
+                    <li><a href="index.html#scenarios">场景</a></li>
+                    <li><a href="index.html#guide">说明</a></li>
+                    <li><a href="index.html#team">团队</a></li>
+                    <li><a href="gallery.html">图鉴</a></li>
+                    <li><a href="sponsor.html">赞助</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <a href="index.html#guide" class="btn-o ghost">使用说明</a>
+                <a href="#client" class="btn-o light">免费下载</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== 页面头 ===== -->
+    <section class="page-hero">
+        <div id="starfield"></div>
+        <div class="container">
+            <span class="crumbs"><a href="index.html">首页</a><span>/</span>专用客户端</span>
+            <h1>📦 专用客户端下载</h1>
+            <p class="lead">为科技城存档定制的 Minecraft 客户端，集成所需模组与配置，即开即用。下载前请阅读并同意客户端协议与隐私政策。</p>
+        </div>
+    </section>
+
+    <main>
+        <section class="section" id="client" style="padding-top:56px;">
+            <div class="container">
+                <div class="panel reveal" style="max-width:760px; margin:0 auto;">
+                    <div class="info-tags">
+                        <span class="tag">📦 版本：<strong>1.20.4</strong></span>
+                        <span class="tag">💾 大小：<strong>420 MB</strong></span>
+                        <span class="tag">⚙️ 集成：<strong>优化模组 / 小地图 / 建筑辅助</strong></span>
+                    </div>
+                    <p class="desc">专用客户端包含科技城地图所需的全部模组和配置，下载后解压即可直接游玩。</p>
+                    <p class="dl-label">📥 选择网盘下载（需同意客户端协议）</p>
+                    <div class="pan-list" id="client-pan-list">
+                        <a href="#" class="pan-card" data-client-download>
+                            <span class="icon">💾</span>
+                            <span class="info"><span class="name">百度网盘</span><span class="status">提取码：1234</span></span>
+                            <span class="action">点击下载 →</span>
+                        </a>
+                        <a href="#" class="pan-card" data-client-download>
+                            <span class="icon">☁️</span>
+                            <span class="info"><span class="name">阿里云盘</span><span class="status">不限速下载</span></span>
+                            <span class="action">点击下载 →</span>
+                        </a>
+                        <a href="#" class="pan-card disabled">
+                            <span class="icon">🔗</span>
+                            <span class="info"><span class="name">夸克网盘</span><span class="status">待添加</span></span>
+                            <span class="action">敬请期待</span>
+                        </a>
+                        <a href="#" class="pan-card disabled">
+                            <span class="icon">📦</span>
+                            <span class="info"><span class="name">123云盘</span><span class="status">待添加</span></span>
+                            <span class="action">敬请期待</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ===== 页脚 ===== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4>🪐 科技城存档</h4>
+                    <ul>
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="announcements.html">公告</a></li>
+                        <li><a href="archive.html">存档详情</a></li>
+                        <li><a href="client.html">专用客户端</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>📚 资源</h4>
+                    <ul>
+                        <li><a href="index.html#scenarios">适用场景</a></li>
+                        <li><a href="index.html#guide">使用说明</a></li>
+                        <li><a href="index.html#team">关于团队</a></li>
+                        <li><a href="gallery.html">图片鉴赏</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>🔗 相关链接</h4>
+                    <ul>
+                        <li><a href="https://www.minecraft.net" target="_blank" rel="noopener">Minecraft 官网</a></li>
+                        <li><a href="https://pages.github.com" target="_blank" rel="noopener">GitHub Pages</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>📧 联系我们</h4>
+                    <ul>
+                        <li><a href="mailto:kjsofficial@foxmail.com">客服邮箱</a></li>
+                        <li><a href="mailto:kjsofficial@foxmail.com">商务合作</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 <a href="index.html">科技城存档</a> · 构建方：螺旋科城基金会</p>
+                <p class="tiny">© 2026 Spiral Kecheng Foundation · Minecraft 标志属于 Mojang Studios</p>
+            </div>
+        </div>
+    </footer>
+
+    <button class="back-top" id="back-top" aria-label="回到顶部">↑</button>
+
+    <!-- ===== 客户端协议模态框 ===== -->
+    <div class="modal-overlay" id="client-agreement-modal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>《科技市》定制客户端用户协议与隐私政策</h3>
+                <button class="modal-close" id="client-modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>重要提示：</strong> 本客户端为《科技市》存档专用工具，是运行该存档的必备组件。使用本客户端，即表示您同时同意受本协议及《科技市存档用户协议》（完整文本可通过官方页面存档下载页面查阅）的全部条款约束。若您不同意其中任何协议，请勿使用本客户端。</p>
+                <h4>一、 许可授权</h4>
+                <p><strong>1.1 有限使用许可</strong></p>
+                <p>授予已获得《科技市》存档使用权限的用户一项不可转让、不可再分发的有限许可：</p>
+                <ul>
+                    <li>唯一用途：仅用于运行、配置、管理《科技市》存档</li>
+                    <li>严格限制：禁止用于任何商业用途</li>
+                    <li>分发禁止：严禁以任何形式对外分发、共享、重新打包本客户端</li>
+                </ul>
+                <p><strong>1.2 离线版本特别条款</strong></p>
+                <ul>
+                    <li>特定场景：离线版本仅为方便网络环境受限时部署存档的备用方案</li>
+                    <li>使用前提：用户应优先使用在线版本获取正版验证与安全更新</li>
+                    <li>责任自担：离线模式下手动导入的模组/资源需用户自行确保安全性</li>
+                </ul>
+                <h4>二、 使用限制</h4>
+                <p><strong>2.1 严格禁止</strong></p>
+                <ul>
+                    <li>将本客户端或其修改版本提供给任何第三方</li>
+                    <li>解包、反编译、逆向工程（法律允许的除外）</li>
+                    <li>移除修改签名、冒充官方版本</li>
+                    <li>植入广告、恶意代码或用于任何破坏性目的</li>
+                    <li>利用本客户端规避 Minecraft 正版验证</li>
+                </ul>
+                <p><strong>2.2 唯一例外</strong></p>
+                <p>仅允许在以下情况分享离线版本：</p>
+                <ul>
+                    <li>向已获得《科技市》存档使用授权的团队成员分享，用于合作开发</li>
+                    <li>分享范围不得超过存档授权明确覆盖的人员数量</li>
+                    <li>必须附带本协议全文，并确保接收方知晓保密义务</li>
+                </ul>
+                <h4>三、 开源合规</h4>
+                <p><strong>3.1 基础组件</strong></p>
+                <ul>
+                    <li>本客户端基于开源项目 PCL2（遵循 GPL-3.0 协议）修改</li>
+                    <li>开源代码部分的权利义务遵循原始许可证</li>
+                    <li>项目源码将依据 GPL 要求进行合规处理</li>
+                </ul>
+                <p><strong>3.2 修改声明</strong></p>
+                <ul>
+                    <li>我们对 PCL2 进行的定制化修改主要为：</li>
+                    <li>预配置《科技市》存档运行环境</li>
+                    <li>集成必要的兼容性组件</li>
+                    <li>优化资源加载逻辑</li>
+                    <li>添加离线部署模式</li>
+                    <li>完整修改记录可根据开源协议要求提供</li>
+                </ul>
+                <h4>四、 责任限制</h4>
+                <p>4.1 除因开发者故意或重大过失直接导致的损失外，开发者不对因以下情况引发的任何损害承担责任：</p>
+                <ul>
+                    <li>使用非官方渠道获取的客户端版本；</li>
+                    <li>在离线模式下自行导入的模组导致的崩溃、存档损坏；</li>
+                    <li>违反《Minecraft》EULA 导致的账号封禁；</li>
+                    <li>网络环境问题导致的更新失败；</li>
+                    <li>硬件不兼容或系统配置不当。</li>
+                </ul>
+                <p>4.2 在法律允许的最大范围内，本客户端按"现状"提供，开发者不提供任何明示或默示的担保，包括但不限于：适用于所有操作系统版本、与所有第三方模组完全兼容、完全无错误或未来永久免费更新。</p>
+                <h4>五、 终止条款</h4>
+                <p><strong>5.1 协议终止</strong></p>
+                <p>如有以下情况，本协议自动终止：</p>
+                <ul>
+                    <li>用户违反《科技市存档用户协议》</li>
+                    <li>用户对外分发本客户端</li>
+                    <li>用户使用本客户端从事任何违法活动</li>
+                </ul>
+                <p><strong>5.2 终止后果</strong></p>
+                <p>协议终止后，用户必须：</p>
+                <ul>
+                    <li>立即停止使用本客户端</li>
+                    <li>删除所有副本及相关文件</li>
+                    <li>如为团队使用，确保所有成员同步执行</li>
+                </ul>
+                <h4>六、 合规义务</h4>
+                <p>6.1 协议体系与遵守：使用本客户端即表示您同意，您的行为将同时受到以下一系列协议（合称"相关协议"）的约束：</p>
+                <ul>
+                    <li>(a) 本协议（即《科技市定制客户端用户协议》）；</li>
+                    <li>(b) 《科技市存档用户协议》（定义及文本获取方式见本协议开头重要提示）；</li>
+                    <li>(c) 《Minecraft 最终用户许可协议》（EULA）；</li>
+                    <li>(d) PCL2 启动器所适用的开源许可证及相关协议。</li>
+                </ul>
+                <p>6.2 内部协议冲突解决：若 (a) 项与 (b) 项协议（即本客户端协议与存档协议）的条款发生直接冲突，应按以下规则确定优先适用顺序：</p>
+                <ul>
+                    <li>涉及客户端的安装、使用、功能限制、技术免责、隐私政策及本协议特有规定的，以本协议 (a 项) 为准；</li>
+                    <li>涉及存档的授权性质（商业/非商业）、知识产权归属、二次创作规则、社区规范及存档特有规定的，以《科技市存档用户协议》(b 项) 为准。</li>
+                </ul>
+                <p>6.3 外部协议遵守：您有义务自行了解并遵守 (c) 项与 (d) 项协议（即 Minecraft 及 PCL2 协议）。本客户端的存在与提供不构成对上述任何第三方协议的替代或修改。因您违反 (c) 项或 (d) 项协议导致的任何后果（如账号封禁、法律责任），由您自行承担。</p>
+                <h4>七、 违约处理</h4>
+                <p>7.1 如有证据表明用户违反本协议，开发者有权采取以下一项或多项措施：</p>
+                <ul>
+                    <li>撤销该用户客户端的全部使用权限；</li>
+                    <li>终止其相关的《科技市》存档使用授权；</li>
+                    <li>将用户列入项目黑名单。</li>
+                </ul>
+                <p>7.2 若用户的违约行为给开发者造成直接经济损失的，开发者有权要求其赔偿该等损失及为维权而支出的合理费用（如律师费、公证费）。</p>
+                <h4>八、 联系方式</h4>
+                <ul>
+                    <li>可处理客户端相关问题：邮箱：kjsofficial@foxmail.com【注明问题】</li>
+                </ul>
+                <hr>
+                <h3>《科技市》定制客户端隐私政策</h3>
+                <p><strong>适用客户端：</strong> 《科技市》专用定制启动器（基于开源 PCL2 修改版）</p>
+                <h4>一、 数据收集声明</h4>
+                <p>本客户端不收集、不上传、不存储任何用户个人信息。具体说明如下：</p>
+                <ul>
+                    <li>本地操作原则：所有游戏配置、存档文件、模组加载均发生在用户本地计算机，无任何数据上报、统计或分析功能，无用户行为追踪机制。</li>
+                    <li>离线模式特性：离线版本已预置必要运行环境，可在网络连接不佳情况下部署《科技市》客户端。离线模式下所有操作均为本地处理，无任何外部通信。</li>
+                    <li>网络功能说明（如启用）：仅在用户明确选择"在线更新"时，才会连接至官方指定源检查更新。更新过程仅传输版本元数据及必要文件，不涉及用户个人信息。</li>
+                </ul>
+                <h4>二、 第三方服务</h4>
+                <ul>
+                    <li>开源组件：本客户端基于开源项目 PCL2 启动器修改，遵循其原有开源协议。基础启动器组件的隐私实践遵循原项目规范。</li>
+                    <li>游戏服务：登录、正版验证等操作由 Mojang/Microsoft 官方服务处理。相关隐私政策请参阅《Microsoft 隐私声明》及《Minecraft 最终用户许可协议》。</li>
+                </ul>
+                <h4>三、 数据安全</h4>
+                <ul>
+                    <li>本地存储：游戏文件、配置信息均存储于用户本地设备。建议用户定期备份重要存档，开发者不对数据丢失负责。</li>
+                    <li>安全提醒：请从唯一官方渠道获取本客户端。警惕任何要求输入账号密码的第三方修改版本。</li>
+                </ul>
+                <h4>四、 儿童隐私</h4>
+                <p>本客户端本身不收集任何年龄用户的信息。未成年人使用时应遵守游戏平台的年龄限制规定。</p>
+                <h4>五、 政策更新</h4>
+                <p>本政策可能随客户端更新而修订，重大变更将在启动界面提示。</p>
+                <p><strong>协议生效：</strong> 启动客户端时点击确认，即视为您同意本隐私政策及《科技市定制客户端用户协议》。如不同意，请立即删除客户端所有文件。</p>
+                <p style="margin-top:8px; color:var(--text-muted); font-size:0.75rem;">· 协议版本：V1.2 · 修改日期：2026-01-04 · 生效日期：2026-01-04</p>
+            </div>
+            <div class="modal-footer">
+                <label class="agreement-check">
+                    <input type="checkbox" id="client-agreement-checkbox"> 我已阅读并同意《科技市》定制客户端用户协议与隐私政策
+                </label>
+                <div class="modal-actions">
+                    <button class="btn-cancel" id="client-modal-cancel">取消</button>
+                    <button class="btn-confirm" id="client-modal-confirm" disabled>同意并下载</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== 星空生成 =====
+        (function() {
+            const sf = document.getElementById('starfield');
+            const frag = document.createDocumentFragment();
+            for (let i = 0; i < 90; i++) {
+                const s = document.createElement('div');
+                s.className = 'star';
+                const size = Math.random() < 0.85 ? 1.5 : 2.5;
+                s.style.width = size + 'px';
+                s.style.height = size + 'px';
+                s.style.left = (Math.random() * 100) + '%';
+                s.style.top = (Math.random() * 85) + '%';
+                s.style.setProperty('--d', (2.5 + Math.random() * 5).toFixed(2) + 's');
+                s.style.setProperty('--o', (0.25 + Math.random() * 0.65).toFixed(2));
+                s.style.animationDelay = (-Math.random() * 6).toFixed(2) + 's';
+                frag.appendChild(s);
+            }
+            const sparklePos = [[10, 28], [22, 55], [38, 18], [62, 10], [78, 34], [90, 60]];
+            sparklePos.forEach(function(p, i) {
+                const sp = document.createElement('div');
+                sp.className = 'sparkle';
+                const size = 9 + Math.random() * 8;
+                sp.style.width = size + 'px';
+                sp.style.height = size + 'px';
+                sp.style.left = p[0] + '%';
+                sp.style.top = p[1] + '%';
+                sp.style.setProperty('--d', (3 + Math.random() * 4).toFixed(2) + 's');
+                sp.style.animationDelay = (-i * 1.3).toFixed(2) + 's';
+                frag.appendChild(sp);
+            });
+            sf.appendChild(frag);
+        })();
+
+        // ===== 导航栏交互 =====
+        const navbar = document.getElementById('navbar');
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        const backTop = document.getElementById('back-top');
+
+        window.addEventListener('scroll', function() {
+            navbar.classList.toggle('scrolled', window.scrollY > 40);
+            backTop.classList.toggle('visible', window.scrollY > 400);
+        }, { passive: true });
+
+        hamburger.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navMenu.classList.toggle('open');
+        });
+        document.addEventListener('click', function(e) {
+            if (navMenu.classList.contains('open') && !e.target.closest('.navbar')) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('open');
+            }
+        });
+        navMenu.querySelectorAll('a').forEach(function(link) {
+            link.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('open');
+            });
+        });
+        backTop.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ===== 滚动入场 =====
+        (function() {
+            const revealEls = document.querySelectorAll('.reveal');
+            if (!('IntersectionObserver' in window)) {
+                revealEls.forEach(function(el) { el.classList.add('visible'); });
+                return;
+            }
+            const revealObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        revealObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+            revealEls.forEach(function(el) { revealObserver.observe(el); });
+        })();
+
+        // ============================================================
+        // ===== 协议弹窗（存档 + 客户端，通用逻辑） =====
+        // ============================================================
+        function bindAgreementModal(opts) {
+            const modal = document.getElementById(opts.modalId);
+            const closeBtn = document.getElementById(opts.closeId);
+            const cancelBtn = document.getElementById(opts.cancelId);
+            const confirmBtn = document.getElementById(opts.confirmId);
+            const checkbox = document.getElementById(opts.checkboxId);
+            const panList = document.getElementById(opts.panListId);
+            let pendingUrl = '';
+
+            function openModal(url) {
+                pendingUrl = url || 'https://pan.baidu.com/s/示例链接';
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                checkbox.checked = false;
+                confirmBtn.classList.remove('enabled');
+                confirmBtn.disabled = true;
+            }
+            function closeModal() {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+                pendingUrl = '';
+            }
+
+            panList.addEventListener('click', function(e) {
+                const link = e.target.closest('a.pan-card');
+                if (!link || link.classList.contains('disabled')) return;
+                e.preventDefault();
+                const url = link.getAttribute('href');
+                openModal(url && url !== '#' ? url : null);
+            });
+
+            checkbox.addEventListener('change', function() {
+                confirmBtn.classList.toggle('enabled', this.checked);
+                confirmBtn.disabled = !this.checked;
+            });
+
+            confirmBtn.addEventListener('click', function() {
+                if (pendingUrl) {
+                    window.open(pendingUrl, '_blank');
+                    closeModal();
+                }
+            });
+
+            closeBtn.addEventListener('click', closeModal);
+            cancelBtn.addEventListener('click', closeModal);
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) closeModal();
+            });
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+            });
+        }
+
+                bindAgreementModal({
+            modalId: 'client-agreement-modal',
+            closeId: 'client-modal-close',
+            cancelId: 'client-modal-cancel',
+            confirmId: 'client-modal-confirm',
+            checkboxId: 'client-agreement-checkbox',
+            panListId: 'client-pan-list'
+        });
+    </script>
+</body>
+</html>
