@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="科技城专用客户端下载与《科技市》定制客户端使用协议">
+    <meta name="description" content="科技城专用客户端下载与《科技市》Modrinth 定制客户端使用协议">
     <title>专用客户端 · 科技城存档 3.0</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -983,6 +983,31 @@
                 rgba(150, 150, 168, 0.075);
         }
 
+        /* ===== 提取码复制按钮 ===== */
+        .copy-code {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 16px;
+            font-size: 0.76rem;
+            font-family: var(--font-main);
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 999px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+        .copy-code:hover {
+            border-color: var(--accent-border);
+            color: var(--accent);
+            background: rgba(167, 139, 250, 0.08);
+        }
+        .copy-code.copied {
+            border-color: rgba(125, 232, 164, 0.5);
+            color: #7DE8A4;
+        }
+
         /* ===== 响应式 ===== */
         @media (max-width: 1024px) {
             .scenario-grid { grid-template-columns: 1fr 1fr; }
@@ -1067,8 +1092,8 @@
         <div id="starfield"></div>
         <div class="container">
             <span class="crumbs"><a href="index.html">首页</a><span>/</span>专用客户端</span>
-            <h1>📦 专用客户端下载</h1>
-            <p class="lead">为科技城存档定制的 Minecraft 客户端，集成所需模组与配置，即开即用。下载前请阅读并同意《科技市》定制客户端使用协议。</p>
+            <h1>专用客户端下载</h1>
+            <p class="lead">为科技城存档定制的 Minecraft 客户端，集成所需模组与配置，即开即用。主渠道下载前请阅读并同意《科技市》Modrinth 定制客户端使用协议；旧版 PCL2 渠道适用原有客户端协议。</p>
         </div>
     </section>
 
@@ -1077,31 +1102,36 @@
             <div class="container">
                 <div class="panel reveal" style="max-width:760px; margin:0 auto;">
                     <div class="info-tags">
-                        <span class="tag">📦 版本：<strong>1.20.4</strong></span>
-                        <span class="tag">💾 大小：<strong>420 MB</strong></span>
+                        <span class="tag">📦 版本：<strong>1.21.8</strong></span>
                         <span class="tag">⚙️ 集成：<strong>优化模组 / 小地图 / 建筑辅助</strong></span>
                     </div>
-                    <p class="desc">专用客户端包含科技城地图所需的全部模组和配置，下载后解压即可直接游玩。</p>
-                    <p class="dl-label">📥 选择网盘下载（需同意客户端协议）</p>
+                    <p class="desc">专用客户端包含科技城地图所需的全部模组和配置。推荐通过 <strong>Modrinth APP</strong>（官方渠道）获取；网盘下载为备用方式，解压即可直接游玩。</p>
+                    <p class="dl-label" style="margin-top:2px;"><strong>第一步</strong> · 下载 Modrinth APP （官方渠道，直接前往）</p>
+                    <a href="https://modrinth.com/app" target="_blank" rel="noopener" class="pan-card" style="margin-bottom:16px; border-color: rgba(167,139,250,0.5); background: rgba(167,139,250,0.08);">
+                        <span class="icon"></span>
+                        <span class="info"><span class="name">Modrinth APP（官方渠道）</span><span class="status">推荐 · 需正版 Minecraft 账号登录</span></span>
+                        <span class="action">前往下载 →</span>
+                    </a>
+                    <p class="dl-label"><strong>第二步</strong> · 网盘下载客户端数据包（需同意 Modrinth 客户端协议）</p>
                     <div class="pan-list" id="client-pan-list">
                         <a href="#" class="pan-card" data-client-download>
-                            <span class="icon">💾</span>
-                            <span class="info"><span class="name">百度网盘</span><span class="status">提取码：1234</span></span>
+                            <span class="icon"></span>
+                            <span class="info"><span class="name">XX网盘</span><span class="status"></span></span>
                             <span class="action">点击下载 →</span>
                         </a>
                         <a href="#" class="pan-card" data-client-download>
-                            <span class="icon">☁️</span>
-                            <span class="info"><span class="name">阿里云盘</span><span class="status">不限速下载</span></span>
+                            <span class="icon"></span>
+                            <span class="info"><span class="name">XX云盘</span><span class="status"></span></span>
                             <span class="action">点击下载 →</span>
                         </a>
                         <a href="#" class="pan-card disabled">
-                            <span class="icon">🔗</span>
-                            <span class="info"><span class="name">夸克网盘</span><span class="status">待添加</span></span>
+                            <span class="icon"></span>
+                            <span class="info"><span class="name">XX网盘</span><span class="status">待添加</span></span>
                             <span class="action">敬请期待</span>
                         </a>
                         <a href="#" class="pan-card disabled">
-                            <span class="icon">📦</span>
-                            <span class="info"><span class="name">123云盘</span><span class="status">待添加</span></span>
+                            <span class="icon"></span>
+                            <span class="info"><span class="name">XX云盘</span><span class="status">待添加</span></span>
                             <span class="action">敬请期待</span>
                         </a>
                     </div>
@@ -1110,14 +1140,18 @@
                 <!-- 旧版下载渠道 -->
                 <div class="panel reveal" style="max-width:760px; margin:18px auto 0;">
                     <div class="info-tags" style="margin-bottom:12px;">
-                        <span class="tag">📡 备用渠道：<strong>移动云盘</strong></span>
+                        <span class="tag">📡 备用渠道<strong></strong></span>
                         <span class="tag">⚙️ 适用：<strong>PCL2 旧版</strong></span>
                     </div>
                     <p class="desc" style="margin-bottom:14px;">PCL2 旧版下载链接（支持学习版），无法运行新版客户端时的备用选择。</p>
+                    <div style="display:flex; align-items:center; flex-wrap:wrap; gap:12px; margin:0 0 12px;">
+                        <span style="font-size:0.8rem; color:var(--text-muted);">提取码：<strong style="color:var(--accent); font-family:var(--font-mono); letter-spacing:0.06em;">f2pr</strong></span>
+                        <button type="button" class="copy-code" data-code="f2pr">复制提取码</button>
+                    </div>
                     <div class="pan-list" id="client-pan-list-legacy">
-                        <a href="https://yun.139.com/shareweb/#/w/i/2yA8vCBkuigno" class="pan-card" data-client-download>
-                            <span class="icon">📱</span>
-                            <span class="info"><span class="name">移动云盘</span><span class="status">提取码：bl0h · PCL2 旧版（支持学习版）</span></span>
+                        <a href="https://yun.139.com/shareweb/#/w/i/2yA8vnAcS9Cfn" class="pan-card" data-client-download>
+                            <span class="icon"></span>
+                            <span class="info"><span class="name">移动云盘</span><span class="status">PCL2 旧版（支持学习版）</span></span>
                             <span class="action">点击下载 →</span>
                         </a>
                     </div>
@@ -1236,6 +1270,7 @@
                     <li>协议版本：V3.0</li>
                     <li>生效日期：2026年10月22日</li>
                 </ul>
+            </div>
             <div class="modal-footer">
                 <label class="agreement-check">
                     <input type="checkbox" id="client-agreement-checkbox"> 我已阅读并同意《科技市》定制客户端使用协议
@@ -1243,6 +1278,82 @@
                 <div class="modal-actions">
                     <button class="btn-cancel" id="client-modal-cancel">取消</button>
                     <button class="btn-confirm" id="client-modal-confirm" disabled>同意并下载</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== Modrinth 客户端协议模态框（主下载渠道专用） ===== -->
+    <div class="modal-overlay" id="client-agreement-modal-modrinth">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3>《科技市》Modrinth 定制客户端使用协议</h3>
+                <button class="modal-close" id="client-modal-close-modrinth">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>重要提示：</strong>本客户端（指《科技市》在 Modrinth APP 平台上的专属整合与配置文件）为运行《科技市》存档的专用组件。使用本客户端，即表示您同时同意受本协议及《科技市存档使用协议》（完整文本可通过官方网站查阅）的全部条款约束。若您不同意其中任何协议，请勿下载或使用。</p>
+                <h4>一、 许可授权与平台特性</h4>
+                <p>1.1 有限使用许可</p>
+                <p>螺旋科城基金会（以下简称“开发者”）授予您一项不可转让、不可再分发的有限许可：</p>
+                <ul>
+                    <li>唯一用途：仅用于在 Modrinth APP 中运行、配置、管理《科技市》存档。</li>
+                    <li>完全免费：本客户端及配套配置面向个人用户完全免费，严禁任何形式的倒卖或未经授权的商业利用。</li>
+                    <li>分发禁止：严禁以任何形式对外重新打包、分发本专属整合包（已获授权的团队成员合作开发除外）。</li>
+                </ul>
+                <p>1.2 平台与正版合规</p>
+                <ul>
+                    <li>正版限制：鉴于 Modrinth APP 的官方规定，本客户端仅支持正版账号（Microsoft 账号）登录使用。您必须拥有合法的《Minecraft》正版账号。</li>
+                    <li>平台规则：您在使用 Modrinth APP 下载、更新本客户端时，须同时遵守 Modrinth 平台的用户服务条款。</li>
+                    <li>旧版兼容：本协议仅适用于 Modrinth APP 版本。若您使用官网保留的旧版 PCL2 渠道，请参阅适用于该渠道的原有客户端协议。</li>
+                </ul>
+                <h4>二、 开源边界与专属资产</h4>
+                <p>2.1 基础组件开源：本客户端所依托的 Modrinth APP 基础启动器代码，遵循其原有的开源许可证（如 GPL 等）。</p>
+                <p>2.2 专属资产保留：请注意，由基金会提供的《科技市》专属运行环境配置、兼容性组件参数、预置模组列表及专属素材等（统称“专属资产”），其知识产权归开发者所有，暂不进行开源处理。您不得对专属资产进行未经授权的提取、二次修改或商用。</p>
+                <h4>三、 责任限制</h4>
+                <p>3.1 因 Modrinth APP 平台自身服务中断、API 变更、账号验证失败或网络环境问题导致的更新失败或无法启动，开发者不承担责任。</p>
+                <p>3.2 除因开发者故意或重大过失直接导致的损失外，开发者不对因以下情况引发的任何损害承担责任：</p>
+                <ul>
+                    <li>使用非官方渠道获取的客户端或配置；</li>
+                    <li>自行修改整合包内模组、资源导致的崩溃或存档损坏；</li>
+                    <li>违反《Minecraft 最终用户许可协议》（EULA）导致的账号封禁；</li>
+                    <li>硬件不兼容或系统配置不当。</li>
+                </ul>
+                <h4>四、 终止条款</h4>
+                <p>4.1 如有以下情况，本协议自动终止：</p>
+                <ul>
+                    <li>用户违反《科技市存档使用协议》中的核心条款；</li>
+                    <li>用户未经授权对外分发本客户端专属资产；</li>
+                    <li>用户使用本客户端从事任何违法活动。</li>
+                </ul>
+                <p>4.2 协议终止后，您必须立即停止使用并删除所有相关文件。</p>
+                <h4>五、 合规义务与冲突解决</h4>
+                <p>5.1 协议体系：使用本客户端即表示您同意受以下协议约束：</p>
+                <p>(a) 本协议（《科技市 Modrinth 定制客户端使用协议》）；</p>
+                <p>(b) 《科技市存档使用协议》；</p>
+                <p>(c) 《Minecraft 最终用户许可协议》（EULA）；</p>
+                <p>(d) Modrinth 平台相关服务条款及开源许可证。</p>
+                <p>5.2 内部冲突解决：若 (a) 项与 (b) 项协议发生直接冲突：</p>
+                <ul>
+                    <li>涉及 Modrinth 客户端的安装、平台使用、技术免责及开源边界的，以本协议为准；</li>
+                    <li>涉及存档的授权性质（商业/非商业）、知识产权归属、二次创作规则的，以《科技市存档使用协议》为准。</li>
+                </ul>
+                <h4>六、 违约处理</h4>
+                <p>若用户的违约行为给开发者造成直接经济损失的，开发者有权要求其赔偿该等损失及为维权而支出的合理费用（如律师费、公证费等）。</p>
+                <h4>七、 联系方式</h4>
+                <ul>
+                    <li>问题反馈与授权咨询：kjsofficial@foxmail.com</li>
+                    <li>协议版本：V3.1 (Modrinth 专属版)</li>
+                    <li>生效日期：2026年10月23日</li>
+                </ul>
+                <p>本协议与《科技市存档使用协议》共同构成《科技市》项目在 Modrinth 平台上的完整协议体系。</p>
+            </div>
+            <div class="modal-footer">
+                <label class="agreement-check">
+                    <input type="checkbox" id="client-agreement-checkbox-modrinth"> 我已阅读并同意《科技市》Modrinth 定制客户端使用协议
+                </label>
+                <div class="modal-actions">
+                    <button class="btn-cancel" id="client-modal-cancel-modrinth">取消</button>
+                    <button class="btn-confirm" id="client-modal-confirm-modrinth" disabled>同意并下载</button>
                 </div>
             </div>
         </div>
@@ -1392,13 +1503,55 @@
         }
 
                 bindAgreementModal({
+            modalId: 'client-agreement-modal-modrinth',
+            closeId: 'client-modal-close-modrinth',
+            cancelId: 'client-modal-cancel-modrinth',
+            confirmId: 'client-modal-confirm-modrinth',
+            checkboxId: 'client-agreement-checkbox-modrinth',
+            panListIds: ['client-pan-list']
+        });
+
+        bindAgreementModal({
             modalId: 'client-agreement-modal',
             closeId: 'client-modal-close',
             cancelId: 'client-modal-cancel',
             confirmId: 'client-modal-confirm',
             checkboxId: 'client-agreement-checkbox',
-            panListIds: ['client-pan-list', 'client-pan-list-legacy']
+            panListIds: ['client-pan-list-legacy']
         });
+
+        // ===== 提取码复制 =====
+        (function() {
+            const btn = document.querySelector('.copy-code');
+            if (!btn) return;
+            function fallbackCopy(text, done) {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.position = 'fixed';
+                ta.style.opacity = '0';
+                document.body.appendChild(ta);
+                ta.select();
+                try { document.execCommand('copy'); done(); } catch (e) {}
+                document.body.removeChild(ta);
+            }
+            btn.addEventListener('click', function() {
+                const code = this.getAttribute('data-code');
+                const self = this;
+                const done = function() {
+                    self.classList.add('copied');
+                    self.textContent = '✓ 已复制 ' + code;
+                    setTimeout(function() {
+                        self.classList.remove('copied');
+                        self.textContent = '📋 复制提取码';
+                    }, 2000);
+                };
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(code).then(done).catch(function() { fallbackCopy(code, done); });
+                } else {
+                    fallbackCopy(code, done);
+                }
+            });
+        })();
     </script>
 </body>
 </html>
