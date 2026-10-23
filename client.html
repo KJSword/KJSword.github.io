@@ -1180,9 +1180,9 @@
                             <span class="info"><span class="name">移动云盘源</span><span class="status"></span></span>
                             <span class="action">点击下载 →</span>
                         </a>
-                        <a href="#" class="pan-card" data-client-download>
+                        <a href="https://www.guangyapan.com/s/1960666211814109273_aeYMqCwV3ZOZl3ap?code=lkb7" class="pan-card" data-client-download>
                             <span class="icon"></span>
-                            <span class="info"><span class="name">XX云盘</span><span class="status"></span></span>
+                            <span class="info"><span class="name">光鸭云盘源</span><span class="status"></span></span>
                             <span class="action">点击下载 →</span>
                         </a>
                         <a href="#" class="pan-card disabled">
@@ -1206,13 +1206,20 @@
                     </div>
                     <p class="desc" style="margin-bottom:14px;">PCL2 旧版下载链接（支持学习版），无法运行新版客户端时的备用选择。</p>
                     <div style="display:flex; align-items:center; flex-wrap:wrap; gap:12px; margin:0 0 12px;">
-                        <span style="font-size:0.8rem; color:var(--text-muted);">提取码：<strong style="color:var(--accent); font-family:var(--font-mono); letter-spacing:0.06em;">f2pr</strong></span>
+                        <span style="font-size:0.8rem; color:var(--text-muted);">移动云盘提取码：<strong style="color:var(--accent); font-family:var(--font-mono); letter-spacing:0.06em;">f2pr</strong></span>
                         <button type="button" class="copy-code" data-code="f2pr">复制提取码</button>
+                        <span style="font-size:0.8rem; color:var(--text-muted);">光鸭云盘提取码：<strong style="color:var(--accent); font-family:var(--font-mono); letter-spacing:0.06em;">1e8l</strong></span>
+                        <button type="button" class="copy-code" data-code="1e8l">复制提取码</button>
                     </div>
                     <div class="pan-list" id="client-pan-list-legacy">
                         <a href="https://yun.139.com/shareweb/#/w/i/2yA8vnAcS9Cfn" class="pan-card" data-client-download>
                             <span class="icon"></span>
                             <span class="info"><span class="name">移动云盘</span><span class="status">PCL2 旧版（支持学习版）</span></span>
+                            <span class="action">点击下载 →</span>
+                        </a>
+                        <a href="https://www.guangyapan.com/s/1960664530095321179_aeYMqCwV3ZOZl3ap?code=1e8l" class="pan-card" data-client-download>
+                            <span class="icon"></span>
+                            <span class="info"><span class="name">光鸭云盘</span><span class="status">PCL2 旧版（支持学习版）</span></span>
                             <span class="action">点击下载 →</span>
                         </a>
                     </div>
@@ -1635,8 +1642,8 @@
 
         // ===== 提取码复制 =====
         (function() {
-            const btn = document.querySelector('.copy-code');
-            if (!btn) return;
+            const btns = document.querySelectorAll('.copy-code');
+            if (!btns.length) return;
             function fallbackCopy(text, done) {
                 const ta = document.createElement('textarea');
                 ta.value = text;
@@ -1647,22 +1654,24 @@
                 try { document.execCommand('copy'); done(); } catch (e) {}
                 document.body.removeChild(ta);
             }
-            btn.addEventListener('click', function() {
-                const code = this.getAttribute('data-code');
-                const self = this;
-                const done = function() {
-                    self.classList.add('copied');
-                    self.textContent = '✓ 已复制 ' + code;
-                    setTimeout(function() {
-                        self.classList.remove('copied');
-                        self.textContent = '📋 复制提取码';
-                    }, 2000);
-                };
-                if (navigator.clipboard && window.isSecureContext) {
-                    navigator.clipboard.writeText(code).then(done).catch(function() { fallbackCopy(code, done); });
-                } else {
-                    fallbackCopy(code, done);
-                }
+            btns.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const code = this.getAttribute('data-code');
+                    const self = this;
+                    const done = function() {
+                        self.classList.add('copied');
+                        self.textContent = '✓ 已复制 ' + code;
+                        setTimeout(function() {
+                            self.classList.remove('copied');
+                            self.textContent = '复制提取码';
+                        }, 2000);
+                    };
+                    if (navigator.clipboard && window.isSecureContext) {
+                        navigator.clipboard.writeText(code).then(done).catch(function() { fallbackCopy(code, done); });
+                    } else {
+                        fallbackCopy(code, done);
+                    }
+                });
             });
         })();
     </script>
