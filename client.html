@@ -1008,6 +1008,66 @@
             color: #7DE8A4;
         }
 
+        /* ===== 客户端教程 ===== */
+        .tut-list {
+            max-width: 860px;
+            margin: 0 auto;
+            display: grid;
+            gap: 18px;
+        }
+        .tut-step {
+            display: flex;
+            gap: 18px;
+            align-items: flex-start;
+            background: rgba(150, 150, 168, 0.075);
+            border: 1px solid var(--glass-border);
+            border-radius: 18px;
+            padding: 26px 28px;
+            backdrop-filter: blur(18px) saturate(1.1);
+            -webkit-backdrop-filter: blur(18px) saturate(1.1);
+            transition: border-color 0.3s ease, background 0.3s ease;
+        }
+        .tut-step:hover { border-color: var(--accent-border); }
+        .tut-num {
+            flex-shrink: 0;
+            width: 38px; height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: var(--accent-soft);
+            border: 1px solid rgba(167, 139, 250, 0.3);
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 1.05rem;
+            font-family: var(--font-mono);
+        }
+        .tut-body { flex: 1; min-width: 0; }
+        .tut-body h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 8px; }
+        .tut-body p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.9; }
+        .tut-body strong { color: #fff; }
+        .tut-files {
+            margin: 10px 0 4px;
+            padding-left: 20px;
+            display: grid;
+            gap: 6px;
+        }
+        .tut-files li { color: var(--text-secondary); font-size: 0.88rem; line-height: 1.8; }
+        .tut-files li strong { color: #fff; }
+        .tut-img {
+            width: 100%;
+            max-width: 720px;
+            border-radius: 14px;
+            border: 1px solid var(--glass-border);
+            margin-top: 14px;
+            display: block;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+        }
+        @media (max-width: 640px) {
+            .tut-step { flex-direction: column; padding: 22px 18px; }
+            .tut-num { width: 32px; height: 32px; }
+        }
+
         /* ===== 响应式 ===== */
         @media (max-width: 1024px) {
             .scenario-grid { grid-template-columns: 1fr 1fr; }
@@ -1073,6 +1133,7 @@
                     <li><a href="announcements.html">公告</a></li>
                     <li><a href="archive.html">存档</a></li>
                     <li><a href="client.html" class="active">客户端</a></li>
+                    <li><a href="#tutorial">教程</a></li>
                     <li><a href="index.html#scenarios">场景</a></li>
                     <li><a href="index.html#guide">说明</a></li>
                     <li><a href="index.html#team">团队</a></li>
@@ -1154,6 +1215,58 @@
                             <span class="info"><span class="name">移动云盘</span><span class="status">PCL2 旧版（支持学习版）</span></span>
                             <span class="action">点击下载 →</span>
                         </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== 客户端教程 ===== -->
+        <section class="section" id="tutorial" style="padding-top:56px;">
+            <div class="container">
+                <div class="section-header reveal">
+                    <span class="section-tag">Tutorial</span>
+                    <h2>📖 客户端教程</h2>
+                    <p>四步完成安装：下载 → 安装与解压 → 识别文件 → 导入启动器</p>
+                </div>
+
+                <div class="tut-list">
+                    <div class="tut-step reveal">
+                        <span class="tut-num">1</span>
+                        <div class="tut-body">
+                            <h3>下载 Modrinth APP 和客户端数据包</h3>
+                            <p>在本页上方完成两步下载：通过 <strong>Modrinth APP</strong> 官方渠道获取启动器，再从网盘列表下载<strong>客户端数据包</strong>；无法运行新版客户端时，可使用下方 PCL2 旧版备用渠道。</p>
+                        </div>
+                    </div>
+
+                    <div class="tut-step reveal reveal-delay-1">
+                        <span class="tut-num">2</span>
+                        <div class="tut-body">
+                            <h3>安装 Modrinth APP 和解压客户端数据包</h3>
+                            <p>安装 Modrinth APP；将下载得到的数据包压缩包<strong>解压</strong>到一个方便找到的文件夹。</p>
+                        </div>
+                    </div>
+
+                    <div class="tut-step reveal reveal-delay-2">
+                        <span class="tut-num">3</span>
+                        <div class="tut-body">
+                            <h3>识别解压后的文件</h3>
+                            <p>解压后会看到以下文件：</p>
+                            <ul class="tut-files">
+                                <li><strong>Java 安装包</strong>（exe文件）—— 装过可忽略；</li>
+                                <li><strong>数据包主文件</strong>（mrpack文件）—— <span style="color:#FF8A80;">一定要解压</span>；</li>
+                                <li><strong>更新公告</strong>（docx文件）。</li>
+                            </ul>
+                            <img src="assets/tutorial/step3-files.png" alt="解压后的文件列表：Java 安装包、数据包主文件、更新公告" class="tut-img" loading="lazy">
+                        </div>
+                    </div>
+
+                    <div class="tut-step reveal reveal-delay-3">
+                        <span class="tut-num">4</span>
+                        <div class="tut-body">
+                            <h3>拖入启动器自动安装</h3>
+                            <p>将 <strong>.mrpack 文件</strong>拖到 <strong>Modrinth APP</strong>（或 <strong>PCL2 旧版</strong>）窗口中，启动器会自行完成安装。（离线版仅旧版PCL2启动器安装）</p>
+                            <img src="assets/tutorial/step4-drag.jpg" alt="将 mrpack 文件拖入 Modrinth APP 或 PCL2 启动器" class="tut-img" loading="lazy">
+                        </div>
                     </div>
                 </div>
             </div>
