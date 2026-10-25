@@ -141,6 +141,19 @@
             font-size: 0.78rem;
             letter-spacing: 0.05em;
         }
+        .detail-head .date .cat-chip {
+            display: inline-block;
+            font-size: 0.66rem;
+            font-weight: 600;
+            padding: 2px 9px;
+            border-radius: 999px;
+            margin-right: 8px;
+            letter-spacing: 0.04em;
+            font-family: var(--font-body, inherit);
+        }
+        .cat-chip.cat-site { background: rgba(96, 165, 250, 0.14); color: #7fb5f7; border: 1px solid rgba(96, 165, 250, 0.25); }
+        .cat-chip.cat-project { background: rgba(45, 212, 191, 0.12); color: #5ed3c5; border: 1px solid rgba(45, 212, 191, 0.25); }
+        .cat-chip.cat-urgent { background: rgba(248, 113, 113, 0.13); color: #f87171; border: 1px solid rgba(248, 113, 113, 0.3); }
 
         .detail-card {
             background: rgba(150, 150, 168, 0.075);
@@ -223,7 +236,7 @@
         </div>
     </footer>
 
-    <script src="data/announcements.js?v=19"></script>
+    <script src="data/announcements.js?v=21"></script>
     <script>
         // ===== 星空生成 =====
         (function() {
@@ -271,10 +284,12 @@
                 bodyEl.innerHTML = '<div class="error-box">⚠️ 请检查 <code>data/announcements.js</code> 是否存在。</div>';
                 return;
             }
+            const CAT_LABELS = { site: '网站公告', project: '项目动态', urgent: '紧急公告' };
             const item = announcements.find(function(a) { return a.id === id; });
             if (item) {
+                const cat = CAT_LABELS[item.category] ? item.category : 'site';
                 titleEl.textContent = item.title;
-                dateEl.textContent = item.date;
+                dateEl.innerHTML = '<span class="cat-chip cat-' + cat + '">' + CAT_LABELS[cat] + '</span>' + item.date;
                 bodyEl.innerHTML = '';
                 bodyEl.innerHTML = item.body;  // 富文本渲染（支持公告内嵌图片）；换行由 .detail-content 的 white-space: pre-wrap 保留
                 document.title = item.title + ' - 科技城存档 3.0';

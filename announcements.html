@@ -428,6 +428,47 @@
             color: var(--accent);
         }
 
+        /* ===== 公告分类筛选 ===== */
+        .cat-filter {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 9px;
+            max-width: 760px;
+            margin: 0 auto 26px;
+        }
+        .cat-tab {
+            padding: 7px 18px;
+            border-radius: 999px;
+            border: 1px solid var(--glass-border);
+            background: var(--card-bg);
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            font-family: inherit;
+        }
+        .cat-tab:hover { border-color: var(--accent-border); color: var(--accent); }
+        .cat-tab.active {
+            background: rgba(167, 139, 250, 0.14);
+            border-color: var(--accent-border);
+            color: var(--accent);
+        }
+        .cat-chip {
+            display: inline-block;
+            font-size: 0.66rem;
+            font-weight: 600;
+            padding: 2px 9px;
+            border-radius: 999px;
+            margin-right: 8px;
+            letter-spacing: 0.04em;
+        }
+        .cat-chip.cat-site { background: rgba(96, 165, 250, 0.14); color: #7fb5f7; border: 1px solid rgba(96, 165, 250, 0.25); }
+        .cat-chip.cat-project { background: rgba(45, 212, 191, 0.12); color: #5ed3c5; border: 1px solid rgba(45, 212, 191, 0.25); }
+        .cat-chip.cat-urgent { background: rgba(248, 113, 113, 0.13); color: #f87171; border: 1px solid rgba(248, 113, 113, 0.3); }
+        .announce-card.hidden { display: none; }
+
         /* ===== 适用场景 ===== */
         .scenario-grid {
             display: grid;
@@ -888,6 +929,13 @@
                     <p>科技城项目的最新动态与重要通知</p>
                 </div>
 
+                <div class="cat-filter reveal" id="cat-filter">
+                    <button class="cat-tab active" data-cat="all" type="button">全部</button>
+                    <button class="cat-tab" data-cat="site" type="button">网站公告</button>
+                    <button class="cat-tab" data-cat="project" type="button">项目动态</button>
+                    <button class="cat-tab" data-cat="urgent" type="button">紧急公告</button>
+                </div>
+
                 <div class="announce-list" id="announce-list">
                     <!-- 由 data/announcements.js 动态渲染 -->
                 </div>
@@ -943,7 +991,7 @@
     <button class="back-top" id="back-top" aria-label="回到顶部">↑</button>
 
     <!-- 公告数据 -->
-    <script src="data/announcements.js?v=19"></script>
+    <script src="data/announcements.js?v=21"></script>
 
     <script>
         // ===== 星空生成 =====
@@ -1036,18 +1084,33 @@
                 return;
             }
             const sorted = announcements.slice().sort(function(a, b) { return b.id - a.id; });
+            const CAT_LABELS = { site: '网站公告', project: '项目动态', urgent: '紧急公告' };
             let html = '';
             sorted.forEach(function(item) {
+                const cat = CAT_LABELS[item.category] ? item.category : 'site';
                 const plain = item.body.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
                 const excerpt = plain.length > 76 ? plain.slice(0, 76) + '…' : plain;
-                html += '<a href="announcement.html?id=' + item.id + '" class="announce-card">' +
-                    '<div class="meta">' + item.date + '</div>' +
+                html += '<a href="announcement.html?id=' + item.id + '" class="announce-card" data-cat="' + cat + '">' +
+                    '<div class="meta"><span class="cat-chip cat-' + cat + '">' + CAT_LABELS[cat] + '</span>' + item.date + '</div>' +
                     '<h3>' + item.title + '</h3>' +
                     '<p class="excerpt">' + excerpt + '</p>' +
                     '<span class="more">阅读全文 →</span>' +
                     '</a>';
             });
             listEl.innerHTML = html;
+
+            // ===== 分类筛选交互 =====
+            const tabs = document.querySelectorAll('#cat-filter .cat-tab');
+            tabs.forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    tabs.forEach(function(t) { t.classList.remove('active'); });
+                    tab.classList.add('active');
+                    const cat = tab.getAttribute('data-cat');
+                    listEl.querySelectorAll('.announce-card').forEach(function(card) {
+                        card.classList.toggle('hidden', cat !== 'all' && card.getAttribute('data-cat') !== cat);
+                    });
+                });
+            });
         })();
     </script>
 </body>
