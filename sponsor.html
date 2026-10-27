@@ -833,9 +833,69 @@
             .announce-card { padding: 17px 19px; }
             .modal-box { max-height: 92vh; border-radius: 18px; }
         }
+        /* ===== 动画增强 ===== */
+        @keyframes riseIn {
+            from { opacity: 0; transform: translateY(26px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes auroraDrift1 { to { transform: translate(11vw, 9vh) scale(1.18); } }
+        @keyframes auroraDrift2 { to { transform: translate(-12vw, -7vh) scale(1.12); } }
+        .bg-aurora { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+        .bg-aurora::before, .bg-aurora::after { content: ""; position: absolute; width: 58vw; height: 58vw; border-radius: 50%; filter: blur(90px); opacity: 0.12; }
+        .bg-aurora::before { top: -22vw; left: -16vw; background: radial-gradient(circle, #A78BFA 0%, transparent 65%); animation: auroraDrift1 26s ease-in-out infinite alternate; }
+        .bg-aurora::after { bottom: -26vw; right: -14vw; background: radial-gradient(circle, #7C3AED 0%, transparent 65%); animation: auroraDrift2 34s ease-in-out infinite alternate; }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            .page-hero .container > *, .detail-wrap > *, .maintenance-card > * { animation: none; }
+            .bg-aurora::before, .bg-aurora::after { animation: none; }
+        }
+
+        /* 页面头载入动画 */
+        .page-hero .container > * { animation: riseIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) both; }
+        .page-hero .container > *:nth-child(2) { animation-delay: 0.12s; }
+        .page-hero .container > *:nth-child(3) { animation-delay: 0.24s; }
+        .page-hero .container > *:nth-child(4) { animation-delay: 0.36s; }
+        /* ===== 进入/退出动画 ===== */
+        @keyframes pageIn { from { opacity: 0; } to { opacity: 1; } }
+        body { animation: pageIn 0.45s ease backwards; }
+        body.page-exit { opacity: 0; transition: opacity 0.26s ease; }
+
+        /* ===== 液态玻璃（右下角可开关） ===== */
+        html.liquid-glass .navbar,
+        html.liquid-glass .panel,
+        html.liquid-glass .scenario-card,
+        html.liquid-glass .timeline-card,
+        html.liquid-glass .announce-card,
+        html.liquid-glass .detail-card,
+        html.liquid-glass .pan-card,
+        html.liquid-glass .tut-step,
+        html.liquid-glass .modal-body,
+        html.liquid-glass .maintenance-card,
+        html.liquid-glass .search-box {
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            background-image: linear-gradient(150deg, rgba(255,255,255,0.10), rgba(255,255,255,0.035) 42%, rgba(255,255,255,0.015));
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), inset 0 -1px 1px rgba(255,255,255,0.05), 0 12px 40px rgba(0,0,0,0.42);
+        }
+        #lg-toggle {
+            position: fixed; right: 26px; bottom: 82px; z-index: 1500;
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 10px 16px; border-radius: 999px; border: 1px solid rgba(167,139,250,0.35);
+            background: rgba(20,18,30,0.6); backdrop-filter: blur(14px) saturate(160%); -webkit-backdrop-filter: blur(14px) saturate(160%);
+            color: var(--text-primary, #E9E4F5); font-family: inherit; font-size: 0.8rem; letter-spacing: 0.02em;
+            cursor: pointer; transition: opacity 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+        }
+        #lg-toggle:hover { border-color: rgba(167,139,250,0.75); transform: translateY(-2px); }
+        #lg-toggle.off { opacity: 0.5; }
+        @media (prefers-reduced-motion: reduce) {
+            body { animation: none; }
+            body.page-exit { opacity: 1; transition: none; }
+        }
     </style>
 </head>
 <body>
+    <div class="bg-aurora" aria-hidden="true"></div>
+    <script>try{if(localStorage.getItem('tc-liquid-glass')!=='0'){document.documentElement.classList.add('liquid-glass');}}catch(e){}</script>
 
     <!-- ===== 导航栏 ===== -->
     <header class="navbar" id="navbar">
@@ -926,8 +986,7 @@
                 <div class="footer-col">
                     <h4>📧 联系我们</h4>
                     <ul>
-                        <li><a href="mailto:kjsofficial@foxmail.com">客服邮箱</a></li>
-                        <li><a href="mailto:kjsofficial@foxmail.com">商务合作</a></li>
+                        <li><a href="mailto:kjsofficial@foxmail.com">客服邮箱 / 商务合作</a></li>
                     </ul>
                 </div>
             </div>
@@ -1025,6 +1084,48 @@
         })();
 
 
+    </script>
+    <button id="lg-toggle" type="button" aria-pressed="true" title="开关液态玻璃效果">液态玻璃</button>
+    <script>
+        // ===== 液态玻璃开关 =====
+        (function() {
+            var KEY = 'tc-liquid-glass';
+            var btn = document.getElementById('lg-toggle');
+            function apply(on) {
+                document.documentElement.classList.toggle('liquid-glass', on);
+                btn.classList.toggle('off', !on);
+                btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+            }
+            var saved = null;
+            try { saved = localStorage.getItem(KEY); } catch (e) {}
+            apply(saved !== '0');
+            btn.addEventListener('click', function() {
+                var on = !document.documentElement.classList.contains('liquid-glass');
+                apply(on);
+                try { localStorage.setItem(KEY, on ? '1' : '0'); } catch (e) {}
+            });
+        })();
+
+        // ===== 页面进入/退出动画 =====
+        (function() {
+            if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            document.addEventListener('click', function(e) {
+                if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+                var a = e.target.closest('a[href]');
+                if (!a) return;
+                var href = a.getAttribute('href') || '';
+                if (!href || href.charAt(0) === '#' || /^(mailto|tel|javascript|blob|data):/i.test(href)) return;
+                if (a.target === '_blank' || a.hasAttribute('download')) return;
+                if (a.host && a.host !== location.host) return;
+                if (a.pathname === location.pathname && a.hash) return;
+                e.preventDefault();
+                document.body.classList.add('page-exit');
+                setTimeout(function() { location.href = a.href; }, 260);
+            }, true);
+            window.addEventListener('pageshow', function(ev) {
+                if (ev.persisted) document.body.classList.remove('page-exit');
+            });
+        })();
     </script>
 </body>
 </html>
