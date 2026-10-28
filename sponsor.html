@@ -876,18 +876,7 @@
             -webkit-backdrop-filter: blur(24px) saturate(180%);
             background-image: linear-gradient(150deg, rgba(255,255,255,0.10), rgba(255,255,255,0.035) 42%, rgba(255,255,255,0.015));
             box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), inset 0 -1px 1px rgba(255,255,255,0.05), 0 12px 40px rgba(0,0,0,0.42);
-        }
-        #lg-toggle {
-            position: fixed; right: 26px; bottom: 82px; z-index: 1500;
-            display: inline-flex; align-items: center; gap: 8px;
-            padding: 10px 16px; border-radius: 999px; border: 1px solid rgba(167,139,250,0.35);
-            background: rgba(20,18,30,0.6); backdrop-filter: blur(14px) saturate(160%); -webkit-backdrop-filter: blur(14px) saturate(160%);
-            color: var(--text-primary, #E9E4F5); font-family: inherit; font-size: 0.8rem; letter-spacing: 0.02em;
-            cursor: pointer; transition: opacity 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
-        }
-        #lg-toggle:hover { border-color: rgba(167,139,250,0.75); transform: translateY(-2px); }
-        #lg-toggle.off { opacity: 0.5; }
-        @media (prefers-reduced-motion: reduce) {
+        }        @media (prefers-reduced-motion: reduce) {
             body { animation: none; }
             body.page-exit { opacity: 1; transition: none; }
         }
@@ -895,7 +884,7 @@
 </head>
 <body>
     <div class="bg-aurora" aria-hidden="true"></div>
-    <script>try{if(localStorage.getItem('tc-liquid-glass')!=='0'){document.documentElement.classList.add('liquid-glass');}}catch(e){}</script>
+    <script>try{localStorage.removeItem('tc-liquid-glass')}catch(e){};document.documentElement.classList.add('liquid-glass');</script>
 
     <!-- ===== 导航栏 ===== -->
     <header class="navbar" id="navbar">
@@ -915,6 +904,8 @@
                     <li><a href="announcements.html">公告</a></li>
                     <li><a href="archive.html">存档</a></li>
                     <li><a href="client.html">客户端</a></li>
+                    <li><a href="tools.html">工具</a></li>
+                    <li><a href="status.html">修复进度</a></li>
                     <li><a href="index.html#scenarios">场景</a></li>
                     <li><a href="index.html#guide">说明</a></li>
                     <li><a href="index.html#team">团队</a></li>
@@ -974,6 +965,8 @@
                         <li><a href="index.html#guide">使用说明</a></li>
                         <li><a href="index.html#team">关于团队</a></li>
                         <li><a href="gallery.html">图片鉴赏</a></li>
+                        <li><a href="tools.html">配置和工具</a></li>
+                        <li><a href="status.html">修复进度</a></li>
                     </ul>
                 </div>
                 <div class="footer-col">
@@ -1085,27 +1078,7 @@
 
 
     </script>
-    <button id="lg-toggle" type="button" aria-pressed="true" title="开关液态玻璃效果">液态玻璃</button>
     <script>
-        // ===== 液态玻璃开关 =====
-        (function() {
-            var KEY = 'tc-liquid-glass';
-            var btn = document.getElementById('lg-toggle');
-            function apply(on) {
-                document.documentElement.classList.toggle('liquid-glass', on);
-                btn.classList.toggle('off', !on);
-                btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-            }
-            var saved = null;
-            try { saved = localStorage.getItem(KEY); } catch (e) {}
-            apply(saved !== '0');
-            btn.addEventListener('click', function() {
-                var on = !document.documentElement.classList.contains('liquid-glass');
-                apply(on);
-                try { localStorage.setItem(KEY, on ? '1' : '0'); } catch (e) {}
-            });
-        })();
-
         // ===== 页面进入/退出动画 =====
         (function() {
             if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
