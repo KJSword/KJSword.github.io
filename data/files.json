@@ -3,7 +3,15 @@
         "name": "安装教程 PDF",
         "path": "assets/pdf/tutorial.pdf",
         "description": "科技城存档的完整图文安装指南，包含客户端安装、存档导入、常见问题等"
+    },
+    {
+        "name": "配置和工具",
+        "path": "tools.html",
+        "description": "下载科技城存档低配画质设置与相关游戏工具"
+    },
+    {
+        "name": "故障修复进度",
+        "path": "status.html",
+        "description": "实时跟踪科技城存档客户端与存档故障的修复进展"
     }
-    // 未来可添加更多文件，例如：
-    // { "name": "地图预览图", "path": "images/preview.jpg", "description": "科技城全景预览" }
 ]
