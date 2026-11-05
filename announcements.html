@@ -427,6 +427,20 @@
             font-weight: 600;
             color: var(--accent);
         }
+        .announce-card .more.followup {
+            margin-left: 16px;
+            padding: 3px 12px;
+            border-radius: 999px;
+            color: #f87171;
+            background: rgba(248, 113, 113, 0.13);
+            border: 1px solid rgba(248, 113, 113, 0.3);
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+        .announce-card .more.followup:hover {
+            background: rgba(248, 113, 113, 0.22);
+            transform: translateY(-1px);
+        }
 
         /* ===== 公告分类筛选 ===== */
         .cat-filter {
@@ -1045,7 +1059,7 @@
     <button class="back-top" id="back-top" aria-label="回到顶部">↑</button>
 
     <!-- 公告数据 -->
-    <script src="data/announcements.js?v=23"></script>
+    <script src="data/announcements.js?v=24"></script>
 
     <script>
         // ===== 星空生成 =====
@@ -1137,7 +1151,7 @@
                 listEl.innerHTML = '<div class="search-result-empty">⚠️ 公告数据加载失败，请检查 data/announcements.js</div>';
                 return;
             }
-            const sorted = announcements.slice().sort(function(a, b) { return b.id - a.id; });
+            const sorted = announcements.filter(function(a) { return !a.hidden; }).slice().sort(function(a, b) { return b.id - a.id; });
             const CAT_LABELS = { site: '网站公告', project: '项目动态', urgent: '紧急公告' };
             let html = '';
             sorted.forEach(function(item) {
@@ -1149,9 +1163,20 @@
                     '<h3>' + item.title + '</h3>' +
                     '<p class="excerpt">' + excerpt + '</p>' +
                     '<span class="more">阅读全文 →</span>' +
+                    (item.nextId ? '<span class="more followup" data-next="' + item.nextId + '" title="查看该问题的后续处理进展">后续公告 →</span>' : '') +
                     '</a>';
             });
             listEl.innerHTML = html;
+
+            // ===== “后续公告”按钮：跳转对应后续公告（嵌套在卡片 <a> 内，需阻止默认跳转） =====
+            listEl.addEventListener('click', function(e) {
+                const fu = e.target.closest('.followup');
+                if (fu) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    location.href = 'announcement.html?id=' + fu.getAttribute('data-next');
+                }
+            });
 
             // ===== 分类筛选交互 =====
             const tabs = document.querySelectorAll('#cat-filter .cat-tab');
