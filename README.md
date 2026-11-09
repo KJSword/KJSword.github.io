@@ -45,7 +45,3 @@
 纯 HTML / CSS / JavaScript（无依赖）
 Google Fonts（Press Start 2P 像素字体）
 GitHub Pages 托管
-
-🤝 贡献
-欢迎通过提交 Issue 或 Pull Request 参与改进。如果您有优秀的存档想要分享，也欢迎联系我们。
-感谢使用科技城存档，祝您创作愉快！ 🏙️
