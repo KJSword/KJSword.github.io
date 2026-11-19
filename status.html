@@ -864,49 +864,419 @@
             body.page-exit { opacity: 1; transition: none; }
         }
 
-        /* ===== 故障修复进度 ===== */
-        .fix-chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 18px; }
+        /* ============================================================
+           故障修复进度 · HUD 遥测终端
+           ============================================================ */
+        .fix-section { position: relative; overflow: hidden; padding-top: 0; padding-bottom: 92px; }
+        .fix-section .hud-bg {
+            position: absolute; inset: 0; z-index: 0;
+            pointer-events: none; overflow: hidden;
+            background-image:
+                linear-gradient(rgba(167,139,250,0.085) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(167,139,250,0.085) 1px, transparent 1px);
+            background-size: 58px 58px;
+            -webkit-mask-image: radial-gradient(96% 78% at 50% 4%, #000 18%, transparent 86%);
+            mask-image: radial-gradient(96% 78% at 50% 4%, #000 18%, transparent 86%);
+        }
+        .fix-section .hud-bg::after {
+            content: '';
+            position: absolute; left: -12%; right: -12%; top: 0; height: 220px;
+            background: linear-gradient(180deg, transparent, rgba(167,139,250,0.05) 45%, rgba(167,139,250,0.17) 88%, transparent);
+            animation: hudSweep 12s linear infinite;
+        }
+        @keyframes hudSweep {
+            from { transform: translateY(-240px); }
+            to   { transform: translateY(1320px); }
+        }
+        .fix-section::after {
+            content: '';
+            position: absolute; inset: 0; z-index: 1;
+            pointer-events: none;
+            background: repeating-linear-gradient(180deg, rgba(255,255,255,0.028) 0 1px, transparent 1px 4px);
+            opacity: 0.55;
+        }
+        .fix-section .container { position: relative; z-index: 2; }
+
+        /* 英雄区遥测小标 */
+        .hero-mono {
+            display: block;
+            width: fit-content;
+            margin: 0 auto 16px;
+            font-family: var(--font-mono);
+            font-size: 0.62rem;
+            letter-spacing: 0.32em;
+            text-transform: uppercase;
+            color: rgba(167,139,250,0.72);
+            padding: 5px 16px;
+            border-left: 1px solid rgba(167,139,250,0.45);
+            border-right: 1px solid rgba(167,139,250,0.45);
+        }
+
+        /* 控制台外框 */
+        .hud-console {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+            border: 1px solid rgba(167,139,250,0.22);
+            background: linear-gradient(180deg, rgba(26,24,42,0.62), rgba(10,10,18,0.38));
+            backdrop-filter: blur(16px) saturate(1.12);
+            -webkit-backdrop-filter: blur(16px) saturate(1.12);
+            box-shadow:
+                inset 0 0 0 1px rgba(255,255,255,0.025),
+                inset 0 1px 0 rgba(167,139,250,0.28),
+                0 24px 80px rgba(0,0,0,0.55),
+                0 0 70px rgba(124,58,237,0.10);
+            clip-path: polygon(0 16px, 16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%);
+        }
+        .hud-bar {
+            display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+            padding: 11px 18px;
+            border-bottom: 1px solid rgba(167,139,250,0.16);
+            background: linear-gradient(90deg, rgba(167,139,250,0.12), rgba(167,139,250,0.015));
+            font-family: var(--font-mono);
+            font-size: 0.64rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.6);
+        }
+        .hud-bar .dim { color: rgba(255,255,255,0.28); }
+        .hud-bar .live {
+            display: inline-flex; align-items: center; gap: 6px;
+            margin-left: auto; color: #7DE8A4; letter-spacing: 0.2em;
+        }
+        .hud-bar .live i {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: #7DE8A4; box-shadow: 0 0 9px #7DE8A4;
+            animation: ledPulse 2s ease-in-out infinite;
+        }
+        .hud-clock { color: rgba(255,255,255,0.78); font-variant-numeric: tabular-nums; letter-spacing: 0.1em; }
+        @keyframes ledPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50%      { opacity: 0.32; transform: scale(0.78); }
+        }
+        .hud-body { padding: 20px 20px 22px; }
+
+        /* 遥测指标 */
+        .hud-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+        .hud-stat {
+            position: relative;
+            padding: 9px 14px 10px;
+            border: 1px solid rgba(167,139,250,0.18);
+            background: rgba(167,139,250,0.045);
+        }
+        .hud-stat::before {
+            content: '';
+            position: absolute; left: -1px; top: -1px;
+            width: 10px; height: 10px;
+            border-top: 1px solid rgba(167,139,250,0.85);
+            border-left: 1px solid rgba(167,139,250,0.85);
+        }
+        .hud-stat .k {
+            display: block;
+            font-family: var(--font-mono);
+            font-size: 0.56rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(167,139,250,0.78);
+        }
+        .hud-stat .v {
+            display: block;
+            font-family: var(--font-mono);
+            font-size: 1.26rem;
+            font-weight: 700;
+            line-height: 1.4;
+            color: #fff;
+            font-variant-numeric: tabular-nums;
+        }
+        .hud-stat .v small {
+            font-size: 0.58rem; font-weight: 500; letter-spacing: 0.12em;
+            color: var(--text-muted); margin-left: 4px;
+        }
+        .hud-stat .v.tiny { font-size: 0.76rem; font-weight: 600; letter-spacing: 0.04em; padding-top: 4px; }
+
+        /* 过滤器 */
+        .fix-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 13px; }
         .fix-chip {
-            padding: 8px 18px; border-radius: 999px; border: 1px solid var(--glass-border);
-            background: rgba(255,255,255,0.03); color: var(--text-secondary);
-            font-family: inherit; font-size: 0.8rem; cursor: pointer;
-            transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease;
+            padding: 7px 18px;
+            border: 1px solid rgba(167,139,250,0.22);
+            background: rgba(167,139,250,0.04);
+            color: rgba(255,255,255,0.55);
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.14em;
+            cursor: pointer;
+            clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+            transition: color 0.28s ease, background 0.28s ease, box-shadow 0.28s ease;
         }
-        .fix-chip:hover { border-color: rgba(167,139,250,0.5); color: #fff; }
-        .fix-chip.active { color: #fff; border-color: rgba(167,139,250,0.6); background: rgba(167,139,250,0.15); }
-        .fix-meta { text-align: center; color: var(--text-muted); font-size: 0.76rem; margin: 0 0 22px; }
-        .fix-list { display: flex; flex-direction: column; gap: 14px; max-width: 860px; margin: 0 auto; }
+        .fix-chip:hover { color: #fff; background: rgba(167,139,250,0.13); }
+        .fix-chip.active {
+            color: #fff;
+            background: rgba(167,139,250,0.26);
+            box-shadow: inset 0 0 20px rgba(167,139,250,0.4);
+        }
+
+        .fix-meta {
+            font-family: var(--font-mono);
+            font-size: 0.66rem;
+            letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.4);
+            margin: 0 0 16px;
+        }
+
+        /* 卡片 */
+        .fix-list { display: flex; flex-direction: column; gap: 14px; }
         .fix-card {
-            background: rgba(150,150,168,0.075); border: 1px solid var(--glass-border);
-            border-radius: 16px; padding: 22px 24px;
-            backdrop-filter: blur(18px) saturate(1.1); -webkit-backdrop-filter: blur(18px) saturate(1.1);
+            --fc: #A78BFA;
+            position: relative;
+            overflow: hidden;
+            padding: 22px 24px 18px;
+            border: 1px solid rgba(167,139,250,0.16);
+            background: linear-gradient(180deg, rgba(167,139,250,0.06), rgba(150,150,168,0.032));
+            backdrop-filter: blur(16px) saturate(1.1);
+            -webkit-backdrop-filter: blur(16px) saturate(1.1);
+            transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
+            animation: cardIn 0.6s cubic-bezier(0.22,1,0.36,1) both;
         }
-        .fix-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+        @keyframes cardIn { from { opacity: 0; transform: translateY(14px); } }
+        .fix-card.is-inv { --fc: #FFC46B; border-color: rgba(255,196,107,0.18); background: linear-gradient(180deg, rgba(255,196,107,0.055), rgba(150,150,168,0.032)); }
+        .fix-card.is-done { --fc: #7DE8A4; border-color: rgba(125,232,164,0.16); }
+        .fix-card::before {
+            content: '';
+            position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+            background: linear-gradient(180deg, transparent, var(--fc), transparent);
+            opacity: 0.9;
+        }
+        .fix-card:hover {
+            border-color: rgba(167,139,250,0.45);
+            transform: translateY(-2px);
+            box-shadow: 0 18px 50px rgba(0,0,0,0.45), 0 0 40px rgba(167,139,250,0.12);
+        }
+        /* 四角框线 */
+        .fc-corners {
+            position: absolute; inset: 7px;
+            pointer-events: none;
+            opacity: 0.42;
+            transition: opacity 0.35s ease;
+            background:
+                linear-gradient(var(--fc), var(--fc)) left top / 13px 1px no-repeat,
+                linear-gradient(var(--fc), var(--fc)) left top / 1px 13px no-repeat,
+                linear-gradient(var(--fc), var(--fc)) right top / 13px 1px no-repeat,
+                linear-gradient(var(--fc), var(--fc)) right top / 1px 13px no-repeat,
+                linear-gradient(var(--fc), var(--fc)) left bottom / 13px 1px no-repeat,
+                linear-gradient(var(--fc), var(--fc)) left bottom / 1px 13px no-repeat,
+                linear-gradient(var(--fc), var(--fc)) right bottom / 13px 1px no-repeat,
+                linear-gradient(var(--fc), var(--fc)) right bottom / 1px 13px no-repeat;
+        }
+        .fix-card:hover .fc-corners { opacity: 0.95; }
+        /* 悬停扫描光带 */
+        .fc-scan {
+            position: absolute; left: 0; right: 0; top: -45%; height: 45%;
+            pointer-events: none; opacity: 0;
+            background: linear-gradient(180deg, transparent, rgba(167,139,250,0.11), transparent);
+            transition: opacity 0.3s ease;
+        }
+        .fix-card:hover .fc-scan { opacity: 1; animation: cardScan 2.6s linear infinite; }
+        @keyframes cardScan {
+            from { transform: translateY(0); }
+            to   { transform: translateY(330%); }
+        }
+
+        .fix-head { position: relative; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
         .fix-type {
-            font-size: 0.68rem; padding: 4px 10px; border-radius: 999px;
-            background: rgba(167,139,250,0.12); color: var(--accent); border: 1px solid rgba(167,139,250,0.3);
+            font-family: var(--font-mono);
+            font-size: 0.58rem;
+            letter-spacing: 0.16em;
+            padding: 4px 9px;
+            background: rgba(167,139,250,0.10);
+            color: #C4B5FD;
+            border: 1px solid rgba(167,139,250,0.35);
         }
-        .fix-head h3 { font-size: 0.98rem; font-weight: 600; margin: 0; flex: 1; min-width: 200px; }
-        .fix-badge { font-size: 0.68rem; padding: 4px 10px; border-radius: 999px; font-weight: 600; margin-left: auto; white-space: nowrap; }
-        .st-inv { background: rgba(255,196,107,0.12); color: #FFC46B; border: 1px solid rgba(255,196,107,0.35); }
-        .st-fix { background: rgba(167,139,250,0.14); color: #A78BFA; border: 1px solid rgba(167,139,250,0.4); }
-        .st-done { background: rgba(125,232,164,0.12); color: #7DE8A4; border: 1px solid rgba(125,232,164,0.35); }
-        .fix-desc { color: var(--text-secondary); font-size: 0.86rem; line-height: 1.8; margin: 0 0 14px; }
-        .fix-progress { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
-        .fix-track { flex: 1; height: 8px; border-radius: 999px; background: rgba(255,255,255,0.06); overflow: hidden; }
-        .fix-bar { height: 100%; border-radius: 999px; transform-origin: left; animation: barIn 1s cubic-bezier(0.22,1,0.36,1) both; }
+        .fc-code {
+            font-family: var(--font-mono);
+            font-size: 0.58rem;
+            letter-spacing: 0.14em;
+            color: rgba(255,255,255,0.26);
+        }
+        .fix-head h3 { flex: 1 1 240px; min-width: 200px; margin: 0; font-size: 0.98rem; font-weight: 600; line-height: 1.5; }
+        .fix-badge {
+            display: inline-flex; align-items: center; gap: 6px;
+            margin-left: auto;
+            padding: 4px 11px;
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            letter-spacing: 0.12em;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .fix-badge::before {
+            content: '';
+            width: 5px; height: 5px; border-radius: 50%;
+            background: currentColor;
+            box-shadow: 0 0 9px currentColor;
+            animation: ledPulse 2.2s ease-in-out infinite;
+        }
+        .st-inv { background: rgba(255,196,107,0.10); color: #FFC46B; border: 1px solid rgba(255,196,107,0.38); }
+        .st-fix { background: rgba(167,139,250,0.12); color: #B9A2FF; border: 1px solid rgba(167,139,250,0.42); }
+        .st-done { background: rgba(125,232,164,0.10); color: #7DE8A4; border: 1px solid rgba(125,232,164,0.38); }
+
+        .fix-desc { position: relative; color: var(--text-secondary); font-size: 0.86rem; line-height: 1.85; margin: 0 0 16px; }
+
+        /* 进度条 */
+        .fix-progress { position: relative; display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+        .fix-track {
+            position: relative; flex: 1; height: 10px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            overflow: hidden;
+        }
+        .fix-track::after {
+            content: '';
+            position: absolute; inset: 0; pointer-events: none;
+            background: repeating-linear-gradient(90deg, transparent 0 11px, rgba(5,5,8,0.72) 11px 12px);
+        }
+        .fix-bar {
+            position: relative; height: 100%;
+            transform-origin: left;
+            animation: barIn 1.1s cubic-bezier(0.22,1,0.36,1) both;
+        }
+        .fix-bar::after {
+            content: '';
+            position: absolute; top: 0; bottom: 0; width: 45%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent);
+            animation: barSheen 2.8s ease-in-out infinite;
+        }
         @keyframes barIn { from { transform: scaleX(0); } }
-        .b-inv { background: linear-gradient(90deg,#FFC46B,#FF9F6B); }
-        .b-fix { background: linear-gradient(90deg,#A78BFA,#7C3AED); }
-        .b-done { background: linear-gradient(90deg,#7DE8A4,#4CC98A); }
-        .fix-pct { font-size: 0.74rem; color: var(--text-muted); font-family: var(--font-mono, monospace); min-width: 40px; text-align: right; }
-        .fix-log { border-left: 2px solid rgba(167,139,250,0.25); margin: 0 0 12px; padding-left: 16px; display: flex; flex-direction: column; gap: 8px; }
-        .fix-log-item { position: relative; font-size: 0.78rem; color: var(--text-secondary); line-height: 1.7; }
-        .fix-log-item::before { content: ''; position: absolute; left: -20px; top: 7px; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
-        .fix-log-date { color: var(--text-muted); margin-right: 8px; font-size: 0.72rem; }
-        .fix-date { font-size: 0.72rem; color: var(--text-muted); }
-        .fix-empty { text-align: center; padding: 46px 20px; color: var(--text-muted); font-size: 0.88rem; }
-        @media (max-width: 640px) { .fix-card { padding: 18px 16px; } .fix-head h3 { min-width: 130px; } }
+        @keyframes barSheen {
+            0%        { transform: translateX(-130%); }
+            55%, 100% { transform: translateX(330%); }
+        }
+        .b-inv { background: linear-gradient(90deg, rgba(255,196,107,0.72), #FFC46B); box-shadow: 0 0 16px rgba(255,196,107,0.35); }
+        .b-fix { background: linear-gradient(90deg, rgba(167,139,250,0.72), #8B5CF6); box-shadow: 0 0 18px rgba(167,139,250,0.45); }
+        .b-done { background: linear-gradient(90deg, rgba(125,232,164,0.72), #7DE8A4); box-shadow: 0 0 16px rgba(125,232,164,0.35); }
+        .fix-pct {
+            font-family: var(--font-mono);
+            font-size: 0.76rem;
+            color: #fff;
+            min-width: 46px;
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* 遥测字段 */
+        .fix-telemetry {
+            position: relative;
+            display: flex; flex-wrap: wrap; gap: 5px 18px;
+            margin-bottom: 12px;
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            letter-spacing: 0.1em;
+            color: rgba(255,255,255,0.4);
+        }
+        .fix-telemetry span { display: inline-flex; align-items: center; gap: 6px; }
+        .fix-telemetry i { font-style: normal; color: rgba(167,139,250,0.75); letter-spacing: 0.16em; }
+        .fix-telemetry .t-right { margin-left: auto; }
+
+        /* 日志（终端流） */
+        .fix-log {
+            position: relative;
+            margin: 0;
+            padding-left: 14px;
+            display: flex; flex-direction: column; gap: 8px;
+        }
+        .fix-log::before {
+            content: '';
+            position: absolute; left: 0; top: 6px; bottom: 6px; width: 1px;
+            background: linear-gradient(180deg, rgba(167,139,250,0.65), rgba(167,139,250,0.10));
+        }
+        .fix-log-item { position: relative; font-size: 0.78rem; line-height: 1.75; color: var(--text-secondary); }
+        .fix-log-item::before {
+            content: '';
+            position: absolute; left: -15px; top: 8px;
+            width: 6px; height: 6px; border-radius: 50%;
+            background: var(--fc);
+            box-shadow: 0 0 9px var(--fc);
+        }
+        .fix-log-date {
+            font-family: var(--font-mono);
+            font-size: 0.66rem;
+            color: rgba(255,255,255,0.36);
+            margin-right: 10px;
+            letter-spacing: 0.02em;
+        }
+        .fix-log-item:first-child .fix-log-date { color: rgba(167,139,250,0.9); }
+
+        /* 关联公告入口 */
+        .fix-link {
+            position: relative;
+            display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+            margin-top: 14px;
+            padding: 11px 14px 11px 13px;
+            border: 1px solid rgba(167,139,250,0.20);
+            border-left: 2px solid var(--fc);
+            background: linear-gradient(90deg, rgba(167,139,250,0.09), rgba(167,139,250,0.015));
+            text-decoration: none;
+            transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+        }
+        .fix-link:hover {
+            border-color: rgba(167,139,250,0.5);
+            background: linear-gradient(90deg, rgba(167,139,250,0.17), rgba(167,139,250,0.03));
+            box-shadow: 0 0 26px rgba(167,139,250,0.16);
+        }
+        .fix-link .k {
+            font-family: var(--font-mono);
+            font-size: 0.56rem;
+            letter-spacing: 0.18em;
+            color: rgba(167,139,250,0.82);
+            white-space: nowrap;
+        }
+        .fix-link .t {
+            flex: 1 1 220px;
+            min-width: 0;
+            font-size: 0.8rem;
+            line-height: 1.6;
+            color: rgba(255,255,255,0.82);
+            transition: color 0.3s ease;
+        }
+        .fix-link:hover .t { color: #fff; }
+        .fix-link .a {
+            display: inline-flex; align-items: center; gap: 5px;
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            letter-spacing: 0.14em;
+            color: var(--accent);
+            white-space: nowrap;
+        }
+        .fix-link .a i { font-style: normal; transition: transform 0.3s ease; }
+        .fix-link:hover .a i { transform: translateX(3px); }
+
+        .fix-empty {
+            text-align: center;
+            padding: 54px 20px;
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+        }
+
+        @media (max-width: 720px) {
+            .hud-body { padding: 15px 13px 17px; }
+            .hud-bar { padding: 10px 13px; font-size: 0.58rem; letter-spacing: 0.1em; }
+            .hud-stats { grid-template-columns: 1fr; gap: 8px; }
+            .hud-stat { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+            .hud-stat .v { font-size: 1rem; }
+            .fix-card { padding: 17px 15px 15px; }
+            .fix-head h3 { flex: 1 1 100%; min-width: 0; order: 3; }
+            .fix-badge { margin-left: 0; }
+            .fix-link { gap: 4px 10px; padding: 10px 12px; }
+            .fix-link .k { display: none; }
+            .fix-telemetry .t-right { margin-left: 0; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .fix-section .hud-bg::after,
+            .fix-card, .fc-scan, .fix-bar, .fix-bar::after,
+            .fix-badge::before, .hud-bar .live i { animation: none !important; }
+            .fix-card:hover .fc-scan { opacity: 0; }
+        }
     </style>
 </head>
 <body>
@@ -952,28 +1322,34 @@
         <div id="starfield"></div>
         <div class="container">
             <span class="crumbs"><a href="index.html">首页</a><span>/</span>故障修复进度</span>
-            <h1>🛠️ 故障修复进度</h1>
+            <div class="hero-mono">SYS.MONITOR · CLIENT / ARCHIVE</div>
+            <h1>故障修复进度</h1>
             <p class="lead">实时跟踪客户端与存档已知问题的处理进展，所有故障一目了然。</p>
         </div>
     </section>
 
     <main>
-        <section class="section" id="status" style="padding-top:56px;">
+        <section class="section fix-section" id="status">
+            <div class="hud-bg" aria-hidden="true"></div>
             <div class="container">
-                <div class="section-header reveal">
-                    <span class="section-tag">Status</span>
-                    <h2>🛠️ 故障修复进度</h2>
-                    <p>跟踪客户端与存档已知问题的处理进展，修复完成后会第一时间更新。</p>
+                <div class="hud-console reveal">
+                    <div class="hud-bar">
+                        <span>SYS.MONITOR<span class="dim"> // MAINTENANCE QUEUE</span></span>
+                        <span class="live"><i></i>LIVE</span>
+                        <span class="hud-clock" id="hud-clock">--:--:--</span>
+                    </div>
+                    <div class="hud-body">
+                        <div class="hud-stats" id="hud-stats"></div>
+                        <div class="fix-chips">
+                            <button type="button" class="fix-chip active" data-filter="全部">全部</button>
+                            <button type="button" class="fix-chip" data-filter="客户端">客户端</button>
+                            <button type="button" class="fix-chip" data-filter="存档">存档</button>
+                            <button type="button" class="fix-chip" data-filter="网站">网站</button>
+                        </div>
+                        <p class="fix-meta" id="fix-meta"></p>
+                        <div class="fix-list" id="fix-list"></div>
+                    </div>
                 </div>
-
-                <div class="fix-chips reveal reveal-delay-1">
-                    <button type="button" class="fix-chip active" data-filter="全部">全部</button>
-                    <button type="button" class="fix-chip" data-filter="客户端">客户端</button>
-                    <button type="button" class="fix-chip" data-filter="存档">存档</button>
-                    <button type="button" class="fix-chip" data-filter="网站">网站</button>
-                </div>
-                <p class="fix-meta" id="fix-meta"></p>
-                <div class="fix-list" id="fix-list"></div>
             </div>
         </section>
     </main>
@@ -1113,54 +1489,103 @@
 
 
     </script>
-    <script src="data/fixes.js?v=11"></script>
+    <script src="data/fixes.js?v=12"></script>
     <script>
-        // ===== 故障修复进度渲染 =====
+        // ===== 故障修复进度渲染（HUD 遥测终端） =====
         (function() {
             var data = (typeof fixIssues === 'undefined') ? [] : fixIssues;
             var list = document.getElementById('fix-list');
             var meta = document.getElementById('fix-meta');
+            var statsEl = document.getElementById('hud-stats');
+            var clockEl = document.getElementById('hud-clock');
             var chips = document.querySelectorAll('.fix-chip');
             var TEXT = { investigating: '排查中', fixing: '修复中', fixed: '已修复' };
+            var CODE = { investigating: 'INVESTIGATING', fixing: 'PATCHING', fixed: 'RESOLVED' };
             var CLS = { investigating: 'st-inv', fixing: 'st-fix', fixed: 'st-done' };
+            var CARDCLS = { investigating: 'is-inv', fixing: 'is-fix', fixed: 'is-done' };
             var BAR = { investigating: 'b-inv', fixing: 'b-fix', fixed: 'b-done' };
             var current = '全部';
 
             function esc(s) {
-                return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+            }
+            function pad(n) { return (n < 10 ? '0' : '') + n; }
+            function code(id, i) {
+                var n = (id === undefined || id === null) ? (i + 1) : id;
+                return 'UNIT-' + ('00' + n).slice(-3);
             }
 
-            function cardHTML(it) {
+            // 控制台时钟
+            (function() {
+                if (!clockEl) return;
+                function tick() {
+                    var d = new Date();
+                    clockEl.textContent = pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+                }
+                tick();
+                setInterval(tick, 1000);
+            })();
+
+            function cardHTML(it, i) {
                 var st = CLS[it.status] || 'st-fix';
+                var cardCls = CARDCLS[it.status] || 'is-fix';
                 var bar = BAR[it.status] || 'b-fix';
                 var pct = Math.max(0, Math.min(100, Number(it.progress) || 0));
                 var logs = (it.log || []).map(function(l) {
                     return '<div class="fix-log-item"><span class="fix-log-date">' + esc(l.date) + '</span>' + esc(l.text) + '</div>';
                 }).join('');
-                return '<div class="fix-card">'
-                    + '<div class="fix-head"><span class="fix-type">' + esc(it.type) + '</span>'
+                var logCount = pad((it.log || []).length);
+                var link = (it.link && it.link.url)
+                    ? '<a class="fix-link" href="' + esc(it.link.url) + '">'
+                        + '<span class="k">RELATED.DOC</span>'
+                        + '<span class="t">' + esc(it.link.text || '查看相关公告') + '</span>'
+                        + '<span class="a">查看公告<i>↗</i></span>'
+                        + '</a>'
+                    : '';
+                return '<article class="fix-card ' + cardCls + '" style="animation-delay:' + (i * 0.07).toFixed(2) + 's">'
+                    + '<span class="fc-corners" aria-hidden="true"></span>'
+                    + '<span class="fc-scan" aria-hidden="true"></span>'
+                    + '<div class="fix-head">'
+                    + '<span class="fix-type">' + esc(it.type) + '</span>'
+                    + '<span class="fc-code">' + code(it.id, i) + '</span>'
                     + '<h3>' + esc(it.title) + '</h3>'
-                    + '<span class="fix-badge ' + st + '">' + (TEXT[it.status] || '修复中') + '</span></div>'
+                    + '<span class="fix-badge ' + st + '">' + (TEXT[it.status] || '修复中') + '</span>'
+                    + '</div>'
                     + '<p class="fix-desc">' + esc(it.desc) + '</p>'
                     + '<div class="fix-progress"><div class="fix-track"><div class="fix-bar ' + bar + '" style="width:' + pct + '%"></div></div>'
                     + '<span class="fix-pct">' + pct + '%</span></div>'
+                    + '<div class="fix-telemetry">'
+                    + '<span><i>STATUS</i>' + (CODE[it.status] || 'PATCHING') + '</span>'
+                    + '<span><i>LOG</i>' + logCount + ' REC</span>'
+                    + '<span class="t-right"><i>SYNC</i>' + esc(it.updated) + '</span>'
+                    + '</div>'
                     + (logs ? '<div class="fix-log">' + logs + '</div>' : '')
-                    + '<div class="fix-date">最近更新：' + esc(it.updated) + '</div>'
-                    + '</div>';
+                    + link
+                    + '</article>';
+            }
+
+            function statsHTML(items) {
+                var total = items.length;
+                var sum = items.reduce(function(s, it) { return s + (Number(it.progress) || 0); }, 0);
+                var avg = total ? Math.round(sum / total) : 0;
+                var last = items.map(function(it) { return String(it.updated || ''); }).sort().pop();
+                return '<div class="hud-stat"><span class="k">UNITS / 监控条目</span><span class="v">' + pad(total) + '<small>项</small></span></div>'
+                    + '<div class="hud-stat"><span class="k">AVG.REPAIR / 平均修复度</span><span class="v">' + avg + '<small>%</small></span></div>'
+                    + '<div class="hud-stat"><span class="k">LAST.SYNC / 最近同步</span><span class="v tiny">' + esc(last || '—') + '</span></div>';
             }
 
             function render() {
                 var items = data.filter(function(it) { return current === '全部' || it.type === current; });
+                if (statsEl) statsEl.innerHTML = statsHTML(items);
                 if (!items.length) {
-                    list.innerHTML = '<div class="fix-empty">' + (current === '全部'
-                        ? '当前没有记录中的故障，一切运行正常 ✨'
-                        : esc(current) + '分类下暂无记录') + '</div>';
+                    list.innerHTML = '<div class="fix-empty">// NO ACTIVE INCIDENTS — 当前没有记录中的故障，一切运行正常</div>';
                 } else {
                     list.innerHTML = items.map(cardHTML).join('');
                 }
                 var c = { investigating: 0, fixing: 0, fixed: 0 };
                 items.forEach(function(it) { if (c[it.status] !== undefined) c[it.status]++; });
-                meta.textContent = '共 ' + items.length + ' 项 · 排查中 ' + c.investigating
+                meta.textContent = 'QUEUE: ' + pad(items.length) + ' · 排查中 ' + c.investigating
                     + ' · 修复中 ' + c.fixing + ' · 已修复 ' + c.fixed;
             }
 
