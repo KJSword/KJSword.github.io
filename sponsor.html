@@ -880,6 +880,67 @@
             body { animation: none; }
             body.page-exit { opacity: 1; transition: none; }
         }
+        /* ============================================================
+           页面专属动效 · 引力升空
+           ============================================================ */
+        /* 标题：从虚焦中推近 */
+        .page-hero h1 {
+            animation: softFocus 1.05s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+        @keyframes softFocus {
+            from { opacity: 0; transform: scale(0.965); filter: blur(10px); }
+            to   { opacity: 1; transform: none; filter: blur(0); }
+        }
+
+        /* 面板：火箭悬浮 + 悬停浮起 */
+        .sponsor-card {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s ease, border-color 0.5s ease;
+        }
+        .sponsor-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(167,139,250,0.4);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 60px rgba(167,139,250,0.16);
+        }
+        .sponsor-card .icon {
+            display: inline-block;
+            animation: rocketFloat 5.5s ease-in-out infinite;
+            filter: drop-shadow(0 0 20px rgba(167,139,250,0.45));
+        }
+        @keyframes rocketFloat {
+            0%, 100% { transform: translateY(0) rotate(-2deg); }
+            50%      { transform: translateY(-9px) rotate(2deg); }
+        }
+
+        /* 赞助按钮：周期性掠光 */
+        .sponsor-card .btn-o.light {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s ease;
+        }
+        .sponsor-card .btn-o.light:hover {
+            transform: translateY(-2px) scale(1.015);
+            box-shadow: 0 14px 36px rgba(167,139,250,0.28);
+        }
+        .sponsor-card .btn-o.light::after {
+            content: '';
+            position: absolute; top: 0; bottom: 0; left: -60%; width: 38%;
+            background: linear-gradient(100deg, transparent, rgba(167,139,250,0.35), transparent);
+            transform: skewX(-18deg);
+            animation: btnShine 5.5s ease-in-out 2s infinite;
+            pointer-events: none;
+        }
+        @keyframes btnShine {
+            0%        { left: -60%; opacity: 0; }
+            12%       { opacity: 1; }
+            42%, 100% { left: 130%; opacity: 0; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .page-hero h1, .sponsor-card .icon { animation: none !important; }
+            .sponsor-card .btn-o.light::after { animation: none !important; opacity: 0; }
+        }
     </style>
 </head>
 <body>
@@ -906,9 +967,6 @@
                     <li><a href="client.html">客户端</a></li>
                     <li><a href="tools.html">工具</a></li>
                     <li><a href="status.html">修复进度</a></li>
-                    <li><a href="index.html#scenarios">场景</a></li>
-                    <li><a href="index.html#guide">说明</a></li>
-                    <li><a href="index.html#team">团队</a></li>
                     <li><a href="gallery.html">图鉴</a></li>
                     <li><a href="sponsor.html" class="active">赞助</a></li>
                 </ul>

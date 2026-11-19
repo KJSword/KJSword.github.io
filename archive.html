@@ -1073,6 +1073,70 @@
             body { animation: none; }
             body.page-exit { opacity: 1; transition: none; }
         }
+        /* ============================================================
+           页面专属动效 · 数据装载
+           ============================================================ */
+        /* 标题：自下而上揭开 */
+        .page-hero h1 {
+            animation: maskRise 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+        @keyframes maskRise {
+            from { opacity: 0; clip-path: inset(0 0 100% 0); transform: translateY(8px); }
+            to   { opacity: 1; clip-path: inset(0 0 0 0); transform: none; }
+        }
+
+        /* 预览面板：行星悬浮 + 光环呼吸 */
+        .preview-panel .planet-ico {
+            display: inline-block;
+            animation: planetFloat 6.5s ease-in-out infinite;
+        }
+        @keyframes planetFloat {
+            0%, 100% { transform: translateY(0) rotate(-2deg); }
+            50%      { transform: translateY(-10px) rotate(2deg); }
+        }
+
+        /* 信息标签依次弹入 */
+        .info-tags .tag { animation: tagPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+        .info-tags .tag:nth-child(1) { animation-delay: 0.08s; }
+        .info-tags .tag:nth-child(2) { animation-delay: 0.18s; }
+        .info-tags .tag:nth-child(3) { animation-delay: 0.28s; }
+        .info-tags .tag:nth-child(4) { animation-delay: 0.38s; }
+        .info-tags .tag:nth-child(n+5) { animation-delay: 0.44s; }
+        @keyframes tagPop {
+            from { opacity: 0; transform: translateY(8px) scale(0.94); }
+        }
+
+        /* 特性条目：面板进入后逐条滑入 */
+        .panel.visible .feature-grid .item { animation: featIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) backwards; }
+        .panel.visible .feature-grid .item:nth-child(1) { animation-delay: 0.16s; }
+        .panel.visible .feature-grid .item:nth-child(2) { animation-delay: 0.22s; }
+        .panel.visible .feature-grid .item:nth-child(3) { animation-delay: 0.28s; }
+        .panel.visible .feature-grid .item:nth-child(4) { animation-delay: 0.34s; }
+        .panel.visible .feature-grid .item:nth-child(5) { animation-delay: 0.40s; }
+        .panel.visible .feature-grid .item:nth-child(6) { animation-delay: 0.46s; }
+        @keyframes featIn {
+            from { opacity: 0; transform: translateX(-12px); }
+        }
+
+        /* 下载行：依次装载 + 箭头跟随 */
+        .panel.visible .pan-card { animation: rowIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) backwards; }
+        .panel.visible .pan-card:nth-child(1) { animation-delay: 0.34s; }
+        .panel.visible .pan-card:nth-child(2) { animation-delay: 0.42s; }
+        .panel.visible .pan-card:nth-child(3) { animation-delay: 0.50s; }
+        .panel.visible .pan-card:nth-child(4) { animation-delay: 0.58s; }
+        .panel.visible .pan-card:nth-child(n+5) { animation-delay: 0.64s; }
+        @keyframes rowIn {
+            from { opacity: 0; transform: translateY(10px); }
+        }
+        .pan-card .action { transition: transform 0.3s ease; }
+        .pan-card:hover .action { transform: translateX(4px); }
+
+        @media (prefers-reduced-motion: reduce) {
+            .preview-panel .planet-ico,
+            .info-tags .tag,
+            .panel.visible .feature-grid .item,
+            .panel.visible .pan-card { animation: none !important; }
+        }
     </style>
 </head>
 <body>
@@ -1099,9 +1163,6 @@
                     <li><a href="client.html">客户端</a></li>
                     <li><a href="tools.html">工具</a></li>
                     <li><a href="status.html">修复进度</a></li>
-                    <li><a href="index.html#scenarios">场景</a></li>
-                    <li><a href="index.html#guide">说明</a></li>
-                    <li><a href="index.html#team">团队</a></li>
                     <li><a href="gallery.html">图鉴</a></li>
                     <li><a href="sponsor.html">赞助</a></li>
                 </ul>

@@ -880,6 +880,51 @@
             body { animation: none; }
             body.page-exit { opacity: 1; transition: none; }
         }
+        /* ============================================================
+           页面专属动效 · 轨道观测
+           ============================================================ */
+        /* 标题：自下而上揭开 */
+        .page-hero h1 {
+            animation: curtainUp 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+        @keyframes curtainUp {
+            from { opacity: 0; clip-path: inset(100% 0 0 0); transform: translateY(6px); }
+            to   { opacity: 1; clip-path: inset(0 0 0 0); transform: none; }
+        }
+
+        /* 面板：卫星漂浮 + 光晕呼吸 */
+        .gallery-panel { position: relative; overflow: hidden; }
+        .gallery-panel .icon {
+            display: inline-block;
+            animation: orbitFloat 7.5s ease-in-out infinite;
+        }
+        @keyframes orbitFloat {
+            0%, 100% { transform: translate(0, 0) rotate(-5deg); }
+            33%      { transform: translate(7px, -9px) rotate(4deg); }
+            66%      { transform: translate(-7px, -3px) rotate(-2deg); }
+        }
+        .gallery-panel::after {
+            content: '';
+            position: absolute; inset: 0;
+            border-radius: inherit;
+            background: radial-gradient(340px circle at 50% 0%, rgba(167,139,250,0.16), transparent 70%);
+            animation: glowBreath 5.5s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes glowBreath {
+            0%, 100% { opacity: 0.3; }
+            50%      { opacity: 0.85; }
+        }
+        .gallery-panel .badge { animation: badgeGlow 2.8s ease-in-out infinite; }
+        @keyframes badgeGlow {
+            0%, 100% { box-shadow: 0 0 0 rgba(167,139,250,0); }
+            50%      { box-shadow: 0 0 20px rgba(167,139,250,0.35); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .page-hero h1 { animation: none !important; }
+            .gallery-panel .icon, .gallery-panel::after, .gallery-panel .badge { animation: none !important; }
+        }
     </style>
 </head>
 <body>
@@ -906,9 +951,6 @@
                     <li><a href="client.html">客户端</a></li>
                     <li><a href="tools.html">工具</a></li>
                     <li><a href="status.html">修复进度</a></li>
-                    <li><a href="index.html#scenarios">场景</a></li>
-                    <li><a href="index.html#guide">说明</a></li>
-                    <li><a href="index.html#team">团队</a></li>
                     <li><a href="gallery.html" class="active">图鉴</a></li>
                     <li><a href="sponsor.html">赞助</a></li>
                 </ul>

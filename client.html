@@ -1158,6 +1158,64 @@
             body { animation: none; }
             body.page-exit { opacity: 1; transition: none; }
         }
+        /* ============================================================
+           页面专属动效 · 安装序列
+           ============================================================ */
+        /* 标题：字距收拢 */
+        .page-hero h1 {
+            animation: trackingIn 1.05s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+        @keyframes trackingIn {
+            from { opacity: 0; letter-spacing: 0.22em; filter: blur(4px); }
+            to   { opacity: 1; filter: blur(0); }
+        }
+
+        /* 教程步骤号：进入视口点亮 */
+        .tut-step .tut-num {
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.5s ease;
+        }
+        .tut-step.visible .tut-num { animation: numPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) backwards; }
+        @keyframes numPop {
+            from { opacity: 0; transform: scale(0.45); }
+        }
+        .tut-step:hover .tut-num {
+            transform: translateY(-2px) scale(1.06);
+            box-shadow: 0 0 24px rgba(167,139,250,0.5);
+        }
+
+        /* 下载行依次装载 */
+        .panel.visible .pan-card { animation: rowIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) backwards; }
+        .pan-list .pan-card:nth-child(1) { animation-delay: 0.24s; }
+        .pan-list .pan-card:nth-child(2) { animation-delay: 0.32s; }
+        .pan-list .pan-card:nth-child(3) { animation-delay: 0.40s; }
+        .pan-list .pan-card:nth-child(4) { animation-delay: 0.48s; }
+        .pan-list .pan-card:nth-child(n+5) { animation-delay: 0.54s; }
+        @keyframes rowIn {
+            from { opacity: 0; transform: translateY(10px); }
+        }
+        .pan-card .action { transition: transform 0.3s ease; }
+        .pan-card:hover .action { transform: translateX(4px); }
+
+        /* 复制成功反馈 */
+        .copy-code.copied { animation: copyPulse 0.55s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        @keyframes copyPulse {
+            0%   { transform: scale(1); }
+            45%  { transform: scale(0.94); }
+            100% { transform: scale(1); }
+        }
+
+        /* 版本标签轻微呼吸 */
+        .info-tags .tag { animation: tagIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) backwards; }
+        .info-tags .tag:nth-child(2) { animation-delay: 0.1s; }
+        .info-tags .tag:nth-child(3) { animation-delay: 0.2s; }
+        @keyframes tagIn {
+            from { opacity: 0; transform: translateY(8px); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .tut-step.visible .tut-num, .panel.visible .pan-card,
+            .info-tags .tag, .copy-code.copied { animation: none !important; }
+        }
     </style>
 </head>
 <body>
@@ -1184,9 +1242,6 @@
                     <li><a href="client.html" class="active">客户端</a></li>
                     <li><a href="tools.html">工具</a></li>
                     <li><a href="status.html">修复进度</a></li>
-                    <li><a href="index.html#scenarios">场景</a></li>
-                    <li><a href="index.html#guide">说明</a></li>
-                    <li><a href="index.html#team">团队</a></li>
                     <li><a href="gallery.html">图鉴</a></li>
                     <li><a href="sponsor.html">赞助</a></li>
                 </ul>
@@ -1236,7 +1291,19 @@
                         </a>
                     </div>
                     <p class="desc" style="margin:0 0 12px;">也可自行下载支持导入 Modrinth 格式（.mrpack）的启动器。离线版仅支持 PCL2 旧版启动器。</p>
-                    <p class="desc" style="margin:0 0 10px;">PCL2 旧版下载链接（支持学习版），无法运行新版客户端时的备用选择。</p>
+                    <div class="info-tags" style="margin:16px 0 12px;">
+                        <span class="tag">🚀 一键安装版<strong></strong></span>
+                        <span class="tag">⚙️ 基于：<strong>HMCL 启动器</strong></span>
+                    </div>
+                    <p class="desc" style="margin:0 0 12px;">客户端一键安装版：内置 HMCL 启动器与全部模组配置，下载后一键完成安装，无需手动解压导入。正在开发中，敬请期待。</p>
+                    <div class="pan-list" id="client-pan-list-hmcl">
+                        <a href="#" class="pan-card disabled">
+                            <span class="icon"></span>
+                            <span class="info"><span class="name">HMCL 一键安装版</span><span class="status">正在开发 · 敬请期待</span></span>
+                            <span class="action">敬请期待</span>
+                        </a>
+                    </div>
+                    <p class="desc" style="margin:16px 0 10px;">PCL2 旧版下载链接（支持学习版），无法运行新版客户端时的备用选择。</p>
                     <div style="display:flex; align-items:center; flex-wrap:wrap; gap:12px; margin:0 0 12px;">
                         <span style="font-size:0.8rem; color:var(--text-muted);">移动云盘提取码：<strong style="color:var(--accent); font-family:var(--font-mono); letter-spacing:0.06em;">f2pr</strong></span>
                         <button type="button" class="copy-code" data-code="f2pr">复制提取码</button>
@@ -1321,7 +1388,7 @@
                                 <li><strong>数据包主文件</strong>（mrpack文件）—— <span style="color:#FF8A80;">一定要解压</span>；</li>
                                 <li><strong>更新公告</strong>（docx文件）。</li>
                             </ul>
-                            <img src="assets/tutorial/step3-files.png" alt="解压后的文件列表：Java 安装包、数据包主文件、更新公告" class="tut-img" loading="lazy">
+                            <img src="assets/tutorial/step3-files.webp" alt="解压后的文件列表：Java 安装包、数据包主文件、更新公告" class="tut-img" width="424" height="170" loading="lazy" decoding="async">
                         </div>
                     </div>
 
@@ -1330,7 +1397,7 @@
                         <div class="tut-body">
                             <h3>拖入启动器自动安装</h3>
                             <p>将 <strong>.mrpack 文件</strong>拖到 <strong>Modrinth APP</strong>（或 <strong>PCL2 旧版</strong>）窗口中，启动器会自行完成安装。（离线版仅旧版PCL2启动器安装）</p>
-                            <img src="assets/tutorial/step4-drag.jpg" alt="将 mrpack 文件拖入 Modrinth APP 或 PCL2 启动器" class="tut-img" loading="lazy">
+                            <img src="assets/tutorial/step4-drag.webp" alt="将 mrpack 文件拖入 Modrinth APP 或 PCL2 启动器" class="tut-img" width="1920" height="1024" loading="lazy" decoding="async">
                         </div>
                     </div>
                 </div>

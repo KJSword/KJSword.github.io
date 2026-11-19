@@ -935,6 +935,64 @@
             body { animation: none; }
             body.page-exit { opacity: 1; transition: none; }
         }
+        /* ============================================================
+           页面专属动效 · 公告信号流
+           ============================================================ */
+        /* 标题从模糊中聚焦 */
+        .page-hero h1 { animation: titleFocus 0.9s cubic-bezier(0.22, 1, 0.36, 1) both; }
+        .page-hero .lead { animation: titleFocus 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both; }
+        @keyframes titleFocus {
+            from { opacity: 0; transform: translateY(12px); filter: blur(8px); }
+            to   { opacity: 1; transform: none; filter: blur(0); }
+        }
+
+        /* 列表卡片升起 + 高光掠过 */
+        .announce-card {
+            position: relative;
+            overflow: hidden;
+            animation: cardRise 0.72s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+        }
+        @keyframes cardRise {
+            from { opacity: 0; transform: translateY(20px) scale(0.985); }
+        }
+        .announce-card::after {
+            content: '';
+            position: absolute; inset: 0;
+            border-radius: inherit;
+            background: linear-gradient(100deg, transparent 34%, rgba(167,139,250,0.13) 50%, transparent 66%);
+            background-size: 240% 100%;
+            background-position: 140% 0;
+            animation: cardSweep 1.6s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
+            pointer-events: none;
+        }
+        @keyframes cardSweep {
+            0%   { background-position: 140% 0; opacity: 1; }
+            100% { background-position: -70% 0; opacity: 0; }
+        }
+        .announce-list .announce-card:nth-child(1) { animation-delay: 0.06s; }
+        .announce-list .announce-card:nth-child(2) { animation-delay: 0.13s; }
+        .announce-list .announce-card:nth-child(3) { animation-delay: 0.20s; }
+        .announce-list .announce-card:nth-child(4) { animation-delay: 0.27s; }
+        .announce-list .announce-card:nth-child(5) { animation-delay: 0.34s; }
+        .announce-list .announce-card:nth-child(6) { animation-delay: 0.41s; }
+        .announce-list .announce-card:nth-child(7) { animation-delay: 0.48s; }
+        .announce-list .announce-card:nth-child(8) { animation-delay: 0.55s; }
+        .announce-list .announce-card:nth-child(9) { animation-delay: 0.62s; }
+        .announce-list .announce-card:nth-child(10) { animation-delay: 0.69s; }
+        .announce-list .announce-card:nth-child(n+11) { animation-delay: 0.74s; }
+
+        /* “阅读全文”箭头跟随 */
+        .announce-card .more { transition: transform 0.3s ease, color 0.3s ease; }
+        .announce-card:hover .more { transform: translateX(4px); }
+
+        /* 分类标签切换时轻微弹动 */
+        .cat-tab { transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .cat-tab:active { transform: scale(0.95); }
+
+        @media (prefers-reduced-motion: reduce) {
+            .page-hero h1, .page-hero .lead, .announce-card { animation: none !important; }
+            .announce-card::after { animation: none !important; opacity: 0; }
+        }
     </style>
 </head>
 <body>
@@ -961,9 +1019,6 @@
                     <li><a href="client.html">客户端</a></li>
                     <li><a href="tools.html">工具</a></li>
                     <li><a href="status.html">修复进度</a></li>
-                    <li><a href="index.html#scenarios">场景</a></li>
-                    <li><a href="index.html#guide">说明</a></li>
-                    <li><a href="index.html#team">团队</a></li>
                     <li><a href="gallery.html">图鉴</a></li>
                     <li><a href="sponsor.html">赞助</a></li>
                 </ul>

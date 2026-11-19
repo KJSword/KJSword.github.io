@@ -241,9 +241,62 @@
             body { animation: none; }
             body.page-exit { opacity: 1; transition: none; }
         }
+        /* ============================================================
+           页面专属动效 · 阅读轨道
+           ============================================================ */
+        #read-progress {
+            position: fixed; top: 0; left: 0; right: 0; height: 2px;
+            transform: scaleX(0); transform-origin: left center;
+            background: linear-gradient(90deg, rgba(167,139,250,0.15), #A78BFA 55%, #C4B5FD);
+            box-shadow: 0 0 14px rgba(167,139,250,0.6);
+            z-index: 9999; pointer-events: none;
+        }
+
+        /* 标题从模糊中聚焦，元信息随后浮起 */
+        .detail-head h1 { animation: readTitle 0.95s cubic-bezier(0.22, 1, 0.36, 1) both; }
+        .detail-head .tag { animation: readTitle 0.8s cubic-bezier(0.22, 1, 0.36, 1) both; }
+        .detail-head .date { animation: readTitle 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.14s both; }
+        @keyframes readTitle {
+            from { opacity: 0; transform: translateY(10px); filter: blur(7px); }
+            to   { opacity: 1; transform: none; filter: blur(0); }
+        }
+
+        /* 正文卡片：轻微上浮 + 顶部一道掠光 */
+        .detail-card {
+            position: relative;
+            overflow: hidden;
+            animation: detailIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.18s both;
+        }
+        @keyframes detailIn {
+            from { opacity: 0; transform: translateY(18px); }
+        }
+        .detail-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(167,139,250,0.85), transparent);
+            background-size: 200% 100%;
+            animation: detailBeam 3.4s ease-in-out infinite;
+            opacity: 0.8;
+            pointer-events: none;
+        }
+        @keyframes detailBeam {
+            0%   { background-position: -100% 0; opacity: 0; }
+            20%  { opacity: 0.9; }
+            80%  { opacity: 0.6; }
+            100% { background-position: 200% 0; opacity: 0; }
+        }
+
+        .back-link { transition: transform 0.3s ease, color 0.3s ease; }
+        .back-link:hover { transform: translateX(-4px); }
+
+        @media (prefers-reduced-motion: reduce) {
+            .detail-head h1, .detail-head .tag, .detail-head .date, .detail-card { animation: none !important; }
+            .detail-card::before { animation: none !important; opacity: 0.35; }
+        }
     </style>
 </head>
 <body>
+    <div id="read-progress" aria-hidden="true"></div>
     <div class="bg-aurora" aria-hidden="true"></div>
     <script>try{localStorage.removeItem('tc-liquid-glass')}catch(e){};document.documentElement.classList.add('liquid-glass');</script>
     <div id="starfield"></div>
@@ -374,6 +427,29 @@
             window.addEventListener('pageshow', function(ev) {
                 if (ev.persisted) document.body.classList.remove('page-exit');
             });
+        })();
+    </script>
+    <script>
+        // ===== 阅读进度条 =====
+        (function() {
+            var bar = document.getElementById('read-progress');
+            var card = document.querySelector('.detail-card');
+            if (!bar || !card) return;
+            var ticking = false;
+            function update() {
+                ticking = false;
+                var r = card.getBoundingClientRect();
+                var total = Math.max(1, r.height - window.innerHeight * 0.4);
+                var p = (window.innerHeight * 0.82 - r.top) / total;
+                bar.style.transform = 'scaleX(' + Math.max(0, Math.min(1, p)).toFixed(4) + ')';
+            }
+            function onScroll() {
+                if (!ticking) { ticking = true; requestAnimationFrame(update); }
+            }
+            window.addEventListener('scroll', onScroll, { passive: true });
+            window.addEventListener('resize', onScroll);
+            setTimeout(update, 350);   // 正文由脚本注入，稍后再量一次
+            update();
         })();
     </script>
 </body>

@@ -908,6 +908,58 @@
         .pan-card .status { font-size: 0.7rem; color: var(--text-muted); }
         .pan-card .action { margin-left: auto; font-size: 0.76rem; color: var(--accent); font-weight: 500; }
         .pan-card.disabled { opacity: 0.35; pointer-events: none; }
+        /* ============================================================
+           页面专属动效 · 工具装配
+           ============================================================ */
+        /* 标题：斜切归位 */
+        .page-hero h1 {
+            animation: skewSettle 0.95s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+        @keyframes skewSettle {
+            from { opacity: 0; transform: translateY(14px) skewY(1.8deg); filter: blur(5px); }
+            to   { opacity: 1; transform: none; filter: blur(0); }
+        }
+
+        /* 面板：左侧能量边生长 + 悬停浮起 */
+        .tools-panel {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+                        border-color 0.45s ease,
+                        box-shadow 0.45s ease;
+        }
+        .tools-panel::before {
+            content: '';
+            position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+            background: linear-gradient(180deg, transparent, #A78BFA, transparent);
+            transform: scaleY(0);
+            transform-origin: top center;
+            transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+            pointer-events: none;
+        }
+        .tools-panel:hover::before { transform: scaleY(1); }
+        .tools-panel:hover {
+            transform: translateY(-3px);
+            border-color: rgba(167,139,250,0.38);
+            box-shadow: 0 22px 54px rgba(0,0,0,0.42), 0 0 36px rgba(167,139,250,0.12);
+        }
+
+        /* 下载行：箭头跟随 */
+        .pan-card .action { transition: transform 0.3s ease; }
+        .pan-card:hover .action { transform: translateX(4px); }
+
+        /* 标签依次亮起 */
+        .info-tags .tag { animation: tagIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) backwards; }
+        .info-tags .tag:nth-child(2) { animation-delay: 0.1s; }
+
+        @keyframes tagIn {
+            from { opacity: 0; transform: translateY(8px); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .page-hero h1, .info-tags .tag { animation: none !important; }
+            .tools-panel::before { transition: none !important; }
+        }
     </style>
 </head>
 <body>
@@ -934,9 +986,6 @@
                     <li><a href="client.html">客户端</a></li>
                     <li><a href="tools.html" class="active">工具</a></li>
                     <li><a href="status.html" class="active">修复进度</a></li>
-                    <li><a href="index.html#scenarios">场景</a></li>
-                    <li><a href="index.html#guide">说明</a></li>
-                    <li><a href="index.html#team">团队</a></li>
                     <li><a href="gallery.html">图鉴</a></li>
                     <li><a href="sponsor.html">赞助</a></li>
                 </ul>

@@ -745,9 +745,104 @@
             body { animation: none; }
             body.page-exit { opacity: 1; transition: none; }
         }
+        /* ============================================================
+           页面专属动效 · 星际视差
+           ============================================================ */
+        /* 顶部滚动进度 */
+        #scroll-progress {
+            position: fixed; top: 0; left: 0; right: 0; height: 2px;
+            transform: scaleX(0); transform-origin: left center;
+            background: linear-gradient(90deg, rgba(167,139,250,0.18), #A78BFA 55%, #C4B5FD);
+            box-shadow: 0 0 14px rgba(167,139,250,0.6);
+            z-index: 9999; pointer-events: none;
+        }
+        .hero-art { will-change: transform; }
+        .hero-inner { will-change: transform, opacity; }
+
+        /* 场景卡片：图标弹跳 + 顶部柔光 */
+        .scenario-card { position: relative; overflow: hidden; }
+        .scenario-card .icon {
+            display: inline-block;
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .scenario-card:hover .icon { transform: translateY(-5px) scale(1.14) rotate(-5deg); }
+        .scenario-card::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(220px circle at 50% 0%, rgba(167,139,250,0.15), transparent 70%);
+            opacity: 0; transition: opacity 0.45s ease;
+            pointer-events: none;
+        }
+        .scenario-card:hover::after { opacity: 1; }
+
+        /* 时间轴：竖向光线随滚动生长 + 节点弹出 */
+        .timeline::before {
+            content: '';
+            position: absolute; left: 7px; top: 10px; bottom: 6px; width: 1px;
+            background: rgba(167,139,250,0.14);
+        }
+        .timeline::after {
+            content: '';
+            position: absolute; left: 7px; top: 10px; height: calc(100% - 16px); width: 1px;
+            background: linear-gradient(180deg, #C4B5FD, #A78BFA 42%, rgba(167,139,250,0.22));
+            transform: scaleY(var(--tl, 0));
+            transform-origin: top center;
+            box-shadow: 0 0 12px rgba(167,139,250,0.5);
+        }
+        .timeline-item.reveal {
+            opacity: 0;
+            transform: translateX(-26px);
+            transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .timeline-item.reveal.visible { opacity: 1; transform: none; }
+        .timeline-item.visible .dot { animation: dotPop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+        @keyframes dotPop {
+            from { transform: scale(0.25); opacity: 0.2; }
+            to   { transform: scale(1); opacity: 1; }
+        }
+        .timeline-item:last-child.visible .dot {
+            animation: dotPop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both,
+                       futurePulse 2.8s ease-in-out 0.9s infinite;
+        }
+        @keyframes futurePulse {
+            0%, 100% { box-shadow: 0 0 10px 0 rgba(125,211,252,0.35); }
+            50%      { box-shadow: 0 0 22px 4px rgba(125,211,252,0.7); }
+        }
+
+        /* 搜索框聚焦扩散 */
+        .search-wrap { transition: box-shadow 0.45s ease, border-color 0.45s ease; }
+        .search-wrap:focus-within {
+            box-shadow: 0 0 0 1px rgba(167,139,250,0.35), 0 0 44px rgba(167,139,250,0.16);
+        }
+
+        /* 团队面板斜向流光 */
+        .team-card { position: relative; overflow: hidden; }
+        .team-card::after {
+            content: '';
+            position: absolute; top: -60%; left: -45%;
+            width: 42%; height: 220%;
+            background: linear-gradient(100deg, transparent, rgba(255,255,255,0.06), transparent);
+            transform: rotate(14deg);
+            animation: teamSheen 7.5s ease-in-out 1.6s infinite;
+            pointer-events: none;
+        }
+        @keyframes teamSheen {
+            0%       { left: -45%; opacity: 0; }
+            10%      { opacity: 1; }
+            42%, 100% { left: 118%; opacity: 0; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            #scroll-progress { transition: none !important; }
+            .scenario-card::after, .team-card::after { animation: none !important; opacity: 0; }
+            .timeline::after { transform: scaleY(1); }
+            .timeline-item.reveal { opacity: 1; transform: none; }
+            .timeline-item.visible .dot { animation: none !important; }
+        }
     </style>
 </head>
 <body>
+    <div id="scroll-progress" aria-hidden="true"></div>
     <div class="bg-aurora" aria-hidden="true"></div>
     <script>try{localStorage.removeItem('tc-liquid-glass')}catch(e){};document.documentElement.classList.add('liquid-glass');</script>
 
@@ -771,9 +866,6 @@
                     <li><a href="client.html">客户端</a></li>
                     <li><a href="tools.html">工具</a></li>
                     <li><a href="status.html">修复进度</a></li>
-                    <li><a href="#scenarios">场景</a></li>
-                    <li><a href="#guide">说明</a></li>
-                    <li><a href="#team">团队</a></li>
                     <li><a href="gallery.html">图鉴</a></li>
                     <li><a href="sponsor.html">赞助</a></li>
                 </ul>
@@ -1379,6 +1471,46 @@
             window.addEventListener('pageshow', function(ev) {
                 if (ev.persisted) document.body.classList.remove('page-exit');
             });
+        })();
+    </script>
+    <script>
+        // ===== 首页动效：滚动进度 + 英雄区视差 + 时间轴生长 =====
+        (function() {
+            var reduce = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+            var bar = document.getElementById('scroll-progress');
+            var art = document.querySelector('.hero-art');
+            var inner = document.querySelector('.hero-inner');
+            var timeline = document.querySelector('.timeline');
+            var ticking = false;
+
+            function update() {
+                ticking = false;
+                var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+                var max = document.documentElement.scrollHeight - window.innerHeight;
+
+                if (bar) bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, y / max).toFixed(4) : 0) + ')';
+
+                if (!reduce) {
+                    if (art) art.style.transform = 'translate3d(-50%,' + (y * 0.16).toFixed(1) + 'px,0)';
+                    if (inner) {
+                        var p = Math.min(1, y / 640);
+                        inner.style.transform = 'translate3d(0,' + (y * -0.06).toFixed(1) + 'px,0)';
+                        inner.style.opacity = (1 - p * 0.85).toFixed(3);
+                    }
+                }
+
+                if (timeline) {
+                    var r = timeline.getBoundingClientRect();
+                    var p2 = (window.innerHeight * 0.74 - r.top) / Math.max(1, r.height * 0.92);
+                    timeline.style.setProperty('--tl', Math.max(0, Math.min(1, p2)).toFixed(3));
+                }
+            }
+            function onScroll() {
+                if (!ticking) { ticking = true; requestAnimationFrame(update); }
+            }
+            window.addEventListener('scroll', onScroll, { passive: true });
+            window.addEventListener('resize', onScroll);
+            update();
         })();
     </script>
 </body>
