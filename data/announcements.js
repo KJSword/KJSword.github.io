@@ -316,7 +316,7 @@ var announcements = [
 
 【网站3.0视觉预览】
 
-<img src="assets/announcements/15-website-3.0-preview.png" alt="网站3.0视觉预览" style="max-width:100%;height:auto;border-radius:10px;margin:10px auto;display:block;box-shadow:0 4px 16px rgba(0,0,0,0.12);">
+<img src="assets/announcements/15-website-3.0-preview.webp" alt="网站3.0视觉预览" width="1270" height="612" loading="lazy" decoding="async" style="max-width:100%;height:auto;border-radius:10px;margin:10px auto;display:block;box-shadow:0 4px 16px rgba(0,0,0,0.12);">
 
 从预览图中可以看到，新版网站采用了深邃的星空科幻风格，以巨大星球与星环作为视觉背景，象征着《科技市》走向更远未来的新起点。首屏标语为"看见更远的城市，探索方块星海"，并明确将《科技市》定位为"一套结构完整、功能分区清晰的现代科技城市框架"，可作为服务器主城、RPG地图底图或建筑展示的完美基础。
 
@@ -392,7 +392,7 @@ var announcements = [
 
 刚刚接到《科技市》定制客户端所基于的开源项目——PCL2 启动器作者的通知：因不可抗力因素，PCL2 启动器将暂时下线其游戏下载功能。
 
-<img src="assets/announcements/17-pcl2-update-notice.png" alt="PCL2 更新提示：不再提供 MC 下载功能" style="max-width:100%;height:auto;border-radius:10px;margin:10px auto;display:block;box-shadow:0 4px 16px rgba(0,0,0,0.12);">
+<img src="assets/announcements/17-pcl2-update-notice.webp" alt="PCL2 更新提示：不再提供 MC 下载功能" width="1012" height="674" loading="lazy" decoding="async" style="max-width:100%;height:auto;border-radius:10px;margin:10px auto;display:block;box-shadow:0 4px 16px rgba(0,0,0,0.12);">
 
 目前，我们尚不清楚该变动是否会对已安装的现存版本产生直接影响或功能限制。
 
@@ -465,7 +465,7 @@ var announcements = [
 今天，我们需要向大家同步 PCL2 启动器的最新定局，并带来一个关于《科技市》未来部署的重大消息。
 
 一、 PCL2 启动器永久停止下载功能
-<img src="assets/announcements/19-pcl2-permanent-removal.png" alt="PCL2 2.99.0.1 更新日志：游戏下载功能永久停止" style="max-width:100%;height:auto;border-radius:10px;margin:10px auto;display:block;box-shadow:0 4px 16px rgba(0,0,0,0.12);">
+<img src="assets/announcements/19-pcl2-permanent-removal.webp" alt="PCL2 2.99.0.1 更新日志：游戏下载功能永久停止" width="865" height="500" loading="lazy" decoding="async" style="max-width:100%;height:auto;border-radius:10px;margin:10px auto;display:block;box-shadow:0 4px 16px rgba(0,0,0,0.12);">
 
 正如 PCL2 作者“龙腾猫跃”在 2.99.0.1 版本更新日志中所言，由于 GitHub 账号被封禁、CDN 持续遭受攻击等一系列极其恶劣的不可抗力因素，PCL2 已正式移除了“暂时”二字。这意味着： PCL2 启动器的游戏下载功能已永久停止，无法恢复。
 
@@ -599,5 +599,47 @@ Axolotl Launcher 是基于开源 Modrinth APP 深度优化的修改版，它完�
 
 螺旋科城基金会 敬上
 2026年11月5日`
+},
+{
+    id: 23,
+    category: 'site',
+    date: '2026-11-19',
+    title: '🚀 《科技市》官方网站 3.2 版本更新公告',
+    body: `亲爱的《科技市》玩家与社区朋友们：
+
+大家好。这里是螺旋科城基金会。
+
+自 3.1 版本"液态玻璃"视觉升级上线以来，我们收到了许多玩家关于网站功能与下载体验的宝贵反馈。为了持续优化大家的访问与游玩体验，技术团队在近期完成了新一轮的迭代开发。
+
+今天，我们正式推出《科技市》官方网站 3.2 版本。本次更新主要包含以下四大核心内容：
+
+一、"问题进度处理"页面全新改版
+为了让开发进度更加透明，我们对"问题进度处理"页面进行了彻底换新。新版页面重新设计了更加清晰的看板视图。您可以直观地看到问题的处理进度及预计修复时间。我们希望通过这个页面，让大家对基金会的维护工作有更清晰的了解。
+
+二、客户端下载优化并正式转正
+3.1 版本中处于 Beta 测试状态的"客户端下载"专区，现已优化完成并转正。
+1. 下载页面重构了文件列表，清晰区分了通用 .mrpack 格式和离线 .zip 格式，并附带了详细的导入教程。
+2. 下载链路与速度得到了显著提升。
+3. 【预告】：为了进一步降低玩家的部署门槛，纯粹面向小白的"一键安装版"正在最后的研发打包中，即将于近期上线。届时，无需任何启动器配置，双击即可直接体验《科技市》。
+
+三、全站网页动画新增与优化
+配合此前引入的"液态玻璃"设计语言，我们在 3.2 版本中对全站的网页动画进行了全面升级。
+- 新增了页面滚动时的元素渐显动效，让信息的呈现更加自然流畅。
+- 优化了导航栏与卡片的悬浮反馈，以及按钮点击的细腻微动效。
+- 整体动画逻辑遵循"轻盈、不打扰"的原则，旨在为您带来更沉浸、更具现代感的浏览体验，同时确保不增加设备的性能负担。
+
+四、更多性能与细节优化
+- 浏览提速：优化了底层代码与图片加载策略，网页响应速度更快。
+- 细节打磨：修复了部分移动端设备浏览时的排版错位问题，优化了深色模式下的视觉对比度，完善了页脚的防伪与版权声明。
+
+【基金会初衷不变】
+无论网站与客户端如何升级，螺旋科城基金会坚持的原则始终如一：《科技市》面向个人永久免费、依赖社区捐赠延续、商业授权独立运作。
+
+每一次更新，都是为了更好地呈现这五年手工建造的城市。如果您在浏览新版网页时遇到任何问题，或对"一键安装版"有特别的期待与建议，欢迎随时通过官方邮箱 kjsofficial@foxmail.com 向我们反馈。
+
+感谢大家一路相伴。
+
+螺旋科城基金会 敬上
+2026年11月19日`
 }
 ];
